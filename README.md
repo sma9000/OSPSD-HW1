@@ -1,5 +1,6 @@
-# OSPSD-HW1
-## Repository Structure
+### Project Structure
+
+```plaintext
 ├── .circleci
 │   └── config.yml                # CircleCI configuration file for CI/CD setup
 ├── src                           # Folder for source files (.cpp)
@@ -18,4 +19,7 @@
 ├── CMakeLists.txt                # CMake configuration file for building the project
 ├── README.md                     # Documentation file for the repository
 └── component.md                  # Documentation file for components
+
+
+
 
