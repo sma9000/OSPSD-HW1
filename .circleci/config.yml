@@ -32,28 +32,10 @@ jobs:
       - run:
           name: Run Unit Tests
           command: |
-            mkdir -p test-reports
-            ./build/test_calculator > test-reports/calculator.xml
-            ./build/test_logger > test-reports/logger.xml
-            ./build/test_notifier > test-reports/notifier.xml
-
+            cd build
+            ctest --output-on-failure
       - store_test_results:
-          path: test-reports
-      - run:
-          name: Install Coverage Tools
-          command: |
-            apt-get update
-            apt-get install -y lcov gcovr
-
-      - run:
-          name: Generate Test Coverage Report
-          command: |
-            gcovr -r . --xml -o test-reports/coverage.xml
-            gcovr -r . --html --html-details -o test-reports/coverage.html
-
-      - store_artifacts:
-          path: test-reports/coverage.html
-          destination: coverage-report
+          path: build/test-results  # Store test results for CircleCI UI
 workflows:
   version: 2
   test-and-coverage:
