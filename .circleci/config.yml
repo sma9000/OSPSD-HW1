@@ -33,9 +33,20 @@ jobs:
           name: Run Unit Tests
           command: |
             cd build
-            ctest --output-on-failure
+            ctest --output-on-failure --test-output=test-results.xml
+      - run:
+          name: Convert test results to JUnit format
+          command: |
+            mkdir -p build/test-results
+            cp build/test-results.xml build/test-results/
+
       - store_test_results:
           path: build/test-results  # Store test results for CircleCI UI
+
+      - store_artifacts:
+          path: build/test-results
+          destination: junit  # Store test artifacts for later review
+
 workflows:
   version: 2
   test-and-coverage:
