@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cpp-executor:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/cpp:stable  # More appropriate image
     resource_class: medium
 
 jobs:
@@ -38,6 +38,11 @@ jobs:
           command: |
             cd build
             ctest --output-on-failure
+
+      # Ensure test results directory exists
+      - run:
+          name: Ensure test results directory exists
+          command: mkdir -p build/test-results
       
       # Store test results for CircleCI UI
       - store_test_results:
@@ -48,4 +53,3 @@ workflows:
   test-and-coverage:
     jobs:
       - build-and-test
-
