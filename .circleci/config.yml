@@ -51,3 +51,9 @@ jobs:
       - store_test_results:
           path: build/test-results
 
+workflows:
+  version: 2
+  test-and-build:
+    jobs:
+      - build-and-test
+
