@@ -12,8 +12,6 @@ jobs:
     steps:
       - checkout
       
-      # If your project uses Git submodules (e.g., Google Test as a 
-submodule)
       - run:
           name: Checkout Submodules
           command: git submodule update --init --recursive
