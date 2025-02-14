@@ -3,11 +3,7 @@ version: 2.1
 executors:
   cpp-executor:
     docker:
-      - image: ubuntu:latest
-    resource_class: small
-    environment:
-      CXX: g++
-      CC: gcc
+      - image: circleci/cpp:latest
 
 jobs:
   build-and-test:
