@@ -1,44 +1,38 @@
 version: 2.1
 
 executors:
-  cpp_executor:
+  cpp-executor:
     docker:
-      - image: gcc:latest
-    working_directory: ~/project
+      - image: cimg/base:stable
+    resource_class: medium
 
 jobs:
   build-and-test:
-    executor: cpp_executor
+    executor: cpp-executor
     steps:
       - checkout
-
+      
+      # If your project uses Git submodules (e.g., Google Test as a 
+submodule)
+      - run:
+          name: Checkout Submodules
+          command: git submodule update --init --recursive
+      
       # Install dependencies
       - run:
-          name: Install Required Packages
+          name: Install dependencies
           command: |
-            apt-get update
-            apt-get install -y cmake ninja-build g++ make
-
-      # Build Google Test
-      - run:
-          name: Install Google Test
-          command: |
-            cd /usr/local
-            git clone https://github.com/google/googletest.git
-            cd googletest
-            mkdir build && cd build
-            cmake ..
-            make
-            make install
-
-      # Create a build directory and compile the project
+            sudo apt-get update
+            sudo apt-get install -y cmake g++ ninja-build
+      
+      # Build the project
       - run:
           name: Build the Project
           command: |
             mkdir -p build
             cd build
             cmake ..
-            make
+            make -j$(nproc)
 
       # Run unit tests using CTest
       - run:
@@ -46,14 +40,14 @@ jobs:
           command: |
             cd build
             ctest --output-on-failure
-
+      
       # Store test results for CircleCI UI
       - store_test_results:
           path: build/test-results
 
 workflows:
   version: 2
-  test-and-build:
+  test-and-coverage:
     jobs:
       - build-and-test
 
