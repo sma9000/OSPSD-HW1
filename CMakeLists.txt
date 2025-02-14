@@ -1,19 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
-project(OSPSD_HW1_Tests)  # You can change this name
+project(DemoTests)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Find Google Test (Ensure it's installed)
+# Find Google Test
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
+# Ensure test files can find the header files
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
 enable_testing()
 
-# Add test executable with all test files
+# Add test executable (include all test files)
 add_executable(runTests 
-  tests/test_calculator.cpp
-  tests/test_logger.cpp
-  tests/test_notifier.cpp
+    tests/test_calculator.cpp 
+    tests/test_logger.cpp 
+    tests/test_notifier.cpp
 )
 
 # Link Google Test
