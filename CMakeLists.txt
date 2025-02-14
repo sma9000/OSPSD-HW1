@@ -26,3 +26,9 @@ target_link_libraries(test_notifier GTest::gtest_main)
 add_test(NAME CalculatorTests COMMAND test_calculator)
 add_test(NAME LoggerTests COMMAND test_logger)
 add_test(NAME NotifierTests COMMAND test_notifier)
+
+add_test(NAME MyTests COMMAND runTests)
+set_tests_properties(MyTests PROPERTIES
+  LABELS "unit"
+  ENVIRONMENT "GTEST_OUTPUT=xml:build/test-results/test-results.xml"
+)
