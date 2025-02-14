@@ -1,25 +1,26 @@
-cmake_minimum_required(VERSION 3.14) 
+cmake_minimum_required(VERSION 3.14)
 project(YourProjectName)
 
-# Enable testing functionalities
+# Enable testing
 enable_testing()
 
-# Add Google Test as a subdirectory so it will be built
-add_subdirectory(extern/googletest)
+# Add Google Test
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.12.1  # You can use a different release tag
+)
+FetchContent_MakeAvailable(googletest)
 
-# Include Google Test's functionalities
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+include_directories(${gtest_SOURCE_DIR}/include)
 
-# Define your executable that includes the tests
+# Define test executable
 add_executable(your_test_executable_name test/test_calculator.cpp)
 
-# Link Google Test to your test executable
-target_link_libraries(your_test_executable_name gtest gtest_main)
+# Link GoogleTest
+target_link_libraries(your_test_executable_name GTest::gtest_main)
 
-#Ensure CMakeLists.txt References Google Test Correctly
-add_subdirectory(extern/googletest)
-include_directories(extern/googletest/googletest/include)
-
-# Add tests to the project
+# Add test
 add_test(NAME all_tests COMMAND your_test_executable_name)
 
