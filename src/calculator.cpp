@@ -1,5 +1,5 @@
 // Calculator.cpp
-#include "Calculator.h"
+#include "calculator.h"
 
 Calculator::Calculator() {
     // Constructor
