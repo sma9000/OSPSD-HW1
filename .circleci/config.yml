@@ -42,8 +42,8 @@ jobs:
       - run:
           name: Install Coverage Tools
           command: |
-            sudo apt-get update
-            sudo apt-get install -y lcov gcovr
+            apt-get update
+            apt-get install -y lcov gcovr
 
       - run:
           name: Generate Test Coverage Report
