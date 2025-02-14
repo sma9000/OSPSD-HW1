@@ -16,5 +16,10 @@ add_executable(your_test_executable_name test/test_calculator.cpp)
 # Link Google Test to your test executable
 target_link_libraries(your_test_executable_name gtest gtest_main)
 
+#Ensure CMakeLists.txt References Google Test Correctly
+add_subdirectory(extern/googletest)
+include_directories(extern/googletest/googletest/include)
+
 # Add tests to the project
 add_test(NAME all_tests COMMAND your_test_executable_name)
+
