@@ -33,12 +33,12 @@ jobs:
           name: Run Unit Tests
           command: |
             cd build
-            ctest --output-on-failure -T Test  # Use -T Test to generate JUnit output
+            GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
       - run:
           name: Convert test results to JUnit format
           command: |
             mkdir -p build/test-results
-            cp build/Testing/Temporary/LastTest.log build/test-results/test-results.xml
+            mv build/test-results.xml build/test-results/test-results.xml
 
       - store_test_results:
           path: build/test-results  # Store test results for CircleCI UI
