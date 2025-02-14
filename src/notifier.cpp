@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Notifier.h"
+#include "notifier.h"
 using namespace std;
 
 Notifier::Notifier(double t) : threshold(t) {}
