@@ -3,51 +3,39 @@ version: 2.1
 executors:
   cpp-executor:
     docker:
-      - image: cimg/cpp:stable  # More appropriate image
-    resource_class: medium
+      - image: ubuntu:latest
+    resource_class: small
+    environment:
+      CXX: g++
+      CC: gcc
 
 jobs:
   build-and-test:
     executor: cpp-executor
     steps:
       - checkout
-      
       - run:
-          name: Checkout Submodules
-          command: git submodule update --init --recursive
-      
-      # Install dependencies
-      - run:
-          name: Install dependencies
+          name: Install Dependencies
           command: |
-            sudo apt-get update
-            sudo apt-get install -y cmake g++ ninja-build
-      
-      # Build the project
+            apt-get update && apt-get install -y cmake g++ git make
+            apt-get install -y libgtest-dev
+            cd /usr/src/googletest
+            cmake . && make
+            cp lib/*.a /usr/lib
       - run:
-          name: Build the Project
+          name: Build Project
           command: |
             mkdir -p build
             cd build
             cmake ..
-            make -j$(nproc)
-
-      # Run unit tests using CTest
+            make
       - run:
           name: Run Unit Tests
           command: |
             cd build
             ctest --output-on-failure
-
-      # Ensure test results directory exists
-      - run:
-          name: Ensure test results directory exists
-          command: mkdir -p build/test-results
-      
-      # Store test results for CircleCI UI
       - store_test_results:
-          path: build/test-results
-
+          path: build/test-results  # Store test results for CircleCI UI
 workflows:
   version: 2
   test-and-coverage:
