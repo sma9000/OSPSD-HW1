@@ -1,26 +1,26 @@
-cmake_minimum_required(VERSION 3.14)
-project(YourProjectName)
+cmake_minimum_required(VERSION 3.10)
+project(OSPSD_HW1_Tests)  # You can change this name
 
-# Enable testing
+set(CMAKE_CXX_STANDARD 17)
+
+# Find Google Test (Ensure it's installed)
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
 enable_testing()
 
-# Add Google Test
-include(FetchContent)
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.12.1  # You can use a different release tag
+# Add test executable with all test files
+add_executable(runTests 
+  tests/test_calculator.cpp
+  tests/test_logger.cpp
+  tests/test_notifier.cpp
 )
-FetchContent_MakeAvailable(googletest)
 
-include_directories(${gtest_SOURCE_DIR}/include)
+# Link Google Test
+target_link_libraries(runTests GTest::gtest_main)
 
-# Define test executable
-add_executable(your_test_executable_name test/test_calculator.cpp)
 
-# Link GoogleTest
-target_link_libraries(your_test_executable_name GTest::gtest_main)
-
-# Add test
-add_test(NAME all_tests COMMAND your_test_executable_name)
+add_test(NAME CalculatorTests COMMAND runTests)
+add_test(NAME LoggerTests COMMAND runTests)
+add_test(NAME NotifierTests COMMAND runTests)
 
