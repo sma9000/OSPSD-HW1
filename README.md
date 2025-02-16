@@ -145,4 +145,4 @@ We welcome contributions! Please follow these guidelines when contributing to th
 6. Open a pull request.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
