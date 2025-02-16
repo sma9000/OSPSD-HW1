@@ -1,38 +1,55 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+Title:
+[Short, descriptive title of the bug]
 
----
+Description
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+[A clear and concise description of the bug, explaining what is happening and what was expected instead.]
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+Steps to Reproduce
+	1.	[First step]
+	2.	[Second step]
+	3.	[Third step]
+	4.	[Additional steps, if needed]
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+Expected Result:
+[Describe the expected behavior]
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+Actual Result:
+[Describe the actual behavior]
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+Environment
+	•	Programming Language & Version: [C++/Python, version]
+	•	OS: [Windows/Linux/macOS, version]
+	•	Compiler/Interpreter: [Clang/CPython, version]
+	•	Dependency Manager: [vcpkg/uv, version]
+	•	Testing Framework: [Google Test/Pytest, version]
+	•	Static Analysis Tool: [ClangTidy/mypy & ruff, version]
+	•	CI/CD: [CircleCI job link]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+Screenshots (if applicable)
 
-**Additional context**
-Add any other context about the problem here.
+[Attach any relevant screenshots or logs to demonstrate the issue]
+
+Logs & Error Messages
+
+[Paste relevant error messages, logs, or CI/CD job failures]
+
+Possible Cause (if known)
+
+[If you have an idea of what might be causing the bug, mention it here]
+
+Additional Context
+
+[Any additional information that might help in diagnosing the issue]
+
+Priority & Severity
+	•	Priority: [Low / Medium / High / Critical]
+	•	Severity: [Trivial / Minor / Major / Critical / Blocker]
+
+Suggested Fix (if applicable)
+
+[Describe potential ways to fix the bug or any workarounds]
+
+Assigned To: [Developer responsible for fixing the bug]
+Status: [Open / In Progress / Fixed / Closed]
+Labels: [bug, CI/CD, testing, static-analysis, etc.]
