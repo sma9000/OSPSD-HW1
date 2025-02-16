@@ -37,10 +37,10 @@ This repository provides a template for C++ projects, with a pre-configured setu
 ├── .circleci
 │   └── config.yml                # CircleCI configuration file for CI/CD setup
 ├── .github/ISSUE_TEMPLATE
-│   └── bug_report.md
-│   └── feature_request.md
+│   └── bug_report.md             # Template for reporting bugs
+│   └── feature_request.md        # Template for requesting new features
 ├── extern
-│   └── googletest @ c00fd25
+│   └── googletest @ c00fd25      # External dependency: GoogleTest framework
 ├── include                       # Folder for header files (.h)
 │   ├── calculator.h              # Header file for Calculator component
 │   ├── logger.h                  # Header file for Logger component
@@ -53,13 +53,14 @@ This repository provides a template for C++ projects, with a pre-configured setu
 │   ├── test_calculator.cpp       # Unit tests for Calculator component
 │   ├── test_logger.cpp           # Unit tests for Logger component
 │   └── test_notifier.cpp         # Unit tests for Notifier component
-├── .DS_Store
-├── .gitmodules                    
+├── .DS_Store                     # macOS specific file to store custom folder attributes
+├── .gitmodules                   # Configuration file for git submodules
 ├── .gitignore                    # Git ignore file to exclude unnecessary files from the repository
 ├── CMakeLists.txt                # CMake configuration file for building the project
-├── Makefile
+├── Makefile                      # Makefile for building the project using `make`
 ├── README.md                     # Documentation file for the repository
-└── component.md                  # Documentation file for components
+├── component.md                  # Documentation file for components
+└── pull_request_template.md      # Template for pull requests
 ```
 
 ## Getting Started
