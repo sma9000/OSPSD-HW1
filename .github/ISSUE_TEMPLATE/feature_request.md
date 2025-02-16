@@ -1,23 +1,42 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+name: Feature Request
+about: Suggest a new feature or improvement for the HW1: Technology Template Repository
+title: "[Feature] <Short descriptive title>"
+labels: enhancement
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## **Description**  
+<!-- A clear and concise description of the feature request, explaining the problem it solves and why it is beneficial to the project. -->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## **Motivation & Use Case**  
+<!-- Explain why this feature is needed. Describe specific scenarios or challenges that this feature would address. -->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## **Proposed Solution**  
+<!-- Describe how the feature should be implemented. Provide as much detail as possible, including possible approaches, technologies, or configurations. -->
 
-**Describe the proposed tests**
-A clear and concise description of possible testing environment, and the outcomes.
+## **Alternatives Considered**  
+<!-- List any alternative solutions or workarounds you considered and why they may not be ideal. -->
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## **Requirements**  
+- [ ] Requirement 1  
+- [ ] Requirement 2  
+- [ ] Requirement 3  
+<!-- Add more as necessary -->
+
+## **Dependencies**  
+<!-- Does this feature depend on any other features, libraries, or external tools? If yes, specify them. -->
+
+## **Additional Context**  
+<!-- Any additional details, diagrams, mockups, or references that could help with understanding and implementing the feature. -->
+
+## **Priority & Impact**  
+- **Priority:** `Low / Medium / High / Critical`  
+- **Impact:** `Minor / Moderate / Significant / Essential`  
+
+## **Resources & References**  
+<!-- Link to any relevant documentation, repositories, or prior discussions related to this feature. -->
+
+**Assigned To:** @<GitHubUsername>  
+**Status:** `Open / In Progress / Completed / Closed`  
