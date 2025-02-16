@@ -1,55 +1,33 @@
-Title:
-[Short, descriptive title of the bug]
+# Bug Report 
 
-Description
+**Describe the Bug**  
+*A clear and concise description of the bug.*
 
-[A clear and concise description of the bug, explaining what is happening and what was expected instead.]
+## Steps to Reproduce  
+1. *(List the steps to reproduce the issue)*
+2. *(Be as specific as possible, including commands, inputs, or actions taken)*
+3. *(Provide screenshots or logs if applicable)*
 
-Steps to Reproduce
-	1.	[First step]
-	2.	[Second step]
-	3.	[Third step]
-	4.	[Additional steps, if needed]
+## Expected Behavior  
+*A description of what you expected to happen.*
 
-Expected Result:
-[Describe the expected behavior]
+## Actual Behavior  
+*A description of what actually happened, including error messages if any.*
 
-Actual Result:
-[Describe the actual behavior]
+## Environment  
+- **Programming Language & Version:** (e.g., Python 3.11, C++20)  
+- **Operating System:** (e.g., Windows 10, macOS 14, Ubuntu 22.04)  
+- **Compiler/Interpreter:** (e.g., Clang 16, CPython 3.11)  
+- **Dependency Manager & Versions:** (e.g., `uv` 0.1.14, `vcpkg` latest)  
+- **CI/CD Workflow Used (if applicable):** (e.g., `circleci/config.yml`)  
 
-Environment
-	•	Programming Language & Version: [C++/Python, version]
-	•	OS: [Windows/Linux/macOS, version]
-	•	Compiler/Interpreter: [Clang/CPython, version]
-	•	Dependency Manager: [vcpkg/uv, version]
-	•	Testing Framework: [Google Test/Pytest, version]
-	•	Static Analysis Tool: [ClangTidy/mypy & ruff, version]
-	•	CI/CD: [CircleCI job link]
+## Additional Context  
+- **Static Analysis Tools Run (if applicable):** (e.g., ClangTidy, Ruff, Mypy)  
+- **Code Coverage Output (if applicable):** *(Attach results or provide a link)*  
+- **Logs or Stack Traces:** *(Paste logs from the console, CircleCI, or test runs if relevant)*  
 
-Screenshots (if applicable)
+## Possible Fix (Optional)  
+*If you have an idea of how to fix the issue, describe it here.*  
 
-[Attach any relevant screenshots or logs to demonstrate the issue]
-
-Logs & Error Messages
-
-[Paste relevant error messages, logs, or CI/CD job failures]
-
-Possible Cause (if known)
-
-[If you have an idea of what might be causing the bug, mention it here]
-
-Additional Context
-
-[Any additional information that might help in diagnosing the issue]
-
-Priority & Severity
-	•	Priority: [Low / Medium / High / Critical]
-	•	Severity: [Trivial / Minor / Major / Critical / Blocker]
-
-Suggested Fix (if applicable)
-
-[Describe potential ways to fix the bug or any workarounds]
-
-Assigned To: [Developer responsible for fixing the bug]
-Status: [Open / In Progress / Fixed / Closed]
-Labels: [bug, CI/CD, testing, static-analysis, etc.]
+## Related Issues or PRs  
+- *(If this bug is related to an existing issue or pull request, link it here.)*
