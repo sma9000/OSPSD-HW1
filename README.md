@@ -37,25 +37,27 @@ This repository provides a template for C++ projects, with a pre-configured setu
 ├── .circleci
 │   └── config.yml                # CircleCI configuration file for CI/CD setup
 ├── .github/ISSUE_TEMPLATE
-│   └── bug_report.md             # Template for reporting bugs
+│   ├── bug_report.md             # Template for reporting bugs
 │   └── feature_request.md        # Template for requesting new features
 ├── extern
 │   └── googletest @ c00fd25      # External dependency: GoogleTest framework
-├── include                       # Folder for header files (.h)
-│   ├── calculator.h              # Header file for Calculator component
-│   ├── logger.h                  # Header file for Logger component
-│   └── notifier.h                # Header file for Notifier        
-├── src                           # Folder for source files (.cpp)
-│   ├── calculator.cpp            # Source file for Calculator component
-│   ├── logger.cpp                # Source file for Logger component
-│   └── notifier.cpp              # Source file for Notifier component
+├── src                           # Folder for source files (.cpp) and headers (.h)
+│   ├── calculator                # Folder for Calculator component
+│   │   ├── calculator.cpp        # Source file for Calculator component
+│   │   ├── calculator.h          # Source file for Calculator component
+│   │   └── test_calculator.cpp   # Unit tests for Calculator component
+│   ├── logger                    # Folder for Logger component
+│   │   ├── logger.cpp            # Source file for Logger component
+│   │   ├── logger.h              # Source file for Logger component
+│   │   └── test_logger.cpp       # Unit tests for Logger component
+│   └── notifier                  # Folder for Notifier component
+│       ├── notifier.cpp          # Source file for Notifier component
+│       ├── notifier.h            # Source file for Notifier component
+│       └── test_notifier.cpp     # Unit tests for Notifier component
 ├── tests                         # Folder for test files
-│   ├── test_calculator.cpp       # Unit tests for Calculator component
-│   ├── test_logger.cpp           # Unit tests for Logger component
-│   └── test_notifier.cpp         # Unit tests for Notifier component
+│   └── test_e2e.cpp              # End to end tests
 ├── .DS_Store                     # macOS specific file to store custom folder attributes
 ├── .gitmodules                   # Configuration file for git submodules
-├── .gitignore                    # Git ignore file to exclude unnecessary files from the repository
 ├── CMakeLists.txt                # CMake configuration file for building the project
 ├── Makefile                      # Makefile for building the project using `make`
 ├── README.md                     # Documentation file for the repository
@@ -143,6 +145,12 @@ We welcome contributions! Please follow these guidelines when contributing to th
 5. Push to the branch (git push origin feature/your-feature).
 
 6. Open a pull request.
+
+##CircleCI Links
+
+Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53 
+
+Passed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56
 
 ## License
 This project is licensed under the MIT License.
