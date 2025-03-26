@@ -146,5 +146,11 @@ We welcome contributions! Please follow these guidelines when contributing to th
 
 6. Open a pull request.
 
+##CircleCI Links
+
+Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53 
+
+Passed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56
+
 ## License
 This project is licensed under the MIT License.
