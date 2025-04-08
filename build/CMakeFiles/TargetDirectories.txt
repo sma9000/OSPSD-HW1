@@ -1,0 +1,6 @@
+/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/test_calculator.dir
+/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/test_logger.dir
+/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/test_notifier.dir
+/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/test.dir
+/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/edit_cache.dir
+/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/rebuild_cache.dir

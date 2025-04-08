@@ -1,0 +1,91 @@
+Start testing: Apr 08 01:28 EDT
+----------------------------------------------------------
+1/3 Testing: CalculatorTests
+1/3 Test: CalculatorTests
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/test_calculator"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"CalculatorTests" start time: Apr 08 01:28 EDT
+Output:
+----------------------------------------------------------
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from CalculatorTests
+[ RUN      ] CalculatorTests.HandlesAddition
+[       OK ] CalculatorTests.HandlesAddition (0 ms)
+[ RUN      ] CalculatorTests.HandlesSubtraction
+[       OK ] CalculatorTests.HandlesSubtraction (0 ms)
+[ RUN      ] CalculatorTests.HandlesMultiplication
+[       OK ] CalculatorTests.HandlesMultiplication (0 ms)
+[ RUN      ] CalculatorTests.HandlesDivision
+[       OK ] CalculatorTests.HandlesDivision (0 ms)
+[----------] 4 tests from CalculatorTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 4 tests.
+<end of output>
+Test time =   0.99 sec
+----------------------------------------------------------
+Test Passed.
+"CalculatorTests" end time: Apr 08 01:28 EDT
+"CalculatorTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/3 Testing: LoggerTests
+2/3 Test: LoggerTests
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/test_logger"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"LoggerTests" start time: Apr 08 01:28 EDT
+Output:
+----------------------------------------------------------
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from LoggerTest
+[ RUN      ] LoggerTest.LogOperation
+[       OK ] LoggerTest.LogOperation (2 ms)
+[----------] 1 test from LoggerTest (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.93 sec
+----------------------------------------------------------
+Test Passed.
+"LoggerTests" end time: Apr 08 01:28 EDT
+"LoggerTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/3 Testing: NotifierTests
+3/3 Test: NotifierTests
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/test_notifier"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"NotifierTests" start time: Apr 08 01:28 EDT
+Output:
+----------------------------------------------------------
+======================
+Running Google Tests!
+======================
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from NotifierTest
+[ RUN      ] NotifierTest.ThresholdExceeded
+[       OK ] NotifierTest.ThresholdExceeded (0 ms)
+[ RUN      ] NotifierTest.ThresholdNotExceeded
+[       OK ] NotifierTest.ThresholdNotExceeded (0 ms)
+[ RUN      ] NotifierTest.ThresholdExact
+[       OK ] NotifierTest.ThresholdExact (0 ms)
+[----------] 3 tests from NotifierTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 3 tests.
+<end of output>
+Test time =   0.92 sec
+----------------------------------------------------------
+Test Passed.
+"NotifierTests" end time: Apr 08 01:28 EDT
+"NotifierTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Apr 08 01:28 EDT

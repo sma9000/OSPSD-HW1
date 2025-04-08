@@ -4,25 +4,22 @@ project(DemoTests)
 set(CMAKE_CXX_STANDARD 17)
 
 # Find Google Test
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+find_package(GTest CONFIG REQUIRED)
 
-# New directories for new header file locations
-include_directories(src/calculator)
-include_directories(src/logger)
-include_directories(src/notifier)
+# Project headers
+include_directories(src/calculator src/logger src/notifier)
 
 enable_testing()
 
-# Add separate executables for each test file, corrected file paths
+# Executables for tests
 add_executable(test_calculator src/calculator/test_calculator.cpp src/calculator/calculator.cpp)
 add_executable(test_logger src/logger/test_logger.cpp src/logger/logger.cpp)
 add_executable(test_notifier src/notifier/test_notifier.cpp src/notifier/notifier.cpp)
 
-# Link Google Test and source files
-target_link_libraries(test_calculator GTest::gtest_main)
-target_link_libraries(test_logger GTest::gtest_main)
-target_link_libraries(test_notifier GTest::gtest_main)
+# Link GoogleTest
+target_link_libraries(test_calculator PRIVATE GTest::gtest_main)
+target_link_libraries(test_logger PRIVATE GTest::gtest_main)
+target_link_libraries(test_notifier PRIVATE GTest::gtest_main)
 
 # Register tests
 add_test(NAME CalculatorTests COMMAND test_calculator)

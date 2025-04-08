@@ -1,5 +1,6 @@
 //
 // Created by Salma Awan on 2/12/25.
+//Modified by Cheyenne Wiliams 04/07/2025
 //
 
 #ifndef OPENSOURCEHW1_NOTIFIER_H
@@ -11,6 +12,7 @@ private:
 public:
     explicit Notifier(double t);  // Constructor
     bool sendAlert(double value) const;  // Check if alert should be sent
+    void notify(double value) const;
 };
 
 #endif //OPENSOURCEHW1_NOTIFIER_H
