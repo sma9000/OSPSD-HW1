@@ -1,10 +1,10 @@
-Start testing: Apr 08 01:40 EDT
+Start testing: Apr 08 01:45 EDT
 ----------------------------------------------------------
 1/3 Testing: CalculatorTests
 1/3 Test: CalculatorTests
 Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/test_calculator"
 Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
-"CalculatorTests" start time: Apr 08 01:40 EDT
+"CalculatorTests" start time: Apr 08 01:45 EDT
 Output:
 ----------------------------------------------------------
 [==========] Running 4 tests from 1 test suite.
@@ -27,7 +27,7 @@ Output:
 Test time =   0.03 sec
 ----------------------------------------------------------
 Test Passed.
-"CalculatorTests" end time: Apr 08 01:40 EDT
+"CalculatorTests" end time: Apr 08 01:45 EDT
 "CalculatorTests" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -35,7 +35,7 @@ Test Passed.
 2/3 Test: LoggerTests
 Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/test_logger"
 Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
-"LoggerTests" start time: Apr 08 01:40 EDT
+"LoggerTests" start time: Apr 08 01:45 EDT
 Output:
 ----------------------------------------------------------
 [==========] Running 1 test from 1 test suite.
@@ -49,10 +49,10 @@ Output:
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.03 sec
+Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"LoggerTests" end time: Apr 08 01:40 EDT
+"LoggerTests" end time: Apr 08 01:45 EDT
 "LoggerTests" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -60,7 +60,7 @@ Test Passed.
 3/3 Test: NotifierTests
 Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/test_notifier"
 Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
-"NotifierTests" start time: Apr 08 01:40 EDT
+"NotifierTests" start time: Apr 08 01:45 EDT
 Output:
 ----------------------------------------------------------
 ======================
@@ -81,11 +81,11 @@ Running Google Tests!
 [==========] 3 tests from 1 test suite ran. (0 ms total)
 [  PASSED  ] 3 tests.
 <end of output>
-Test time =   0.03 sec
+Test time =   0.06 sec
 ----------------------------------------------------------
 Test Passed.
-"NotifierTests" end time: Apr 08 01:40 EDT
+"NotifierTests" end time: Apr 08 01:45 EDT
 "NotifierTests" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Apr 08 01:40 EDT
+End testing: Apr 08 01:45 EDT

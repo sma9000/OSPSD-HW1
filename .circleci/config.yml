@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            apt-get update && apt-get install -y curl zip unzip tar git cmake g++
+            apt-get update && apt-get install -y curl zip unzip tar git cmake g++ pkg-config
             
       - run:
           name: Clone and Bootstrap vcpkg
