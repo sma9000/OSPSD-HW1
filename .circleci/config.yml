@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cpp-executor:
     docker:
-      - image: ubuntu:latest
+      - image: ubuntu:22.04
     resource_class: small
     environment:
       CXX: g++
@@ -14,26 +14,36 @@ jobs:
     executor: cpp-executor
     steps:
       - checkout
+
       - run:
           name: Install Dependencies
           command: |
-            apt-get update && apt-get install -y cmake g++ git make
-            apt-get install -y libgtest-dev
-            cd /usr/src/googletest
-            cmake . && make
-            cp lib/*.a /usr/lib
+            apt-get update && apt-get install -y curl zip unzip tar git cmake g++
+            
       - run:
-          name: Build Project
+          name: Clone and Bootstrap vcpkg
+          command: |
+            git clone https://github.com/microsoft/vcpkg.git
+            ./vcpkg/bootstrap-vcpkg.sh
+
+      - run:
+          name: Install GTest via vcpkg
+          command: |
+            ./vcpkg/vcpkg install gtest
+
+      - run:
+          name: Build Project with CMake and vcpkg
           command: |
             mkdir -p build
-            cd build
-            cmake ..
-            make
+            cmake -Bbuild -S. -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+            cmake --build build
+
       - run:
           name: Run Unit Tests
           command: |
             cd build
             GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
+
       - run:
           name: Convert test results to JUnit format
           command: |
@@ -41,11 +51,11 @@ jobs:
             mv build/test-results.xml build/test-results/test-results.xml
 
       - store_test_results:
-          path: build/test-results  # Store test results for CircleCI UI
+          path: build/test-results
 
       - store_artifacts:
           path: build/test-results
-          destination: junit  # Store test artifacts for later review
+          destination: junit
 
 workflows:
   version: 2
