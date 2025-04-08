@@ -1,4 +1,4 @@
-CalculatorTests 1 0.987698
-LoggerTests 1 0.933049
-NotifierTests 1 0.920187
+CalculatorTests 2 0.0107568
+LoggerTests 2 0.0133656
+NotifierTests 2 0.015047
 ---

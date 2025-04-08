@@ -34,35 +34,36 @@ This repository provides a template for C++ projects, with a pre-configured setu
 ### Project Structure
 
 ```plaintext
-├── .circleci
-│   └── config.yml                # CircleCI configuration file for CI/CD setup
-├── .github/ISSUE_TEMPLATE
-│   ├── bug_report.md             # Template for reporting bugs
-│   └── feature_request.md        # Template for requesting new features
-├── extern
-│   └── googletest @ c00fd25      # External dependency: GoogleTest framework
-├── src                           # Folder for source files (.cpp) and headers (.h)
-│   ├── calculator                # Folder for Calculator component
-│   │   ├── calculator.cpp        # Source file for Calculator component
-│   │   ├── calculator.h          # Source file for Calculator component
-│   │   └── test_calculator.cpp   # Unit tests for Calculator component
-│   ├── logger                    # Folder for Logger component
-│   │   ├── logger.cpp            # Source file for Logger component
-│   │   ├── logger.h              # Source file for Logger component
-│   │   └── test_logger.cpp       # Unit tests for Logger component
-│   └── notifier                  # Folder for Notifier component
-│       ├── notifier.cpp          # Source file for Notifier component
-│       ├── notifier.h            # Source file for Notifier component
-│       └── test_notifier.cpp     # Unit tests for Notifier component
-├── tests                         # Folder for test files
-│   └── test_e2e.cpp              # End to end tests
-├── .DS_Store                     # macOS specific file to store custom folder attributes
-├── .gitmodules                   # Configuration file for git submodules
-├── CMakeLists.txt                # CMake configuration file for building the project
-├── Makefile                      # Makefile for building the project using `make`
-├── README.md                     # Documentation file for the repository
-├── component.md                  # Documentation file for components
-└── pull_request_template.md      # Template for pull requests
+├── .circleci/
+│   └── config.yml                 # CircleCI configuration for CI/CD
+├── .github/ISSUE_TEMPLATE/
+│   ├── bug_report.md              # GitHub issue template: bug reports
+│   └── feature_request.md         # GitHub issue template: feature requests
+├── build/                         # Build output directory (created by CMake)
+├── scripts/
+│   └── hooks/
+│       └── pre-commit             # Git pre-commit hook (formatting & testing)
+├── src/
+│   ├── calculator/
+│   │   ├── calculator.cpp         # Calculator logic
+│   │   ├── calculator.h           # Calculator header
+│   │   └── test_calculator.cpp    # Unit tests for Calculator
+│   ├── logger/
+│   │   ├── logger.cpp             # Logger implementation
+│   │   ├── logger.h               # Logger header
+│   │   └── test_logger.cpp        # Unit tests for Logger
+│   └── notifier/
+│       ├── notifier.cpp           # Notifier implementation
+│       ├── notifier.h             # Notifier header
+│       └── test_notifier.cpp      # Unit tests for Notifier
+├── tests/
+│   └── test_e2e.cpp               # End-to-end integration tests
+├── vcpkg/                         # vcpkg dependency manager (cloned)
+├── CMakeLists.txt                 # CMake configuration file
+├── Makefile                       # Optional makefile for simple builds
+├── component.md                   # Additional component documentation
+├── pull_request_template.md       # PR template for contributors
+└── README.md                      # This file
 ```
 
 ## Getting Started
@@ -82,39 +83,69 @@ Clone the repository and install dependencies using `vcpkg`:
 ```bash
 git clone https://github.com/yourusername/advanced-cpp-template-repo.git
 cd advanced-cpp-template-repo
-./vcpkg/bootstrap-vcpkg.sh
-./vcpkg/vcpkg integrate install
+
+# Clone and bootstrap vcpkg
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh
+cd ..
+
+# Install GoogleTest
 ./vcpkg/vcpkg install gtest
 ```
 
 ## Usage
 
 ### Building the Project
-Configure and build the project using CMake:
+Use CMake with the vcpkg toolchain to configure and build the project:
 
 ```bash
-cmake -Bbuild -H.
+cmake -Bbuild -S. -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
 cmake --build build
 ```
 ### Running Tests
-Run the unit tests using the Google Test framework:
+Run unit tests via ctest or directly through test binaries:
 
 ```bash
-./build/tests
+cd build
+ctest --output-on-failure
+```
+Or run specific tests manually:
+
+```bash
+./test_calculator
+./test_logger
+./test_notifier
 ```
 
 ### Static Analysis
 Run static analysis using ClangTidy:
 
 ```bash
-clang-tidy src/*.cpp
+find src -name '*.cpp' | xargs clang-tidy -- -I./src
 ```
 
 ### Code Coverage
-Generate code coverage reports using gcov:
+Generate code coverage reports using gcov (after building and running tests with coverage flags):
 
 ```bash
-gcov src/*.cpp
+gcov src/**/*.cpp
+```
+
+Or use gcovr for a clean HTML summary:
+
+```bash
+gcovr -r . --html-details -o coverage.html
+```
+
+## Pre-commit Hook
+This project includes a Git pre-commit hook that formats staged C++ files using clang-format and runs unit tests before committing.
+
+To enable the hook:
+
+```bash
+cp scripts/hooks/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
 ```
 
 ## Components
@@ -146,7 +177,7 @@ We welcome contributions! Please follow these guidelines when contributing to th
 
 6. Open a pull request.
 
-##CircleCI Links
+## ircleCI Links
 
 Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53 
 
