@@ -34,6 +34,7 @@ jobs:
       - run:
           name: Build Project with CMake and vcpkg
           command: |
+            rm -rf build
             mkdir -p build
             cmake -Bbuild -S. -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
             cmake --build build

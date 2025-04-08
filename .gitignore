@@ -1,0 +1,33 @@
+# Build artifacts
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Generated test reports
+*.xml
+*.gcov
+*.gcda
+*.gcno
+coverage/
+test-results/
+
+# vcpkg build cache
+vcpkg_installed/
+vcpkg/buildtrees/
+vcpkg/packages/
+vcpkg/downloads/
+
+# OS / Editor specific
+.DS_Store
+*.swp
+*.swo
+*.bak
+
+# VSCode or CLion
+.vscode/
+.idea/
+
+# Git hooks cache 
+.git/hooks/
