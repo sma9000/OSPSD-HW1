@@ -69,7 +69,7 @@ jobs:
       - run:
           name: Generate Code Coverage Report
           command: |
-            lcov --capture --directory build --output-file coverage.info
+            lcov --capture --directory build --output-file coverage.info --ignore-errors mismatch
             lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
