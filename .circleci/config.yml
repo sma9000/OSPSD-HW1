@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cpp-executor:
     docker:
-      - image: ubuntu:22.04
+      - image: ubuntu:latest
     resource_class: small
     environment:
       CXX: g++
@@ -18,26 +18,19 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            apt-get update && apt-get install -y curl zip unzip tar git cmake g++ pkg-config
-            
-      - run:
-          name: Clone and Bootstrap vcpkg
-          command: |
-            git clone https://github.com/microsoft/vcpkg.git
-            ./vcpkg/bootstrap-vcpkg.sh
+            apt-get update && apt-get install -y cmake g++ git make
+            apt-get install -y libgtest-dev
+            cd /usr/src/googletest
+            cmake . && make
+            cp lib/*.a /usr/lib
 
       - run:
-          name: Install GTest via vcpkg
+          name: Build Project
           command: |
-            ./vcpkg/vcpkg install gtest
-
-      - run:
-          name: Build Project with CMake and vcpkg
-          command: |
-            rm -rf build
             mkdir -p build
-            cmake -Bbuild -S. -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
-            cmake --build build
+            cd build
+            cmake ..
+            make
 
       - run:
           name: Run Unit Tests
@@ -46,17 +39,28 @@ jobs:
             GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
 
       - run:
+          name: Build E2E Test
+          command: |
+            mkdir -p build/e2e
+            g++ -std=c++11 test_e2e.cpp -o build/e2e/test_e2e -lgtest -lgtest_main -pthread
+
+      - run:
+          name: Run E2E Test
+          command: |
+            ./build/e2e/test_e2e --gtest_output=xml:build/test-results/e2e-results.xml
+
+      - run:
           name: Convert test results to JUnit format
           command: |
             mkdir -p build/test-results
-            mv build/test-results.xml build/test-results/test-results.xml
+            mv build/test-results.xml build/test-results/test-results.xml || true
 
       - store_test_results:
-          path: build/test-results
+          path: build/test-results  # ✅ Required for CircleCI UI
 
       - store_artifacts:
           path: build/test-results
-          destination: junit
+          destination: junit  # ✅ Optional but helpful for later downloads
 
 workflows:
   version: 2
