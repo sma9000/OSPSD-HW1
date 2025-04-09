@@ -19,7 +19,7 @@ jobs:
           name: Install Dependencies
           command: |
             apt-get update && apt-get install -y cmake g++ git make
-            apt-get install -y libgtest-dev
+            apt-get install -y libgtest-dev lcov gcovr
             cd /usr/src/googletest
             cmake . && make
             cp lib/*.a /usr/lib
@@ -29,7 +29,7 @@ jobs:
           command: |
             mkdir -p build
             cd build
-            cmake ..
+            cmake -DCMAKE_CXX_FLAGS="--coverage" ..
             make
 
       - run:
@@ -42,12 +42,19 @@ jobs:
           name: Build E2E Test
           command: |
             mkdir -p build/e2e
-            g++ -std=c++11 test_e2e.cpp -o build/e2e/test_e2e -lgtest -lgtest_main -pthread
+            g++ -std=c++11 --coverage test_e2e.cpp -o build/e2e/test_e2e -lgtest -lgtest_main -pthread
 
       - run:
           name: Run E2E Test
           command: |
             ./build/e2e/test_e2e --gtest_output=xml:build/test-results/e2e-results.xml
+
+      - run:
+          name: Generate Code Coverage Report
+          command: |
+            lcov --capture --directory . --output-file coverage.info
+            lcov --remove coverage.info '/usr/*' --output-file coverage.info
+            genhtml coverage.info --output-directory coverage-report
 
       - run:
           name: Convert test results to JUnit format
@@ -56,11 +63,15 @@ jobs:
             mv build/test-results.xml build/test-results/test-results.xml || true
 
       - store_test_results:
-          path: build/test-results  # ✅ Required for CircleCI UI
+          path: build/test-results
 
       - store_artifacts:
           path: build/test-results
-          destination: junit  # ✅ Optional but helpful for later downloads
+          destination: junit
+
+      - store_artifacts:
+          path: coverage-report
+          destination: coverage
 
 workflows:
   version: 2
