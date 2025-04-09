@@ -18,6 +18,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
+            export DEBIAN_FRONTEND=noninteractive
             apt-get update && apt-get install -y cmake g++ git make
             apt-get install -y libgtest-dev lcov gcovr
             cd /usr/src/googletest
