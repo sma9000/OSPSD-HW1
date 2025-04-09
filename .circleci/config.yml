@@ -42,6 +42,7 @@ jobs:
       - run:
           name: Run Unit Tests
           command: |
+            mkdir -p build/test-results
             cd build
             GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
 
@@ -49,7 +50,7 @@ jobs:
           name: Build E2E Test
           command: |
             mkdir -p build/e2e
-            g++ -std=c++11 --coverage tests/test_e2e.cpp -o build/e2e/test_e2e -lgtest -lgtest_main -pthread
+            g++ -std=c++14 --coverage tests/test_e2e.cpp -Isrc -o build/e2e/test_e2e -lgtest -lgtest_main -pthread
 
       - run:
           name: Run E2E Test
@@ -59,7 +60,7 @@ jobs:
       - run:
           name: Generate Code Coverage Report
           command: |
-            lcov --capture --directory . --output-file coverage.info
+            lcov --capture --directory build --output-file coverage.info
             lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml coverage.info --output-directory coverage-report
 
@@ -67,7 +68,7 @@ jobs:
           name: Convert test results to JUnit format
           command: |
             mkdir -p build/test-results
-            mv build/test-results.xml build/test-results/test-results.xml || true
+            [ -f build/test-results.xml ] && mv build/test-results.xml build/test-results/test-results.xml || true
 
       - store_test_results:
           path: build/test-results
@@ -77,8 +78,8 @@ jobs:
           destination: junit
 
       - store_artifacts:
-          path: coverage-report
-          destination: coverage
+          path: coverage.info
+          destination: raw-coverage-data
 
 workflows:
   version: 2
