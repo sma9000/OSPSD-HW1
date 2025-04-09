@@ -49,7 +49,7 @@ jobs:
           name: Build E2E Test
           command: |
             mkdir -p build/e2e
-            g++ -std=c++11 --coverage test_e2e.cpp -o build/e2e/test_e2e -lgtest -lgtest_main -pthread
+            g++ -std=c++11 --coverage tests/test_e2e.cpp -o build/e2e/test_e2e -lgtest -lgtest_main -pthread
 
       - run:
           name: Run E2E Test
