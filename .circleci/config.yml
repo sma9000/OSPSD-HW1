@@ -50,7 +50,11 @@ jobs:
           name: Build E2E Test
           command: |
             mkdir -p build/e2e
-            g++ -std=c++14 --coverage tests/test_e2e.cpp \
+            g++ -std=c++14 --coverage \
+              tests/test_e2e.cpp \
+              src/calculator/calculator.cpp \
+              src/logger/logger.cpp \
+              src/notifier/notifier.cpp \
               -Isrc/calculator \
               -Isrc/logger \
               -Isrc/notifier \
