@@ -14,38 +14,85 @@ jobs:
     executor: cpp-executor
     steps:
       - checkout
+
       - run:
           name: Install Dependencies
           command: |
-            apt-get update && apt-get install -y cmake g++ git make
-            apt-get install -y libgtest-dev
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update && apt-get install -y \
+              cmake \
+              g++ \
+              git \
+              make \
+              libgtest-dev \
+              lcov \
+              gcovr
             cd /usr/src/googletest
             cmake . && make
             cp lib/*.a /usr/lib
+
       - run:
           name: Build Project
           command: |
             mkdir -p build
             cd build
-            cmake ..
+            cmake -DCMAKE_CXX_FLAGS="--coverage" ..
             make
+
       - run:
           name: Run Unit Tests
           command: |
+            mkdir -p build/test-results
             cd build
             GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
+
+      - run:
+          name: Build E2E Test
+          command: |
+            mkdir -p build/e2e
+            g++ -std=c++14 --coverage \
+              tests/test_e2e.cpp \
+              src/calculator/calculator.cpp \
+              src/logger/logger.cpp \
+              src/notifier/notifier.cpp \
+              -Isrc/calculator \
+              -Isrc/logger \
+              -Isrc/notifier \
+              -o build/e2e/test_e2e \
+              -lgtest -lgtest_main -pthread
+
+      - run:
+          name: Run E2E Test
+          command: |
+            ./build/e2e/test_e2e --gtest_output=xml:build/test-results/e2e-results.xml
+
+      - run:
+          name: Generate Code Coverage Report
+          command: |
+            lcov --capture --directory build --output-file coverage.info --ignore-errors mismatch
+            lcov --remove coverage.info '/usr/*' --output-file coverage.info
+            genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
+
       - run:
           name: Convert test results to JUnit format
           command: |
             mkdir -p build/test-results
-            mv build/test-results.xml build/test-results/test-results.xml
+            [ -f build/test-results.xml ] && mv build/test-results.xml build/test-results/test-results.xml || true
 
       - store_test_results:
-          path: build/test-results  # Store test results for CircleCI UI
+          path: build/test-results
 
       - store_artifacts:
           path: build/test-results
-          destination: junit  # Store test artifacts for later review
+          destination: junit
+
+      - store_artifacts:
+          path: coverage.info
+          destination: raw-coverage-data
+
+      - store_artifacts:
+          path: coverage-report
+          destination: coverage
 
 workflows:
   version: 2

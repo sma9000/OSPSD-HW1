@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo "🔧 Running pre-commit hook..."
+
+# Find all staged C++ files
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(cpp|h|hpp)$')
+
+# Format them with clang-format
+for file in $FILES; do
+  if [ -f "$file" ]; then
+    echo "Formatting $file"
+    clang-format -i "$file"
+    git add "$file"
+  fi
+done
+
+# Optional: Run the tests
+echo "🧪 Running tests before commit..."
+cmake --build build > /dev/null
+cd build && ctest --output-on-failure
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+  echo "❌ Tests failed. Commit aborted."
+  exit 1
+fi
+
+echo "✅ All good. Proceeding with commit."
+exit 0
