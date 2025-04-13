@@ -8,25 +8,35 @@ project(ConversationClientProject VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Specify source files for the project
-add_library(ConversationClient
-    src/ConversationClient.h
-    src/ConversationHistory.h
-    src/Config.h
-    src/Error.h
-    src/Message.h
-    src/NLPProcessor.h
-    src/ResponseFormatter.h
-    src/main.cpp
+# Add Homebrew's prefix to CMAKE_PREFIX_PATH
+# CMake can locate packages from /opt/homebrew easily.
+list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew")
+
+# Find the Homebrew-installed libraries:
+find_package(cpr CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+
+# Create the ConversationClient library from your source files.
+add_library(ConversationClient STATIC
+    src/ConversationClient.cpp
+    src/ConversationHistory.cpp
+    src/NLPProcessor.cpp
+    src/ResponseFormatter.cpp
 )
 
-# Add executable for the main entry point
+# Setup include directories for your library.
+target_include_directories(ConversationClient PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(ConversationClient PUBLIC "/opt/homebrew/Cellar/nlohmann-json/3.12.0/include")
+
+# Link Homebrew-installed dependencies to your library.
+target_link_libraries(ConversationClient PRIVATE cpr::cpr nlohmann_json::nlohmann_json) # does not work sometimes?
+target_link_libraries(ConversationClient PRIVATE nlohmann_json::nlohmann_json)
+
+# Add the main executable.
 add_executable(main src/main.cpp)
+target_link_libraries(main PRIVATE ConversationClient)
 
-# Link the ConversationClient library to the main executable
-target_link_libraries(main ConversationClient)
-
-# Add unit test executable
+# Add the test executable (include your test sources as needed).
 add_executable(tests
     tests/test_config.cpp
     tests/test_conversation_client.cpp
@@ -36,23 +46,19 @@ add_executable(tests
     tests/test_nlp_processor.cpp
     tests/test_response_formatter.cpp
     tests/test_conversation.cpp
+    tests/test_ai_conversation_client_integration.cpp
 )
+target_link_libraries(tests PRIVATE ConversationClient cpr::cpr nlohmann_json::nlohmann_json)
 
-# Link the ConversationClient library to the test executable
-target_link_libraries(tests ConversationClient)
-
-# Add Google Test if available
+# Fetch and link GoogleTest
 include(FetchContent)
 FetchContent_Declare(
     googletest
     URL https://github.com/google/googletest/archive/release-1.12.0.zip
 )
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+target_link_libraries(tests PRIVATE gtest gtest_main)
 
-# Link Google Test to the tests executable
-target_link_libraries(tests gtest gtest_main)
 enable_testing()
-
-# Add test targets
 add_test(NAME AllTests COMMAND tests)
-
