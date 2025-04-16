@@ -1,4 +1,4 @@
-#include "Message.h"
+#include "IMessage.h"
 #include <gtest/gtest.h>
 #include <chrono>
 

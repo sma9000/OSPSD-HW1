@@ -1,0 +1,570 @@
+Start testing: Apr 16 13:54 EDT
+----------------------------------------------------------
+1/21 Testing: ConfigInterfaceTest.SetAndGetReturnsExpectedShape
+1/21 Test: ConfigInterfaceTest.SetAndGetReturnsExpectedShape
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ConfigInterfaceTest.SetAndGetReturnsExpectedShape" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ConfigInterfaceTest.SetAndGetReturnsExpectedShape" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigInterfaceTest.SetAndGetReturnsExpectedShape
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigInterfaceTest
+[ RUN      ] ConfigInterfaceTest.SetAndGetReturnsExpectedShape
+[       OK ] ConfigInterfaceTest.SetAndGetReturnsExpectedShape (0 ms)
+[----------] 1 test from ConfigInterfaceTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigInterfaceTest.SetAndGetReturnsExpectedShape" end time: Apr 16 13:54 EDT
+"ConfigInterfaceTest.SetAndGetReturnsExpectedShape" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/21 Testing: ConversationClientTest.SendMessageReturnsBool
+2/21 Test: ConversationClientTest.SendMessageReturnsBool
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ConversationClientTest.SendMessageReturnsBool" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ConversationClientTest.SendMessageReturnsBool" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ConversationClientTest.SendMessageReturnsBool
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConversationClientTest
+[ RUN      ] ConversationClientTest.SendMessageReturnsBool
+[       OK ] ConversationClientTest.SendMessageReturnsBool (0 ms)
+[----------] 1 test from ConversationClientTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ConversationClientTest.SendMessageReturnsBool" end time: Apr 16 13:54 EDT
+"ConversationClientTest.SendMessageReturnsBool" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/21 Testing: ConversationClientTest.ReceiveResponseReturnsExpectedShape
+3/21 Test: ConversationClientTest.ReceiveResponseReturnsExpectedShape
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ConversationClientTest.ReceiveResponseReturnsExpectedShape" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ConversationClientTest.ReceiveResponseReturnsExpectedShape" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ConversationClientTest.ReceiveResponseReturnsExpectedShape
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConversationClientTest
+[ RUN      ] ConversationClientTest.ReceiveResponseReturnsExpectedShape
+[       OK ] ConversationClientTest.ReceiveResponseReturnsExpectedShape (0 ms)
+[----------] 1 test from ConversationClientTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ConversationClientTest.ReceiveResponseReturnsExpectedShape" end time: Apr 16 13:54 EDT
+"ConversationClientTest.ReceiveResponseReturnsExpectedShape" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/21 Testing: ConversationClientTest.FullConversationFlow
+4/21 Test: ConversationClientTest.FullConversationFlow
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ConversationClientTest.FullConversationFlow" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ConversationClientTest.FullConversationFlow" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ConversationClientTest.FullConversationFlow
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConversationClientTest
+[ RUN      ] ConversationClientTest.FullConversationFlow
+[       OK ] ConversationClientTest.FullConversationFlow (0 ms)
+[----------] 1 test from ConversationClientTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ConversationClientTest.FullConversationFlow" end time: Apr 16 13:54 EDT
+"ConversationClientTest.FullConversationFlow" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/21 Testing: ConversationHistoryTest.AddMessageIncreasesSize
+5/21 Test: ConversationHistoryTest.AddMessageIncreasesSize
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ConversationHistoryTest.AddMessageIncreasesSize" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ConversationHistoryTest.AddMessageIncreasesSize" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ConversationHistoryTest.AddMessageIncreasesSize
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConversationHistoryTest
+[ RUN      ] ConversationHistoryTest.AddMessageIncreasesSize
+[       OK ] ConversationHistoryTest.AddMessageIncreasesSize (0 ms)
+[----------] 1 test from ConversationHistoryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ConversationHistoryTest.AddMessageIncreasesSize" end time: Apr 16 13:54 EDT
+"ConversationHistoryTest.AddMessageIncreasesSize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/21 Testing: ConversationHistoryTest.GetMessagesReturnsCorrectDataShape
+6/21 Test: ConversationHistoryTest.GetMessagesReturnsCorrectDataShape
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ConversationHistoryTest.GetMessagesReturnsCorrectDataShape" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ConversationHistoryTest.GetMessagesReturnsCorrectDataShape" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ConversationHistoryTest.GetMessagesReturnsCorrectDataShape
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConversationHistoryTest
+[ RUN      ] ConversationHistoryTest.GetMessagesReturnsCorrectDataShape
+[       OK ] ConversationHistoryTest.GetMessagesReturnsCorrectDataShape (0 ms)
+[----------] 1 test from ConversationHistoryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ConversationHistoryTest.GetMessagesReturnsCorrectDataShape" end time: Apr 16 13:54 EDT
+"ConversationHistoryTest.GetMessagesReturnsCorrectDataShape" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/21 Testing: ErrorTest.BaseErrorMessageIsCorrect
+7/21 Test: ErrorTest.BaseErrorMessageIsCorrect
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ErrorTest.BaseErrorMessageIsCorrect" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ErrorTest.BaseErrorMessageIsCorrect" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ErrorTest.BaseErrorMessageIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ErrorTest
+[ RUN      ] ErrorTest.BaseErrorMessageIsCorrect
+[       OK ] ErrorTest.BaseErrorMessageIsCorrect (0 ms)
+[----------] 1 test from ErrorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ErrorTest.BaseErrorMessageIsCorrect" end time: Apr 16 13:54 EDT
+"ErrorTest.BaseErrorMessageIsCorrect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/21 Testing: ErrorTest.NetworkErrorMessageIsCorrect
+8/21 Test: ErrorTest.NetworkErrorMessageIsCorrect
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ErrorTest.NetworkErrorMessageIsCorrect" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ErrorTest.NetworkErrorMessageIsCorrect" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ErrorTest.NetworkErrorMessageIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ErrorTest
+[ RUN      ] ErrorTest.NetworkErrorMessageIsCorrect
+[       OK ] ErrorTest.NetworkErrorMessageIsCorrect (0 ms)
+[----------] 1 test from ErrorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ErrorTest.NetworkErrorMessageIsCorrect" end time: Apr 16 13:54 EDT
+"ErrorTest.NetworkErrorMessageIsCorrect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/21 Testing: ErrorTest.IOErrorMessageIsCorrect
+9/21 Test: ErrorTest.IOErrorMessageIsCorrect
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ErrorTest.IOErrorMessageIsCorrect" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ErrorTest.IOErrorMessageIsCorrect" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ErrorTest.IOErrorMessageIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ErrorTest
+[ RUN      ] ErrorTest.IOErrorMessageIsCorrect
+[       OK ] ErrorTest.IOErrorMessageIsCorrect (0 ms)
+[----------] 1 test from ErrorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"ErrorTest.IOErrorMessageIsCorrect" end time: Apr 16 13:54 EDT
+"ErrorTest.IOErrorMessageIsCorrect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/21 Testing: ErrorTest.ParseErrorMessageIsCorrect
+10/21 Test: ErrorTest.ParseErrorMessageIsCorrect
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ErrorTest.ParseErrorMessageIsCorrect" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ErrorTest.ParseErrorMessageIsCorrect" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ErrorTest.ParseErrorMessageIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ErrorTest
+[ RUN      ] ErrorTest.ParseErrorMessageIsCorrect
+[       OK ] ErrorTest.ParseErrorMessageIsCorrect (0 ms)
+[----------] 1 test from ErrorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"ErrorTest.ParseErrorMessageIsCorrect" end time: Apr 16 13:54 EDT
+"ErrorTest.ParseErrorMessageIsCorrect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/21 Testing: ErrorTest.InputErrorMessageIsCorrect
+11/21 Test: ErrorTest.InputErrorMessageIsCorrect
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ErrorTest.InputErrorMessageIsCorrect" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ErrorTest.InputErrorMessageIsCorrect" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ErrorTest.InputErrorMessageIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ErrorTest
+[ RUN      ] ErrorTest.InputErrorMessageIsCorrect
+[       OK ] ErrorTest.InputErrorMessageIsCorrect (0 ms)
+[----------] 1 test from ErrorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"ErrorTest.InputErrorMessageIsCorrect" end time: Apr 16 13:54 EDT
+"ErrorTest.InputErrorMessageIsCorrect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/21 Testing: ErrorTest.TimeoutErrorMessageIsCorrect
+12/21 Test: ErrorTest.TimeoutErrorMessageIsCorrect
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ErrorTest.TimeoutErrorMessageIsCorrect" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ErrorTest.TimeoutErrorMessageIsCorrect" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ErrorTest.TimeoutErrorMessageIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ErrorTest
+[ RUN      ] ErrorTest.TimeoutErrorMessageIsCorrect
+[       OK ] ErrorTest.TimeoutErrorMessageIsCorrect (0 ms)
+[----------] 1 test from ErrorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ErrorTest.TimeoutErrorMessageIsCorrect" end time: Apr 16 13:54 EDT
+"ErrorTest.TimeoutErrorMessageIsCorrect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/21 Testing: ErrorTest.ServiceErrorMessageIsCorrect
+13/21 Test: ErrorTest.ServiceErrorMessageIsCorrect
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ErrorTest.ServiceErrorMessageIsCorrect" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ErrorTest.ServiceErrorMessageIsCorrect" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ErrorTest.ServiceErrorMessageIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ErrorTest
+[ RUN      ] ErrorTest.ServiceErrorMessageIsCorrect
+[       OK ] ErrorTest.ServiceErrorMessageIsCorrect (0 ms)
+[----------] 1 test from ErrorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"ErrorTest.ServiceErrorMessageIsCorrect" end time: Apr 16 13:54 EDT
+"ErrorTest.ServiceErrorMessageIsCorrect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/21 Testing: MessageTest.ConstructorInitializesCorrectly
+14/21 Test: MessageTest.ConstructorInitializesCorrectly
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=MessageTest.ConstructorInitializesCorrectly" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"MessageTest.ConstructorInitializesCorrectly" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = MessageTest.ConstructorInitializesCorrectly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MessageTest
+[ RUN      ] MessageTest.ConstructorInitializesCorrectly
+[       OK ] MessageTest.ConstructorInitializesCorrectly (0 ms)
+[----------] 1 test from MessageTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"MessageTest.ConstructorInitializesCorrectly" end time: Apr 16 13:54 EDT
+"MessageTest.ConstructorInitializesCorrectly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/21 Testing: MessageTest.TimestampIsSetCorrectly
+15/21 Test: MessageTest.TimestampIsSetCorrectly
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=MessageTest.TimestampIsSetCorrectly" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"MessageTest.TimestampIsSetCorrectly" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = MessageTest.TimestampIsSetCorrectly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MessageTest
+[ RUN      ] MessageTest.TimestampIsSetCorrectly
+[       OK ] MessageTest.TimestampIsSetCorrectly (0 ms)
+[----------] 1 test from MessageTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"MessageTest.TimestampIsSetCorrectly" end time: Apr 16 13:54 EDT
+"MessageTest.TimestampIsSetCorrectly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/21 Testing: NLPInterfaceTest.PreprocessReturnsLowercaseString
+16/21 Test: NLPInterfaceTest.PreprocessReturnsLowercaseString
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=NLPInterfaceTest.PreprocessReturnsLowercaseString" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"NLPInterfaceTest.PreprocessReturnsLowercaseString" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = NLPInterfaceTest.PreprocessReturnsLowercaseString
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from NLPInterfaceTest
+[ RUN      ] NLPInterfaceTest.PreprocessReturnsLowercaseString
+[       OK ] NLPInterfaceTest.PreprocessReturnsLowercaseString (0 ms)
+[----------] 1 test from NLPInterfaceTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"NLPInterfaceTest.PreprocessReturnsLowercaseString" end time: Apr 16 13:54 EDT
+"NLPInterfaceTest.PreprocessReturnsLowercaseString" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/21 Testing: NLPInterfaceTest.PostprocessReturnsProperShape
+17/21 Test: NLPInterfaceTest.PostprocessReturnsProperShape
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=NLPInterfaceTest.PostprocessReturnsProperShape" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"NLPInterfaceTest.PostprocessReturnsProperShape" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = NLPInterfaceTest.PostprocessReturnsProperShape
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from NLPInterfaceTest
+[ RUN      ] NLPInterfaceTest.PostprocessReturnsProperShape
+[       OK ] NLPInterfaceTest.PostprocessReturnsProperShape (0 ms)
+[----------] 1 test from NLPInterfaceTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"NLPInterfaceTest.PostprocessReturnsProperShape" end time: Apr 16 13:54 EDT
+"NLPInterfaceTest.PostprocessReturnsProperShape" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/21 Testing: ResponseFormatterTest.FormatResponseAppendsTagAndSuffix
+18/21 Test: ResponseFormatterTest.FormatResponseAppendsTagAndSuffix
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ResponseFormatterTest.FormatResponseAppendsTagAndSuffix" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ResponseFormatterTest.FormatResponseAppendsTagAndSuffix" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ResponseFormatterTest.FormatResponseAppendsTagAndSuffix
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ResponseFormatterTest
+[ RUN      ] ResponseFormatterTest.FormatResponseAppendsTagAndSuffix
+[       OK ] ResponseFormatterTest.FormatResponseAppendsTagAndSuffix (0 ms)
+[----------] 1 test from ResponseFormatterTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"ResponseFormatterTest.FormatResponseAppendsTagAndSuffix" end time: Apr 16 13:54 EDT
+"ResponseFormatterTest.FormatResponseAppendsTagAndSuffix" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/21 Testing: ResponseFormatterTest.AddTimestampAppendsCorrectly
+19/21 Test: ResponseFormatterTest.AddTimestampAppendsCorrectly
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ResponseFormatterTest.AddTimestampAppendsCorrectly" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ResponseFormatterTest.AddTimestampAppendsCorrectly" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ResponseFormatterTest.AddTimestampAppendsCorrectly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ResponseFormatterTest
+[ RUN      ] ResponseFormatterTest.AddTimestampAppendsCorrectly
+[       OK ] ResponseFormatterTest.AddTimestampAppendsCorrectly (0 ms)
+[----------] 1 test from ResponseFormatterTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"ResponseFormatterTest.AddTimestampAppendsCorrectly" end time: Apr 16 13:54 EDT
+"ResponseFormatterTest.AddTimestampAppendsCorrectly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/21 Testing: ResponseFormatterTest.ToUpperCaseTransformsCorrectly
+20/21 Test: ResponseFormatterTest.ToUpperCaseTransformsCorrectly
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ResponseFormatterTest.ToUpperCaseTransformsCorrectly" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ResponseFormatterTest.ToUpperCaseTransformsCorrectly" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ResponseFormatterTest.ToUpperCaseTransformsCorrectly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ResponseFormatterTest
+[ RUN      ] ResponseFormatterTest.ToUpperCaseTransformsCorrectly
+[       OK ] ResponseFormatterTest.ToUpperCaseTransformsCorrectly (0 ms)
+[----------] 1 test from ResponseFormatterTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"ResponseFormatterTest.ToUpperCaseTransformsCorrectly" end time: Apr 16 13:54 EDT
+"ResponseFormatterTest.ToUpperCaseTransformsCorrectly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/21 Testing: ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline
+21/21 Test: ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline
+Command: "/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests" "--gtest_filter=ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline" "--gtest_also_run_disabled_tests"
+Directory: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build
+"ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline" start time: Apr 16 13:54 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ResponseFormatterTest
+[ RUN      ] ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline
+[       OK ] ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline (0 ms)
+[----------] 1 test from ResponseFormatterTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline" end time: Apr 16 13:54 EDT
+"ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Apr 16 13:54 EDT

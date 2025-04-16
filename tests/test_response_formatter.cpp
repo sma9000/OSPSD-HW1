@@ -1,25 +1,51 @@
-#include "ResponseFormatter.h"
+#include "IResponseFormatter.h"
 #include <gtest/gtest.h>
+#include <string>
+#include <ctime>
+#include <algorithm>
+
+class MockResponseFormatter : public IResponseFormatter {
+public:
+    std::string formatResponse(const std::string& raw, const std::string& tag, const std::string& suffix) override {
+        return raw + " " + tag + suffix;
+    }
+
+    std::string addTimestamp(const std::string& response) override {
+        return "[2025-04-16] " + response;
+    }
+
+    std::string toUpperCase(const std::string& response) override {
+        std::string upper = response;
+        std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+        return upper;
+    }
+
+    std::string addNewLineIfNeeded(const std::string& response) override {
+        return (response.back() != '\n') ? response + "\n" : response;
+    }
+};
 
 TEST(ResponseFormatterTest, FormatResponseAppendsTagAndSuffix) {
-    std::string formatted = ResponseFormatter::formatResponse("Hello", "[TAG]", "!");
+    MockResponseFormatter formatter;
+    std::string formatted = formatter.formatResponse("Hello", "[TAG]", "!");
     EXPECT_EQ(formatted, "Hello [TAG]!");
 }
 
 TEST(ResponseFormatterTest, AddTimestampAppendsCorrectly) {
-    std::string response = "Hello";
-    std::string timestamped = ResponseFormatter::addTimestamp(response);
-    EXPECT_TRUE(timestamped.find("Hello") != std::string::npos);
-    EXPECT_TRUE(timestamped.find("2025") != std::string::npos); // Example timestamp
+    MockResponseFormatter formatter;
+    std::string result = formatter.addTimestamp("Hello");
+    EXPECT_TRUE(result.find("Hello") != std::string::npos);
+    EXPECT_TRUE(result.find("2025") != std::string::npos); // Approximate
 }
 
 TEST(ResponseFormatterTest, ToUpperCaseTransformsCorrectly) {
-    std::string uppercased = ResponseFormatter::toUpperCase("hello");
-    EXPECT_EQ(uppercased, "HELLO");
+    MockResponseFormatter formatter;
+    std::string result = formatter.toUpperCase("hello");
+    EXPECT_EQ(result, "HELLO");
 }
 
 TEST(ResponseFormatterTest, AddNewLineIfNeededEnsuresNewline) {
-    std::string response = "Hello";
-    std::string withNewline = ResponseFormatter::addNewLineIfNeeded(response);
-    EXPECT_EQ(withNewline, "Hello\n");
+    MockResponseFormatter formatter;
+    std::string result = formatter.addNewLineIfNeeded("Hello");
+    EXPECT_EQ(result, "Hello\n");
 }

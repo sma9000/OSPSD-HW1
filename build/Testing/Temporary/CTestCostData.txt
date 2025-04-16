@@ -1,0 +1,23 @@
+AllTests 2 0.0196301
+ConfigInterfaceTest.SetAndGetReturnsExpectedShape 1 0.0403514
+ConversationClientTest.SendMessageReturnsBool 1 0.0373609
+ConversationClientTest.ReceiveResponseReturnsExpectedShape 1 0.039704
+ConversationClientTest.FullConversationFlow 1 0.0351076
+ConversationHistoryTest.AddMessageIncreasesSize 1 0.0384389
+ConversationHistoryTest.GetMessagesReturnsCorrectDataShape 1 0.0360156
+ErrorTest.BaseErrorMessageIsCorrect 1 0.0442273
+ErrorTest.NetworkErrorMessageIsCorrect 1 0.040061
+ErrorTest.IOErrorMessageIsCorrect 1 0.0472216
+ErrorTest.ParseErrorMessageIsCorrect 1 0.0579438
+ErrorTest.InputErrorMessageIsCorrect 1 0.0489478
+ErrorTest.TimeoutErrorMessageIsCorrect 1 0.0413881
+ErrorTest.ServiceErrorMessageIsCorrect 1 0.0420361
+MessageTest.ConstructorInitializesCorrectly 1 0.0475399
+MessageTest.TimestampIsSetCorrectly 1 0.0439538
+NLPInterfaceTest.PreprocessReturnsLowercaseString 1 0.0495219
+NLPInterfaceTest.PostprocessReturnsProperShape 1 0.048783
+ResponseFormatterTest.FormatResponseAppendsTagAndSuffix 1 0.0643886
+ResponseFormatterTest.AddTimestampAppendsCorrectly 1 0.0637559
+ResponseFormatterTest.ToUpperCaseTransformsCorrectly 1 0.0600053
+ResponseFormatterTest.AddNewLineIfNeededEnsuresNewline 1 0.0572802
+---

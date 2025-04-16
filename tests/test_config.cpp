@@ -1,22 +1,27 @@
-#include "Config.h"
+#include "IConfig.h"
 #include <gtest/gtest.h>
+#include <unordered_map>
 
-TEST(ConfigTest, SingletonInstance) {
-    Config* instance1 = Config::getInstance();
-    Config* instance2 = Config::getInstance();
+// Mock implementation
+class MockConfig : public IConfig {
+    std::unordered_map<std::string, std::string> storage;
+public:
+    void set(const std::string& key, const std::string& value) override {
+        storage[key] = value;
+    }
 
-    ASSERT_EQ(instance1, instance2); // Ensures only one instance exists
-}
+    std::string get(const std::string& key) const override {
+        auto it = storage.find(key);
+        return it != storage.end() ? it->second : "";
+    }
+};
 
-TEST(ConfigTest, SetAndGetConfiguration) {
-    Config* config = Config::getInstance();
-    config->set("key", "value");
+TEST(ConfigInterfaceTest, SetAndGetReturnsExpectedShape) {
+    MockConfig config;
+    config.set("language", "en");
 
-    EXPECT_EQ(config->get("key"), "value"); // Confirms value is retrieved correctly
-}
+    std::string result = config.get("language");
 
-TEST(ConfigTest, GetNonexistentKeyReturnsEmpty) {
-    Config* config = Config::getInstance();
-
-    EXPECT_EQ(config->get("nonexistent"), ""); // Empty string for unknown keys
+    EXPECT_EQ(result, "en");
+    EXPECT_TRUE((std::is_same<decltype(result), std::string>::value));
 }
