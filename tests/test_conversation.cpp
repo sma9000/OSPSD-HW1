@@ -1,25 +1,22 @@
-#include "IConversationClient.h"
+#include "ConversationClient.h"
 #include <gtest/gtest.h>
 #include <string>
 
-// Dummy implementation
-class DummyConversationClient : public IConversationClient {
-public:
-    void startConversation() override {}
-    bool sendMessage(const std::string& input) override { return true; }
-    std::string receiveResponse() override { return "Expected AI response"; }
-    void endConversation() override {}
-};
-
 TEST(ConversationIntegrationTest, FullConversationFlow) {
-    DummyConversationClient client;
+    ConversationClient client;
 
+    // Step 1: Start the conversation
     EXPECT_NO_THROW(client.startConversation());
-    EXPECT_TRUE(client.sendMessage("Hello, AI!"));
 
+    // Step 2: Send a message
+    std::string userInput = "Hello, AI!";
+    EXPECT_TRUE(client.sendMessage(userInput));
+
+    // Step 3: Receive a response
     std::string response = client.receiveResponse();
-    EXPECT_FALSE(response.empty());
-    EXPECT_EQ(response, "Expected AI response");
+    EXPECT_FALSE(response.empty());  // Ensure the response is not empty
+    EXPECT_EQ(response, "Expected AI response");  // Mocked expected response
 
+    // Step 4: End the conversation
     EXPECT_NO_THROW(client.endConversation());
 }

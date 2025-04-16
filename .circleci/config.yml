@@ -6,47 +6,46 @@ executors:
       - image: ubuntu:latest
     resource_class: small
     environment:
-      VCPKG_ROOT: /opt/vcpkg
+      CXX: g++
+      CC: gcc
 
 jobs:
   build-and-test:
     executor: cpp-executor
     steps:
       - checkout
-
       - run:
-          name: Install Build Tools and vcpkg
+          name: Install Dependencies
           command: |
-            apt-get update && apt-get install -y curl zip unzip tar git cmake g++ make
-            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
-            $VCPKG_ROOT/bootstrap-vcpkg.sh
-
-      - run:
-          name: Install Dependencies via vcpkg
-          command: |
-            $VCPKG_ROOT/vcpkg install gtest
-
+            apt-get update && apt-get install -y cmake g++ git make
+            apt-get install -y libgtest-dev
+            cd /usr/src/googletest
+            cmake . && make
+            cp lib/*.a /usr/lib
       - run:
           name: Build Project
           command: |
             mkdir -p build
             cd build
-            cmake .. -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+            cmake ..
             make
-
       - run:
           name: Run Unit Tests
           command: |
             cd build
-            mkdir -p test-results
-            GTEST_OUTPUT=xml:test-results/test-results.xml ctest --output-on-failure
+            GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
+      - run:
+          name: Convert test results to JUnit format
+          command: |
+            mkdir -p build/test-results
+            mv build/test-results.xml build/test-results/test-results.xml
 
       - store_test_results:
-          path: build/test-results
+          path: build/test-results  # Store test results for CircleCI UI
 
       - store_artifacts:
           path: build/test-results
-          destination: junit
+          destination: junit  # Store test artifacts for later review
 
 workflows:
   version: 2
