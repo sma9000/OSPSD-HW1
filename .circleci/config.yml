@@ -45,7 +45,7 @@ jobs:
           command: |
             cd build
             mkdir -p test-results
-            GTEST_OUTPUT=xml:test-results/test-results.xml ctest --output-on-failure
+            ctest --output-on-failure --output-junit test-results/test-results.xml
 
       - store_test_results:
           path: build/test-results
