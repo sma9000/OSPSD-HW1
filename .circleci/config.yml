@@ -29,9 +29,13 @@ jobs:
             $VCPKG_ROOT/vcpkg install gtest
 
       - run:
+          name: Clean build directory
+          command: |
+            rm -rf build && mkdir -p build
+
+      - run:
           name: Build Project
           command: |
-            mkdir -p build
             cd build
             cmake .. -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
             make
