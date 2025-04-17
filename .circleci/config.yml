@@ -6,46 +6,53 @@ executors:
       - image: ubuntu:latest
     resource_class: small
     environment:
-      CXX: g++
-      CC: gcc
+      VCPKG_ROOT: /opt/vcpkg
 
 jobs:
   build-and-test:
     executor: cpp-executor
     steps:
       - checkout
+
       - run:
-          name: Install Dependencies
+          name: Install Build Tools and vcpkg
           command: |
-            apt-get update && apt-get install -y cmake g++ git make
-            apt-get install -y libgtest-dev
-            cd /usr/src/googletest
-            cmake . && make
-            cp lib/*.a /usr/lib
+            apt-get update && apt-get install -y \
+              curl zip unzip tar git cmake g++ make pkg-config
+
+            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
+            $VCPKG_ROOT/bootstrap-vcpkg.sh
+
+      - run:
+          name: Install Dependencies via vcpkg
+          command: |
+            $VCPKG_ROOT/vcpkg install gtest
+
+      - run:
+          name: Clean build directory
+          command: |
+            rm -rf build && mkdir -p build
+
       - run:
           name: Build Project
           command: |
-            mkdir -p build
             cd build
-            cmake ..
+            cmake .. -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
             make
+
       - run:
           name: Run Unit Tests
           command: |
             cd build
-            GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
-      - run:
-          name: Convert test results to JUnit format
-          command: |
-            mkdir -p build/test-results
-            mv build/test-results.xml build/test-results/test-results.xml
+            mkdir -p test-results
+            ctest --output-on-failure --output-junit test-results/test-results.xml
 
       - store_test_results:
-          path: build/test-results  # Store test results for CircleCI UI
+          path: build/test-results
 
       - store_artifacts:
           path: build/test-results
-          destination: junit  # Store test artifacts for later review
+          destination: junit
 
 workflows:
   version: 2

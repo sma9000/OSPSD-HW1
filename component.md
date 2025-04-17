@@ -1,47 +1,93 @@
 # Component Architecture
 
 ## Overview
-This document describes the component architecture of the project. Components are distinct, modular parts of the application that encapsulate specific functionality and manage their own state and dependencies.
+
+This document outlines the component architecture of the **AI Chatbot System**. Each component encapsulates specific functionality and interacts with others through well-defined interfaces. The design promotes modularity, reusability, and maintainability.
 
 ## Component Definition
-A component in this project is defined as an independent, reusable block of code that interacts with other components through well-defined interfaces. Components can be classes, libraries, services, or other logical groupings of functionality.
+
+A component in this project is an independent, reusable module that implements a defined interface and encapsulates its state and behavior. Components can be classes, services, or functional units.
 
 ## Key Principles
-- **Encapsulation**: Each component is self-contained and controls its own data and behavior.
-- **Reusability**: Components are designed to be reused in different parts of the application, without modification.
-- **Interoperability**: Components communicate with each other through interfaces and shared services, minimizing direct dependencies.
+
+- **Encapsulation**: Each component manages its own state and behavior.
+- **Reusability**: Components are designed to be reused across the system.
+- **Interoperability**: Interfaces define contracts for interaction, minimizing tight coupling.
 
 ## Component List and Descriptions
 
-### 1. Calculator
-- **Purpose**: Handles basic arithmetic operations such as addition, subtraction, multiplication, and division.
-- **Interactions**:
-  - Receives input from the user interface.
-  - Sends calculation results to the Logger component.
-- **Files**: `Calculator.cpp`, `Calculator.h`
+### 1. `IConfig`
 
-### 2. Logger
-- **Purpose**: Records operations performed by the Calculator and other components, providing a history of actions for debugging and audit purposes.
+- **Purpose**: Provides configuration management across the system.
 - **Interactions**:
-  - Receives data from the Calculator and Notifier components.
-  - Writes logs to the file system or a remote logging service.
-- **Files**: `Logger.cpp`, `Logger.h`
+  - Used by most components for accessing settings or parameters.
+- **Files**: `IConfig.h`, `test_config.cpp`
 
-### 3. Notifier
-- **Purpose**: Sends alerts when certain thresholds are reached in calculations or other monitored activities.
+### 2. `IConversationClient`
+
+- **Purpose**: Acts as the main interface to handle conversations between users and the chatbot.
 - **Interactions**:
-  - Monitors outputs from the Calculator component.
-  - Sends notifications via email, SMS, or other communication channels.
-- **Files**: `Notifier.cpp`, `Notifier.h`
+  - Uses `IMessage`, `INLPProcessor`, `IResponseFormatter`.
+  - Stores and retrieves data from `IConversationHistory`.
+- **Files**: `IConversationClient.h`, `test_conversation_client.cpp`
 
+### 3. `IConversationHistory`
+
+- **Purpose**: Maintains history of the conversation sessions.
+- **Interactions**:
+  - Accessed by `IConversationClient` to retrieve previous context.
+- **Files**: `IConversationHistory.h`, `test_conversation_history.cpp`
+
+### 4. `IMessage`
+
+- **Purpose**: Defines the structure and handling of messages in the chatbot.
+- **Interactions**:
+  - Used by `IConversationClient` to process inputs and responses.
+- **Files**: `IMessage.h`, `test_message.cpp`
+
+### 5. `INLPProcessor`
+
+- **Purpose**: Processes natural language input from users.
+- **Interactions**:
+  - Receives raw input from `IConversationClient`, returns structured intent/response.
+- **Files**: `INLPProcessor.h`, `test_nlp_processor.cpp`
+
+### 6. `IResponseFormatter`
+
+- **Purpose**: Formats bot responses into a user-friendly format.
+- **Interactions**:
+  - Receives response payload from `INLPProcessor` or `IConversationClient`, returns formatted output.
+- **Files**: `IResponseFormatter.h`, `test_response_formatter.cpp`
+
+### 7. `Error`
+
+- **Purpose**: Handles error codes and exception definitions for the application.
+- **Interactions**:
+  - Used by all components for robust error reporting.
+- **Files**: `Error.h`, `test_error.cpp`
+
+## Testing
+
+Test files are located in the `tests/` directory. Each component has a corresponding test file:
+
+- `test_config.cpp`
+- `test_conversation_client.cpp`
+- `test_conversation_history.cpp`
+- `test_conversation.cpp`
+- `test_message.cpp`
+- `test_nlp_processor.cpp`
+- `test_response_formatter.cpp`
+- `test_error.cpp`
+
+These tests ensure correctness and reliability of each individual module.
 
 ## Guidelines for Adding New Components
-When adding a new component to the project, follow these steps:
-1. **Define the Component**: Outline the purpose, responsibilities, and interfaces of the new component.
-2. **Document the Component**: Update this document to include the new component, detailing its interactions and the files involved.
-3. **Integrate the Component**: Ensure the new component is fully integrated with existing components, modifying interfaces if necessary.
-4. **Test the Component**: Write comprehensive tests for the new component to verify its functionality and interactions.
+
+1. **Define the Component**: Clarify purpose, inputs, outputs, and dependencies.
+2. **Create Interfaces**: Design clear, minimal interfaces for external access.
+3. **Implement and Document**: Place code in `include/` and source in `src/` with appropriate documentation.
+4. **Test Thoroughly**: Add test files in `tests/` with comprehensive unit tests.
 
 ## Conclusion
-This architecture is designed to ensure that our project remains modular, maintainable, and scalable. By adhering to the outlined component structure, we can facilitate easier updates, enhancements, and debugging throughout the application lifecycle.
 
+This architecture supports a clean and maintainable AI chatbot system. The use of interfaces ensures flexibility and scalability, making it easy to extend functionality or switch implementations.
