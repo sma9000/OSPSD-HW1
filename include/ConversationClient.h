@@ -10,7 +10,7 @@ class ConversationClient {
 public:
     void startConversation();
     bool sendMessage(const std::string& input);
-    std::string receiveResponse();
+    std::string receiveResponse() const;
     void endConversation();
 
 private:

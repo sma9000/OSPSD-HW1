@@ -9,6 +9,7 @@ public:
     void addMessage(const Message& msg);
     std::vector<Message> getMessages() const;
 
+
 private:
     std::vector<Message> history;
 };

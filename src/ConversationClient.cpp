@@ -103,7 +103,7 @@ bool ConversationClient::sendMessage(const std::string& input) {
 }
 
 
-std::string ConversationClient::receiveResponse() {
+std::string ConversationClient::receiveResponse() const {
     // Retrieve conversation history and locate the last AI message.
     auto messages = history.getMessages();
     if (messages.empty()) {
