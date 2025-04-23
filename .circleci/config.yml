@@ -14,21 +14,18 @@ jobs:
     executor: cpp-executor
     steps:
       - checkout
-
       - run:
           name: Install Dependencies (incl. CPR)
           command: |
-            export DEBIAN_FRONTEND=noninteractive
             apt-get update && apt-get install -y \
               cmake \
               g++ \
               git \
               make \
-              libgtest-dev \
-              lcov \
-              gcovr \
               libssl-dev \
-              libcurl4-openssl-dev
+              libcurl4-openssl-dev \
+              libgtest-dev \
+              nlohmann-json3-dev  # <--- this line is new
 
             # Build and install GTest
             cd /usr/src/googletest
@@ -42,8 +39,13 @@ jobs:
             cmake -DCMAKE_USE_OPENSSL=ON .
             make -j$(nproc)
             make install
-
-
+      - run:
+        name: Build Project
+        command: |
+          mkdir -p build
+          cd build
+          cmake ..
+          make
       - run:
           name: Run Unit Tests
           command: |
