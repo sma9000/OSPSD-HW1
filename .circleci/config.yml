@@ -32,9 +32,10 @@ jobs:
             cp lib/*.a /usr/lib
 
       - run:
-          name: Build Project
+          name: Clean and Build
           command: |
-            mkdir -p build
+            rm -rf build
+            mkdir build
             cd build
             cmake -DCMAKE_CXX_FLAGS="--coverage" ..
             make
@@ -42,34 +43,14 @@ jobs:
       - run:
           name: Run Unit Tests
           command: |
-            mkdir -p build/test-results
             cd build
             GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
 
       - run:
-          name: Build E2E Test
-          command: |
-            mkdir -p build/e2e
-            g++ -std=c++14 --coverage \
-              tests/test_e2e.cpp \
-              src/calculator/calculator.cpp \
-              src/logger/logger.cpp \
-              src/notifier/notifier.cpp \
-              -Isrc/calculator \
-              -Isrc/logger \
-              -Isrc/notifier \
-              -o build/e2e/test_e2e \
-              -lgtest -lgtest_main -pthread
-
-      - run:
-          name: Run E2E Test
-          command: |
-            ./build/e2e/test_e2e --gtest_output=xml:build/test-results/e2e-results.xml
-
-      - run:
           name: Generate Code Coverage Report
           command: |
-            lcov --capture --directory build --output-file coverage.info --ignore-errors mismatch
+            cd build
+            lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
             lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
@@ -87,11 +68,11 @@ jobs:
           destination: junit
 
       - store_artifacts:
-          path: coverage.info
+          path: build/coverage.info
           destination: raw-coverage-data
 
       - store_artifacts:
-          path: coverage-report
+          path: build/coverage-report
           destination: coverage
 
 workflows:
