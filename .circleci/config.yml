@@ -24,7 +24,8 @@ jobs:
               make \
               libssl-dev \
               libcurl4-openssl-dev \
-              libgtest-dev
+              libgtest-dev \
+              nlohmann-json3-dev  # <--- this line is new
 
             # Build and install GoogleTest
             cd /usr/src/googletest
@@ -33,7 +34,7 @@ jobs:
 
             # Clone and build CPR
             cd /tmp
-            git clone https://github.com/libcpr/cpr.git
+            git clone --depth=1 https://github.com/libcpr/cpr.git
             cd cpr
             cmake -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON .
             make -j$(nproc)
