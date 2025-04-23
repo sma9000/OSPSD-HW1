@@ -6,7 +6,8 @@ executors:
       - image: ubuntu:latest
     resource_class: small
     environment:
-      VCPKG_ROOT: /opt/vcpkg
+      CXX: g++
+      CC: gcc
 
 jobs:
   build-and-test:
@@ -15,37 +16,68 @@ jobs:
       - checkout
 
       - run:
-          name: Install Build Tools and vcpkg
+          name: Install Dependencies
           command: |
+            export DEBIAN_FRONTEND=noninteractive
             apt-get update && apt-get install -y \
-              curl zip unzip tar git cmake g++ make pkg-config
-
-            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
-            $VCPKG_ROOT/bootstrap-vcpkg.sh
-
-      - run:
-          name: Install Dependencies via vcpkg
-          command: |
-            $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
-
-      - run:
-          name: Clean build directory
-          command: |
-            rm -rf build && mkdir build
+              cmake \
+              g++ \
+              git \
+              make \
+              libgtest-dev \
+              lcov \
+              gcovr
+            cd /usr/src/googletest
+            cmake . && make
+            cp lib/*.a /usr/lib
 
       - run:
           name: Build Project
           command: |
+            mkdir -p build
             cd build
-            cmake .. -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+            cmake -DCMAKE_CXX_FLAGS="--coverage" ..
             make
 
       - run:
           name: Run Unit Tests
           command: |
+            mkdir -p build/test-results
             cd build
-            mkdir -p test-results
-            ctest --output-on-failure --output-junit test-results/test-results.xml
+            GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
+
+      - run:
+          name: Build E2E Test
+          command: |
+            mkdir -p build/e2e
+            g++ -std=c++14 --coverage \
+              tests/test_e2e.cpp \
+              src/calculator/calculator.cpp \
+              src/logger/logger.cpp \
+              src/notifier/notifier.cpp \
+              -Isrc/calculator \
+              -Isrc/logger \
+              -Isrc/notifier \
+              -o build/e2e/test_e2e \
+              -lgtest -lgtest_main -pthread
+
+      - run:
+          name: Run E2E Test
+          command: |
+            ./build/e2e/test_e2e --gtest_output=xml:build/test-results/e2e-results.xml
+
+      - run:
+          name: Generate Code Coverage Report
+          command: |
+            lcov --capture --directory build --output-file coverage.info --ignore-errors mismatch
+            lcov --remove coverage.info '/usr/*' --output-file coverage.info
+            genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
+
+      - run:
+          name: Convert test results to JUnit format
+          command: |
+            mkdir -p build/test-results
+            [ -f build/test-results.xml ] && mv build/test-results.xml build/test-results/test-results.xml || true
 
       - store_test_results:
           path: build/test-results
@@ -53,6 +85,14 @@ jobs:
       - store_artifacts:
           path: build/test-results
           destination: junit
+
+      - store_artifacts:
+          path: coverage.info
+          destination: raw-coverage-data
+
+      - store_artifacts:
+          path: coverage-report
+          destination: coverage
 
 workflows:
   version: 2
