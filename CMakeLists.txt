@@ -1,30 +1,64 @@
+# Specify the minimum version of CMake required
 cmake_minimum_required(VERSION 3.10)
-project(DemoTests)
 
+# Project information
+project(ConversationClientProject VERSION 1.0 LANGUAGES CXX)
+
+# Set the C++ standard
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find Google Test
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+# Add Homebrew's prefix to CMAKE_PREFIX_PATH
+# CMake can locate packages from /opt/homebrew easily.
+list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew")
 
-# New directories for new header file locations
-include_directories(src/calculator)
-include_directories(src/logger)
-include_directories(src/notifier)
+# Find the Homebrew-installed libraries:
+find_package(cpr CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+
+# Create the ConversationClient library from your source files.
+add_library(ConversationClient STATIC
+    src/ConversationClient.cpp
+    src/ConversationHistory.cpp
+    src/NLPProcessor.cpp
+    src/ResponseFormatter.cpp
+)
+
+# Setup include directories for your library.
+target_include_directories(ConversationClient PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(ConversationClient PUBLIC "/opt/homebrew/Cellar/nlohmann-json/3.12.0/include")
+
+# Link Homebrew-installed dependencies to your library.
+target_link_libraries(ConversationClient PRIVATE cpr::cpr nlohmann_json::nlohmann_json) # does not work sometimes?
+target_link_libraries(ConversationClient PRIVATE nlohmann_json::nlohmann_json)
+
+# Add the main executable.
+add_executable(main src/main.cpp)
+target_link_libraries(main PRIVATE ConversationClient)
+
+# Add the test executable (include your test sources as needed).
+add_executable(tests
+    tests/test_config.cpp
+    tests/test_conversation_client.cpp
+    tests/test_conversation_history.cpp
+    tests/test_error.cpp
+    tests/test_message.cpp
+    tests/test_nlp_processor.cpp
+    tests/test_response_formatter.cpp
+    tests/test_conversation.cpp
+    tests/test_ai_conversation_client_integration.cpp
+)
+target_link_libraries(tests PRIVATE ConversationClient cpr::cpr nlohmann_json::nlohmann_json)
+
+# Fetch and link GoogleTest
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/release-1.12.0.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+target_link_libraries(tests PRIVATE gtest gtest_main)
 
 enable_testing()
-
-# Add separate executables for each test file, corrected file paths
-add_executable(test_calculator src/calculator/test_calculator.cpp src/calculator/calculator.cpp)
-add_executable(test_logger src/logger/test_logger.cpp src/logger/logger.cpp)
-add_executable(test_notifier src/notifier/test_notifier.cpp src/notifier/notifier.cpp)
-
-# Link Google Test and source files
-target_link_libraries(test_calculator GTest::gtest_main)
-target_link_libraries(test_logger GTest::gtest_main)
-target_link_libraries(test_notifier GTest::gtest_main)
-
-# Register tests
-add_test(NAME CalculatorTests COMMAND test_calculator)
-add_test(NAME LoggerTests COMMAND test_logger)
-add_test(NAME NotifierTests COMMAND test_notifier)
+add_test(NAME AllTests COMMAND tests)

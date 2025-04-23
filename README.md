@@ -1,156 +1,68 @@
-# Advanced C++ Template Repository
+# Conversation Client Project
 
-Welcome to the Advanced C++ Template Repository! This repository serves as a foundation for designing and developing C++ projects. It is fully equipped for immediate use and includes features for build management, unit testing, continuous integration, static analysis, code style adherence, and component specification.
+This project demonstrates an AI conversation client built in C++ that interacts with the OpenAI API. It comprises several modules such as a configuration manager, conversation history tracker, custom error types, NLP processing, and response formatting. A full unit and integration testing suite is provided using GoogleTest.
 
-## Table of Contents
-- [Overview](#overview)
-  - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-  - [Building the Project](#building-the-project)
-  - [Running Tests](#running-tests)
-  - [Static Analysis](#static-analysis)
-  - [Code Coverage](#code-coverage)
-- [Components](#components)
-  - [Calculator](#calculator)
-  - [Logger](#logger)
-  - [Notifier](#notifier)
-- [Continuous Integration](#continuous-integration)
-- [Contributing](#contributing)
-- [License](#license)
+## Features
 
-## Overview
+- **Configuration Management:**  
+  Uses a singleton `Config` class to ensure that configuration settings (e.g., API keys and endpoints) are managed centrally.
 
-This repository provides a template for C++ projects, with a pre-configured setup for:
-- **Build Management**: Uses CMake for build configuration.
-- **Unit Testing**: Uses Google Test framework.
-- **Continuous Integration**: Configured with CircleCI.
-- **Static Analysis**: Uses ClangTidy for code analysis.
-- **Code Formatting**: Uses ClangFormat for code style adherence.
-- **Code Coverage**: Uses gcov for code coverage reporting.
+- **Conversation Client:**  
+  Provides a simple interface to start a conversation, send messages, receive responses, and end conversations. In addition to real API calls, a "mock mode" bypasses external calls for controlled testing.
 
-### Project Structure
+- **Conversation History:**  
+  Tracks both user and AI messages in an in-memory storage that captures timestamps and message details.
+
+- **Custom Error Handling:**  
+  Implements custom error classes such as `NetworkError`, `IOError`, `ParseError`, `InputError`, `TimeoutError`, and `ServiceError` to provide detailed exception information.
+
+- **NLP Processing:**  
+  Offers basic preprocessing (e.g., trimming and lowercasing) and postprocessing of input/output. This component can be extended with more advanced NLP features.
+
+- **Response Formatting:**  
+  Formats AI responses with configurable tags, timestamps, and newlines. The formatting functionality is separated into its own module (`ResponseFormatter`).
+
+- **Testing:**  
+  The project includes a comprehensive set of unit and integration tests using GoogleTest, covering every major module and ensuring proper functionality in both real and mock modes.
+
+## Project Structure
 
 ```plaintext
-├── .circleci
-│   └── config.yml                # CircleCI configuration file for CI/CD setup
-├── .github/ISSUE_TEMPLATE
-│   ├── bug_report.md             # Template for reporting bugs
-│   └── feature_request.md        # Template for requesting new features
-├── extern
-│   └── googletest @ c00fd25      # External dependency: GoogleTest framework
-├── src                           # Folder for source files (.cpp) and headers (.h)
-│   ├── calculator                # Folder for Calculator component
-│   │   ├── calculator.cpp        # Source file for Calculator component
-│   │   ├── calculator.h          # Source file for Calculator component
-│   │   └── test_calculator.cpp   # Unit tests for Calculator component
-│   ├── logger                    # Folder for Logger component
-│   │   ├── logger.cpp            # Source file for Logger component
-│   │   ├── logger.h              # Source file for Logger component
-│   │   └── test_logger.cpp       # Unit tests for Logger component
-│   └── notifier                  # Folder for Notifier component
-│       ├── notifier.cpp          # Source file for Notifier component
-│       ├── notifier.h            # Source file for Notifier component
-│       └── test_notifier.cpp     # Unit tests for Notifier component
-├── tests                         # Folder for test files
-│   └── test_e2e.cpp              # End to end tests
-├── .DS_Store                     # macOS specific file to store custom folder attributes
-├── .gitmodules                   # Configuration file for git submodules
-├── CMakeLists.txt                # CMake configuration file for building the project
-├── Makefile                      # Makefile for building the project using `make`
-├── README.md                     # Documentation file for the repository
-├── component.md                  # Documentation file for components
-└── pull_request_template.md      # Template for pull requests
+HW 2 - Implementation/
+├── CMakeLists.txt                # CMake build configuration
+├── README.md                     # Project documentation
+├── src/                          # Source files for the conversation client
+│   ├── ConversationClient.h
+│   ├── ConversationClient.cpp
+│   ├── ConversationHistory.h
+│   ├── ConversationHistory.cpp
+│   ├── Config.h
+│   ├── Error.h
+│   ├── Message.h
+│   ├── NLPProcessor.h
+│   ├── NLPProcessor.cpp
+│   ├── ResponseFormatter.h
+│   ├── ResponseFormatter.cpp
+│   └── main.cpp                  # Main entry point for the application
+└── tests/                        # GoogleTest unit and integration tests
+    ├── test_config.cpp
+    ├── test_conversation.cpp
+    ├── test_conversation_client.cpp
+    ├── test_conversation_history.cpp
+    ├── test_error.cpp
+    ├── test_message.cpp
+    ├── test_nlp_processor.cpp
+    ├── test_response_formatter.cpp
+    └── test_ai_conversation_client_integration.cpp  # Integration tests for multi-turn conversations
 ```
 
-## Getting Started
 
-### Prerequisites
+## Dependencies
 
-Make sure you have the following tools installed:
-- [CMake](https://cmake.org/)
-- [vcpkg](https://github.com/microsoft/vcpkg)
-- [Clang](https://clang.llvm.org/)
-- [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html)
+- **C++ Compiler:** A C++17 compliant compiler (e.g., g++, clang, MSVC).
+- **CMake:** Version 3.10 or later.
+- **GoogleTest:** Automatically fetched via CMake's FetchContent.
+- **cpr:** For HTTP communication (if using API mode instead of mock mode).
+- **nlohmann/json:** For JSON processing (if using API mode instead of mock mode).
 
-### Installation
-
-Clone the repository and install dependencies using `vcpkg`:
-
-```bash
-git clone https://github.com/yourusername/advanced-cpp-template-repo.git
-cd advanced-cpp-template-repo
-./vcpkg/bootstrap-vcpkg.sh
-./vcpkg/vcpkg integrate install
-./vcpkg/vcpkg install gtest
-```
-
-## Usage
-
-### Building the Project
-Configure and build the project using CMake:
-
-```bash
-cmake -Bbuild -H.
-cmake --build build
-```
-### Running Tests
-Run the unit tests using the Google Test framework:
-
-```bash
-./build/tests
-```
-
-### Static Analysis
-Run static analysis using ClangTidy:
-
-```bash
-clang-tidy src/*.cpp
-```
-
-### Code Coverage
-Generate code coverage reports using gcov:
-
-```bash
-gcov src/*.cpp
-```
-
-## Components
-
-### Calculator
-Performs basic arithmetic operations like addition, subtraction, and multiplication.
-
-### Logger
-Records operations performed by the calculator.
-
-### Notifier
-Sends an alert when the result exceeds a given threshold.
-
-## Continuous Integration
-This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at .circleci/config.yml. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports.
-
-## Contributing
-We welcome contributions! Please follow these guidelines when contributing to this project:
-
-1. Fork the repository.
-
-2. Create a new branch (git checkout -b feature/your-feature).
-
-3. Make your changes.
-
-4. Commit your changes (git commit -m 'Add some feature').
-
-5. Push to the branch (git push origin feature/your-feature).
-
-6. Open a pull request.
-
-##CircleCI Links
-
-Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53 
-
-Passed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56
-
-## License
-This project is licensed under the MIT License.
+> **Note:** This project is configured to use a "mock mode" for testing; real OpenAI API calls are bypassed unless the configuration is changed.
