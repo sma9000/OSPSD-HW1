@@ -16,7 +16,7 @@ jobs:
       - checkout
 
       - run:
-          name: Install Dependencies
+          name: Install Dependencies (incl. CPR)
           command: |
             export DEBIAN_FRONTEND=noninteractive
             apt-get update && apt-get install -y \
@@ -26,10 +26,22 @@ jobs:
               make \
               libgtest-dev \
               lcov \
-              gcovr
+              gcovr \
+              libssl-dev \
+              libcurl4-openssl-dev
+
+            # Build and install GTest
             cd /usr/src/googletest
             cmake . && make
             cp lib/*.a /usr/lib
+
+            # Install CPR from source
+            cd /tmp
+            git clone https://github.com/libcpr/cpr.git
+            cd cpr
+            cmake -DCMAKE_USE_OPENSSL=ON .
+            make -j$(nproc)
+            make install
 
       - run:
           name: Clean and Build
