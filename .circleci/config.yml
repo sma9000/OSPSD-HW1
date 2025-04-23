@@ -14,6 +14,7 @@ jobs:
     executor: cpp-executor
     steps:
       - checkout
+
       - run:
           name: Install Dependencies (incl. CPR)
           command: |
@@ -25,7 +26,7 @@ jobs:
               libssl-dev \
               libcurl4-openssl-dev \
               libgtest-dev \
-              nlohmann-json3-dev  # <--- this line is new
+              nlohmann-json3-dev
 
             # Build and install GTest
             cd /usr/src/googletest
@@ -39,13 +40,15 @@ jobs:
             cmake -DCMAKE_USE_OPENSSL=ON .
             make -j$(nproc)
             make install
+
       - run:
-        name: Build Project
-        command: |
-          mkdir -p build
-          cd build
-          cmake ..
-          make
+          name: Build Project
+          command: |
+            mkdir -p build
+            cd build
+            cmake ..
+            make
+
       - run:
           name: Run Unit Tests
           command: |
