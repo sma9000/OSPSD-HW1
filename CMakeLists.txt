@@ -6,10 +6,6 @@ project(ConversationClientProject VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# vcpkg toolchain support (optional, picked up via CLI automatically)
-# set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-#     CACHE STRING "Vcpkg toolchain file")
-
 # Enable testing
 enable_testing()
 
@@ -19,12 +15,21 @@ FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/release-1.12.0.zip
 )
-# Prevent GoogleTest from overriding compiler/linker flags
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# Test executable
+# Find vcpkg packages
+find_package(cpr REQUIRED)
+find_package(nlohmann_json REQUIRED)
+
+# Gather source files
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+    ${PROJECT_SOURCE_DIR}/src/*.cpp
+)
+
+# Add test executable
 add_executable(tests
+    ${PROJECT_SOURCES}
     tests/test_config.cpp
     tests/test_conversation_client.cpp
     tests/test_conversation_history.cpp
@@ -34,16 +39,21 @@ add_executable(tests
     tests/test_response_formatter.cpp
 )
 
-# Include path to headers/interfaces
-target_include_directories(tests PRIVATE ${PROJECT_SOURCE_DIR}/include)
+# Include paths
+target_include_directories(tests PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/src
+)
 
-# Link GoogleTest
+# Link libraries
 target_link_libraries(tests
     PRIVATE
     GTest::gtest
     GTest::gtest_main
+    cpr::cpr
+    nlohmann_json::nlohmann_json
 )
 
-# Discover each TEST() case individually for ctest
+# Discover tests
 include(GoogleTest)
 gtest_discover_tests(tests)

@@ -72,10 +72,80 @@ include CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/codegen:
 .PHONY : CMakeFiles/tests.dir/codegen
 
+CMakeFiles/tests.dir/src/Config.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/src/Config.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/Config.cpp
+CMakeFiles/tests.dir/src/Config.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/src/Config.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/Config.cpp.o -MF CMakeFiles/tests.dir/src/Config.cpp.o.d -o CMakeFiles/tests.dir/src/Config.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/Config.cpp
+
+CMakeFiles/tests.dir/src/Config.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/src/Config.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/Config.cpp > CMakeFiles/tests.dir/src/Config.cpp.i
+
+CMakeFiles/tests.dir/src/Config.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/src/Config.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/Config.cpp -o CMakeFiles/tests.dir/src/Config.cpp.s
+
+CMakeFiles/tests.dir/src/ConversationClient.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/src/ConversationClient.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationClient.cpp
+CMakeFiles/tests.dir/src/ConversationClient.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tests.dir/src/ConversationClient.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/ConversationClient.cpp.o -MF CMakeFiles/tests.dir/src/ConversationClient.cpp.o.d -o CMakeFiles/tests.dir/src/ConversationClient.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationClient.cpp
+
+CMakeFiles/tests.dir/src/ConversationClient.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/src/ConversationClient.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationClient.cpp > CMakeFiles/tests.dir/src/ConversationClient.cpp.i
+
+CMakeFiles/tests.dir/src/ConversationClient.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/src/ConversationClient.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationClient.cpp -o CMakeFiles/tests.dir/src/ConversationClient.cpp.s
+
+CMakeFiles/tests.dir/src/ConversationHistory.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/src/ConversationHistory.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationHistory.cpp
+CMakeFiles/tests.dir/src/ConversationHistory.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tests.dir/src/ConversationHistory.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/ConversationHistory.cpp.o -MF CMakeFiles/tests.dir/src/ConversationHistory.cpp.o.d -o CMakeFiles/tests.dir/src/ConversationHistory.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationHistory.cpp
+
+CMakeFiles/tests.dir/src/ConversationHistory.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/src/ConversationHistory.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationHistory.cpp > CMakeFiles/tests.dir/src/ConversationHistory.cpp.i
+
+CMakeFiles/tests.dir/src/ConversationHistory.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/src/ConversationHistory.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ConversationHistory.cpp -o CMakeFiles/tests.dir/src/ConversationHistory.cpp.s
+
+CMakeFiles/tests.dir/src/NLPProcessor.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/src/NLPProcessor.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/NLPProcessor.cpp
+CMakeFiles/tests.dir/src/NLPProcessor.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tests.dir/src/NLPProcessor.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/NLPProcessor.cpp.o -MF CMakeFiles/tests.dir/src/NLPProcessor.cpp.o.d -o CMakeFiles/tests.dir/src/NLPProcessor.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/NLPProcessor.cpp
+
+CMakeFiles/tests.dir/src/NLPProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/src/NLPProcessor.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/NLPProcessor.cpp > CMakeFiles/tests.dir/src/NLPProcessor.cpp.i
+
+CMakeFiles/tests.dir/src/NLPProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/src/NLPProcessor.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/NLPProcessor.cpp -o CMakeFiles/tests.dir/src/NLPProcessor.cpp.s
+
+CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ResponseFormatter.cpp
+CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o -MF CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o.d -o CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ResponseFormatter.cpp
+
+CMakeFiles/tests.dir/src/ResponseFormatter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/src/ResponseFormatter.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ResponseFormatter.cpp > CMakeFiles/tests.dir/src/ResponseFormatter.cpp.i
+
+CMakeFiles/tests.dir/src/ResponseFormatter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/src/ResponseFormatter.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cheyenne/Documents/GitHub/OSPSD-HW1/src/ResponseFormatter.cpp -o CMakeFiles/tests.dir/src/ResponseFormatter.cpp.s
+
 CMakeFiles/tests.dir/tests/test_config.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/tests/test_config.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_config.cpp
 CMakeFiles/tests.dir/tests/test_config.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/tests/test_config.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tests.dir/tests/test_config.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/test_config.cpp.o -MF CMakeFiles/tests.dir/tests/test_config.cpp.o.d -o CMakeFiles/tests.dir/tests/test_config.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_config.cpp
 
 CMakeFiles/tests.dir/tests/test_config.cpp.i: cmake_force
@@ -89,7 +159,7 @@ CMakeFiles/tests.dir/tests/test_config.cpp.s: cmake_force
 CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_conversation_client.cpp
 CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o -MF CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o.d -o CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_conversation_client.cpp
 
 CMakeFiles/tests.dir/tests/test_conversation_client.cpp.i: cmake_force
@@ -103,7 +173,7 @@ CMakeFiles/tests.dir/tests/test_conversation_client.cpp.s: cmake_force
 CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_conversation_history.cpp
 CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o -MF CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o.d -o CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_conversation_history.cpp
 
 CMakeFiles/tests.dir/tests/test_conversation_history.cpp.i: cmake_force
@@ -117,7 +187,7 @@ CMakeFiles/tests.dir/tests/test_conversation_history.cpp.s: cmake_force
 CMakeFiles/tests.dir/tests/test_error.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/tests/test_error.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_error.cpp
 CMakeFiles/tests.dir/tests/test_error.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tests.dir/tests/test_error.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/tests.dir/tests/test_error.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/test_error.cpp.o -MF CMakeFiles/tests.dir/tests/test_error.cpp.o.d -o CMakeFiles/tests.dir/tests/test_error.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_error.cpp
 
 CMakeFiles/tests.dir/tests/test_error.cpp.i: cmake_force
@@ -131,7 +201,7 @@ CMakeFiles/tests.dir/tests/test_error.cpp.s: cmake_force
 CMakeFiles/tests.dir/tests/test_message.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/tests/test_message.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_message.cpp
 CMakeFiles/tests.dir/tests/test_message.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tests.dir/tests/test_message.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/tests.dir/tests/test_message.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/test_message.cpp.o -MF CMakeFiles/tests.dir/tests/test_message.cpp.o.d -o CMakeFiles/tests.dir/tests/test_message.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_message.cpp
 
 CMakeFiles/tests.dir/tests/test_message.cpp.i: cmake_force
@@ -145,7 +215,7 @@ CMakeFiles/tests.dir/tests/test_message.cpp.s: cmake_force
 CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_nlp_processor.cpp
 CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o -MF CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o.d -o CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_nlp_processor.cpp
 
 CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.i: cmake_force
@@ -159,7 +229,7 @@ CMakeFiles/tests.dir/tests/test_nlp_processor.cpp.s: cmake_force
 CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_response_formatter.cpp
 CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o -MF CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o.d -o CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o -c /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_response_formatter.cpp
 
 CMakeFiles/tests.dir/tests/test_response_formatter.cpp.i: cmake_force
@@ -172,6 +242,11 @@ CMakeFiles/tests.dir/tests/test_response_formatter.cpp.s: cmake_force
 
 # Object files for target tests
 tests_OBJECTS = \
+"CMakeFiles/tests.dir/src/Config.cpp.o" \
+"CMakeFiles/tests.dir/src/ConversationClient.cpp.o" \
+"CMakeFiles/tests.dir/src/ConversationHistory.cpp.o" \
+"CMakeFiles/tests.dir/src/NLPProcessor.cpp.o" \
+"CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o" \
 "CMakeFiles/tests.dir/tests/test_config.cpp.o" \
 "CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o" \
 "CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o" \
@@ -183,6 +258,11 @@ tests_OBJECTS = \
 # External object files for target tests
 tests_EXTERNAL_OBJECTS =
 
+tests: CMakeFiles/tests.dir/src/Config.cpp.o
+tests: CMakeFiles/tests.dir/src/ConversationClient.cpp.o
+tests: CMakeFiles/tests.dir/src/ConversationHistory.cpp.o
+tests: CMakeFiles/tests.dir/src/NLPProcessor.cpp.o
+tests: CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o
 tests: CMakeFiles/tests.dir/tests/test_config.cpp.o
 tests: CMakeFiles/tests.dir/tests/test_conversation_client.cpp.o
 tests: CMakeFiles/tests.dir/tests/test_conversation_history.cpp.o
@@ -193,9 +273,12 @@ tests: CMakeFiles/tests.dir/tests/test_response_formatter.cpp.o
 tests: CMakeFiles/tests.dir/build.make
 tests: lib/libgtest.a
 tests: lib/libgtest_main.a
+tests: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/vcpkg/installed/x64-osx/debug/lib/libcpr.a
 tests: lib/libgtest.a
+tests: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/vcpkg/installed/x64-osx/debug/lib/libcurl-d.a
+tests: /Users/cheyenne/Documents/GitHub/OSPSD-HW1/vcpkg/installed/x64-osx/lib/libz.a
 tests: CMakeFiles/tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)
 	/usr/local/bin/cmake -D TEST_TARGET=tests -D TEST_EXECUTABLE=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=tests_TESTS -D CTEST_FILE=/Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/tests[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_DISCOVERY_EXTRA_ARGS= -D TEST_XML_OUTPUT_DIR= -P /usr/local/share/cmake/Modules/GoogleTestAddTests.cmake
 

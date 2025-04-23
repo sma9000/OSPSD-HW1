@@ -1,31 +1,20 @@
-#include "INLPProcessor.h"
+#include "NLPProcessor.h"
 #include <gtest/gtest.h>
 #include <algorithm>
+#include <type_traits>
 
-// Mock NLP implementation
-class MockNLPProcessor : public INLPProcessor {
-public:
-    std::string preprocessInput(const std::string& input) override {
-        std::string result = input;
-        std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-        return result;
-    }
+TEST(NLPProcessorTest, PreprocessReturnsTrimmedLowercaseString) {
+    NLPProcessor nlp;
+    std::string result = nlp.preprocessInput("  Hello, AI  ");
 
-    std::string postprocessOutput(const std::string& output) override {
-        return output + ".";
-    }
-};
-
-TEST(NLPInterfaceTest, PreprocessReturnsLowercaseString) {
-    MockNLPProcessor nlp;
-    std::string result = nlp.preprocessInput("Hello, AI");
-
+    // Should be lowercase and trimmed
     EXPECT_EQ(result, "hello, ai");
     EXPECT_TRUE((std::is_same<decltype(result), std::string>::value));
 }
 
-TEST(NLPInterfaceTest, PostprocessReturnsProperShape) {
-    MockNLPProcessor nlp;
-    std::string output = nlp.postprocessOutput("hi");
-    EXPECT_EQ(output, "hi.");
+TEST(NLPProcessorTest, PostprocessRemovesWhitespaceAndFormats) {
+    NLPProcessor nlp;
+    std::string result = nlp.postprocessOutput("  response with spacing  ");
+    
+    EXPECT_EQ(result, "response with spacing");
 }

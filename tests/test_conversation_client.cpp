@@ -1,34 +1,36 @@
-#include "IConversationClient.h"
+#include "ConversationClient.h"
+#include "Config.h"
 #include <gtest/gtest.h>
 #include <string>
 
-// Mock implementation
-class MockConversationClient : public IConversationClient {
-public:
-    void startConversation() override {}
-    bool sendMessage(const std::string& input) override { return true; }
-    std::string receiveResponse() override { return "Expected AI response"; }
-    void endConversation() override {}
-};
+TEST(ConversationClientTest, SendMessageInMockModeReturnsTrue) {
+    Config* config = Config::getInstance();
+    config->clear();  // Ensure clean config state
+    config->set("MOCK_MODE", "true");
 
-TEST(ConversationClientTest, SendMessageReturnsBool) {
-    MockConversationClient client;
-    bool result = client.sendMessage("Hello, AI!");
+    ConversationClient client;
+    bool result = client.sendMessage("Hello");
+
     EXPECT_TRUE(result);
 }
 
-TEST(ConversationClientTest, ReceiveResponseReturnsExpectedShape) {
-    MockConversationClient client;
+TEST(ConversationClientTest, ReceiveResponseReturnsExpectedInMockMode) {
+    Config* config = Config::getInstance();
+    config->clear();  // Ensure clean config state
+    config->set("MOCK_MODE", "true");
+
+    ConversationClient client;
+
+    // Must call sendMessage() first to populate history
+    ASSERT_TRUE(client.sendMessage("Hello"));
+
+    // Validate the stored AI response in mock mode
     std::string response = client.receiveResponse();
-    EXPECT_EQ(response, "Expected AI response");
-    EXPECT_TRUE((std::is_same<decltype(response), std::string>::value));
+    EXPECT_EQ(response, "[INFO] Expected AI response\n");
 }
 
-TEST(ConversationClientTest, FullConversationFlow) {
-    MockConversationClient client;
+TEST(ConversationClientTest, StartAndEndConversationDoesNotThrow) {
+    ConversationClient client;
     EXPECT_NO_THROW(client.startConversation());
-    EXPECT_TRUE(client.sendMessage("Hey"));
-    std::string response = client.receiveResponse();
-    EXPECT_FALSE(response.empty());
     EXPECT_NO_THROW(client.endConversation());
 }

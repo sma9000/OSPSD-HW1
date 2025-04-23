@@ -168,6 +168,7 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
@@ -235,6 +236,126 @@ gtest_main: cmake_check_build_system
 gtest_main/fast:
 	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
+
+src/Config.o: src/Config.cpp.o
+.PHONY : src/Config.o
+
+# target to build an object file
+src/Config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Config.cpp.o
+.PHONY : src/Config.cpp.o
+
+src/Config.i: src/Config.cpp.i
+.PHONY : src/Config.i
+
+# target to preprocess a source file
+src/Config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Config.cpp.i
+.PHONY : src/Config.cpp.i
+
+src/Config.s: src/Config.cpp.s
+.PHONY : src/Config.s
+
+# target to generate assembly for a file
+src/Config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Config.cpp.s
+.PHONY : src/Config.cpp.s
+
+src/ConversationClient.o: src/ConversationClient.cpp.o
+.PHONY : src/ConversationClient.o
+
+# target to build an object file
+src/ConversationClient.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ConversationClient.cpp.o
+.PHONY : src/ConversationClient.cpp.o
+
+src/ConversationClient.i: src/ConversationClient.cpp.i
+.PHONY : src/ConversationClient.i
+
+# target to preprocess a source file
+src/ConversationClient.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ConversationClient.cpp.i
+.PHONY : src/ConversationClient.cpp.i
+
+src/ConversationClient.s: src/ConversationClient.cpp.s
+.PHONY : src/ConversationClient.s
+
+# target to generate assembly for a file
+src/ConversationClient.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ConversationClient.cpp.s
+.PHONY : src/ConversationClient.cpp.s
+
+src/ConversationHistory.o: src/ConversationHistory.cpp.o
+.PHONY : src/ConversationHistory.o
+
+# target to build an object file
+src/ConversationHistory.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ConversationHistory.cpp.o
+.PHONY : src/ConversationHistory.cpp.o
+
+src/ConversationHistory.i: src/ConversationHistory.cpp.i
+.PHONY : src/ConversationHistory.i
+
+# target to preprocess a source file
+src/ConversationHistory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ConversationHistory.cpp.i
+.PHONY : src/ConversationHistory.cpp.i
+
+src/ConversationHistory.s: src/ConversationHistory.cpp.s
+.PHONY : src/ConversationHistory.s
+
+# target to generate assembly for a file
+src/ConversationHistory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ConversationHistory.cpp.s
+.PHONY : src/ConversationHistory.cpp.s
+
+src/NLPProcessor.o: src/NLPProcessor.cpp.o
+.PHONY : src/NLPProcessor.o
+
+# target to build an object file
+src/NLPProcessor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/NLPProcessor.cpp.o
+.PHONY : src/NLPProcessor.cpp.o
+
+src/NLPProcessor.i: src/NLPProcessor.cpp.i
+.PHONY : src/NLPProcessor.i
+
+# target to preprocess a source file
+src/NLPProcessor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/NLPProcessor.cpp.i
+.PHONY : src/NLPProcessor.cpp.i
+
+src/NLPProcessor.s: src/NLPProcessor.cpp.s
+.PHONY : src/NLPProcessor.s
+
+# target to generate assembly for a file
+src/NLPProcessor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/NLPProcessor.cpp.s
+.PHONY : src/NLPProcessor.cpp.s
+
+src/ResponseFormatter.o: src/ResponseFormatter.cpp.o
+.PHONY : src/ResponseFormatter.o
+
+# target to build an object file
+src/ResponseFormatter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ResponseFormatter.cpp.o
+.PHONY : src/ResponseFormatter.cpp.o
+
+src/ResponseFormatter.i: src/ResponseFormatter.cpp.i
+.PHONY : src/ResponseFormatter.i
+
+# target to preprocess a source file
+src/ResponseFormatter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ResponseFormatter.cpp.i
+.PHONY : src/ResponseFormatter.cpp.i
+
+src/ResponseFormatter.s: src/ResponseFormatter.cpp.s
+.PHONY : src/ResponseFormatter.s
+
+# target to generate assembly for a file
+src/ResponseFormatter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/ResponseFormatter.cpp.s
+.PHONY : src/ResponseFormatter.cpp.s
 
 tests/test_config.o: tests/test_config.cpp.o
 .PHONY : tests/test_config.o
@@ -422,6 +543,21 @@ help:
 	@echo "... gtest"
 	@echo "... gtest_main"
 	@echo "... tests"
+	@echo "... src/Config.o"
+	@echo "... src/Config.i"
+	@echo "... src/Config.s"
+	@echo "... src/ConversationClient.o"
+	@echo "... src/ConversationClient.i"
+	@echo "... src/ConversationClient.s"
+	@echo "... src/ConversationHistory.o"
+	@echo "... src/ConversationHistory.i"
+	@echo "... src/ConversationHistory.s"
+	@echo "... src/NLPProcessor.o"
+	@echo "... src/NLPProcessor.i"
+	@echo "... src/NLPProcessor.s"
+	@echo "... src/ResponseFormatter.o"
+	@echo "... src/ResponseFormatter.i"
+	@echo "... src/ResponseFormatter.s"
 	@echo "... tests/test_config.o"
 	@echo "... tests/test_config.i"
 	@echo "... tests/test_config.s"
@@ -454,6 +590,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /Users/cheyenne/Documents/GitHub/OSPSD-HW1/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

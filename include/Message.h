@@ -1,5 +1,5 @@
-#ifndef IMESSAGE_H
-#define IMESSAGE_H
+#ifndef MESSAGE_H
+#define MESSAGE_H
 
 #include <string>
 #include <chrono>
@@ -10,4 +10,4 @@ struct Message {
     std::chrono::system_clock::time_point timestamp;
 };
 
-#endif // IMESSAGE_H
+#endif // MESSAGE_H

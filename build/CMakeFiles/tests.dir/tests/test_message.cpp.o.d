@@ -1,6 +1,6 @@
 CMakeFiles/tests.dir/tests/test_message.cpp.o: \
   /Users/cheyenne/Documents/GitHub/OSPSD-HW1/tests/test_message.cpp \
-  /Users/cheyenne/Documents/GitHub/OSPSD-HW1/include/IMessage.h \
+  /Users/cheyenne/Documents/GitHub/OSPSD-HW1/include/Message.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/string \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/max.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__algorithm/comp.h \

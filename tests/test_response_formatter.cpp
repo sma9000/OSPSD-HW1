@@ -1,51 +1,38 @@
-#include "IResponseFormatter.h"
+#include "ResponseFormatter.h"
 #include <gtest/gtest.h>
 #include <string>
 #include <ctime>
 #include <algorithm>
 
-class MockResponseFormatter : public IResponseFormatter {
-public:
-    std::string formatResponse(const std::string& raw, const std::string& tag, const std::string& suffix) override {
-        return raw + " " + tag + suffix;
-    }
-
-    std::string addTimestamp(const std::string& response) override {
-        return "[2025-04-16] " + response;
-    }
-
-    std::string toUpperCase(const std::string& response) override {
-        std::string upper = response;
-        std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
-        return upper;
-    }
-
-    std::string addNewLineIfNeeded(const std::string& response) override {
-        return (response.back() != '\n') ? response + "\n" : response;
-    }
-};
-
-TEST(ResponseFormatterTest, FormatResponseAppendsTagAndSuffix) {
-    MockResponseFormatter formatter;
-    std::string formatted = formatter.formatResponse("Hello", "[TAG]", "!");
-    EXPECT_EQ(formatted, "Hello [TAG]!");
+TEST(ResponseFormatterTest, FormatResponseUsesTagPrefix) {
+    ResponseFormatter::initializeTags();  
+    std::string result = ResponseFormatter::formatResponse("Hello", "info", "!");
+    EXPECT_EQ(result, "[INFO] Hello!");
 }
 
-TEST(ResponseFormatterTest, AddTimestampAppendsCorrectly) {
-    MockResponseFormatter formatter;
-    std::string result = formatter.addTimestamp("Hello");
+TEST(ResponseFormatterTest, FormatResponseFallbacksToInlineTag) {
+    ResponseFormatter::initializeTags();
+    std::string result = ResponseFormatter::formatResponse("Hello", "custom", "!");
+    EXPECT_EQ(result, "Hello custom!");
+}
+
+TEST(ResponseFormatterTest, AddTimestampIncludesMessage) {
+    std::string result = ResponseFormatter::addTimestamp("Hello");
     EXPECT_TRUE(result.find("Hello") != std::string::npos);
-    EXPECT_TRUE(result.find("2025") != std::string::npos); // Approximate
+    EXPECT_TRUE(result.find("[") == 0); // Timestamp prefix
 }
 
-TEST(ResponseFormatterTest, ToUpperCaseTransformsCorrectly) {
-    MockResponseFormatter formatter;
-    std::string result = formatter.toUpperCase("hello");
+TEST(ResponseFormatterTest, ToUpperCaseConvertsCorrectly) {
+    std::string result = ResponseFormatter::toUpperCase("hello");
     EXPECT_EQ(result, "HELLO");
 }
 
-TEST(ResponseFormatterTest, AddNewLineIfNeededEnsuresNewline) {
-    MockResponseFormatter formatter;
-    std::string result = formatter.addNewLineIfNeeded("Hello");
+TEST(ResponseFormatterTest, AddNewLineAppendsIfMissing) {
+    std::string result = ResponseFormatter::addNewLineIfNeeded("Hello");
+    EXPECT_EQ(result, "Hello\n");
+}
+
+TEST(ResponseFormatterTest, AddNewLineDoesNothingIfPresent) {
+    std::string result = ResponseFormatter::addNewLineIfNeeded("Hello\n");
     EXPECT_EQ(result, "Hello\n");
 }

@@ -1,18 +1,15 @@
-#include "IConversationClient.h"
+#include "ConversationClient.h"
+#include "Config.h"
 #include <gtest/gtest.h>
 #include <string>
 
-// Dummy implementation
-class DummyConversationClient : public IConversationClient {
-public:
-    void startConversation() override {}
-    bool sendMessage(const std::string& input) override { return true; }
-    std::string receiveResponse() override { return "Expected AI response"; }
-    void endConversation() override {}
-};
+TEST(ConversationIntegrationTest, FullConversationFlowInMockMode) {
+    // Set up the config for mock mode
+    Config* config = Config::getInstance();
+    config->clear();
+    config->set("MOCK_MODE", "true");
 
-TEST(ConversationIntegrationTest, FullConversationFlow) {
-    DummyConversationClient client;
+    ConversationClient client;
 
     EXPECT_NO_THROW(client.startConversation());
     EXPECT_TRUE(client.sendMessage("Hello, AI!"));

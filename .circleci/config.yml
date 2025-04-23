@@ -26,12 +26,12 @@ jobs:
       - run:
           name: Install Dependencies via vcpkg
           command: |
-            $VCPKG_ROOT/vcpkg install gtest
+            $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
 
       - run:
           name: Clean build directory
           command: |
-            rm -rf build && mkdir -p build
+            rm -rf build && mkdir build
 
       - run:
           name: Build Project
