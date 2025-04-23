@@ -43,14 +43,6 @@ jobs:
             make -j$(nproc)
             make install
 
-      - run:
-          name: Clean and Build
-          command: |
-            rm -rf build
-            mkdir build
-            cd build
-            cmake -DCMAKE_CXX_FLAGS="--coverage" ..
-            make
 
       - run:
           name: Run Unit Tests
