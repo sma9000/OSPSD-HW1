@@ -6,6 +6,8 @@ executors:
       - image: ubuntu:latest
     resource_class: small
     environment:
+      CXX: g++
+      CC: gcc
       VCPKG_ROOT: /opt/vcpkg
 
 jobs:
@@ -18,7 +20,8 @@ jobs:
           name: Install Build Tools and vcpkg
           command: |
             apt-get update && apt-get install -y \
-              curl zip unzip tar git cmake g++ make pkg-config
+              curl zip unzip tar git cmake g++ make pkg-config \
+              lcov
 
             git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
             $VCPKG_ROOT/bootstrap-vcpkg.sh
@@ -34,10 +37,12 @@ jobs:
             rm -rf build && mkdir build
 
       - run:
-          name: Build Project
+          name: Build Project with Coverage
           command: |
             cd build
-            cmake .. -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+            cmake .. \
+              -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
+              -DCMAKE_CXX_FLAGS="--coverage"
             make
 
       - run:
@@ -47,12 +52,24 @@ jobs:
             mkdir -p test-results
             ctest --output-on-failure --output-junit test-results/test-results.xml
 
+      - run:
+          name: Generate Code Coverage Report
+          command: |
+            cd build
+            lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
+            lcov --remove coverage.info '/usr/*' --output-file coverage.info
+            genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
+
       - store_test_results:
           path: build/test-results
 
       - store_artifacts:
           path: build/test-results
           destination: junit
+
+      - store_artifacts:
+          path: build/coverage-report
+          destination: coverage
 
 workflows:
   version: 2
