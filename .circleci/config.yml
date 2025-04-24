@@ -45,7 +45,7 @@ jobs:
             rm -rf build
             mkdir build
             cd build
-            cmake -DCMAKE_CXX_FLAGS="--coverage" ..
+            cmake -DCMAKE_CXX_FLAGS="--coverage" -Dcpr_DIR=/usr/local/lib/cmake/cpr ..
             make
 
       - run:
