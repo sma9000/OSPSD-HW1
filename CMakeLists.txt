@@ -11,7 +11,6 @@ enable_testing()
 
 # GoogleTest via FetchContent
 include(FetchContent)
-
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/release-1.12.0.zip
@@ -19,18 +18,8 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# CPR via FetchContent (replaces find_package)
-#FetchContent_Declare(
-  # cpr
-  # GIT_REPOSITORY https://github.com/libcpr/cpr.git
-  # GIT_TAG 081771fd3ee038cf8e2f49293d92cf86a1e30a45
-# )
-# set(CPR_BUILD_TESTS OFF)
-# FetchContent_MakeAvailable(cpr)
-# CPR installed externally via CircleCI script
+# Find vcpkg packages
 find_package(cpr REQUIRED)
-
-# JSON (keep this if nlohmann_json is already working locally)
 find_package(nlohmann_json REQUIRED)
 
 # Gather source files
@@ -68,4 +57,3 @@ target_link_libraries(tests
 # Discover tests
 include(GoogleTest)
 gtest_discover_tests(tests)
-
