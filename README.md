@@ -234,9 +234,7 @@ We welcome contributions! Please follow these guidelines when contributing to th
 
 6. Open a pull request.
 
-##CircleCI Links
-
-#@nabiha update here?{
+## CircleCI Links
 
 Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/94/workflows/219c0286-71d3-487f-8578-4462571db7cf/jobs/117 
 
