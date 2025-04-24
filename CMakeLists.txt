@@ -1,30 +1,59 @@
-cmake_minimum_required(VERSION 3.10)
-project(DemoTests)
+cmake_minimum_required(VERSION 3.14)
 
+project(ConversationClientProject VERSION 1.0 LANGUAGES CXX)
+
+# C++ Standard
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Find Google Test
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
-
-# New directories for new header file locations
-include_directories(src/calculator)
-include_directories(src/logger)
-include_directories(src/notifier)
-
+# Enable testing
 enable_testing()
 
-# Add separate executables for each test file, corrected file paths
-add_executable(test_calculator src/calculator/test_calculator.cpp src/calculator/calculator.cpp)
-add_executable(test_logger src/logger/test_logger.cpp src/logger/logger.cpp)
-add_executable(test_notifier src/notifier/test_notifier.cpp src/notifier/notifier.cpp)
+# GoogleTest via FetchContent
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/release-1.12.0.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-# Link Google Test and source files
-target_link_libraries(test_calculator GTest::gtest_main)
-target_link_libraries(test_logger GTest::gtest_main)
-target_link_libraries(test_notifier GTest::gtest_main)
+# Find vcpkg packages
+find_package(cpr REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
-# Register tests
-add_test(NAME CalculatorTests COMMAND test_calculator)
-add_test(NAME LoggerTests COMMAND test_logger)
-add_test(NAME NotifierTests COMMAND test_notifier)
+# Gather source files
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+    ${PROJECT_SOURCE_DIR}/src/*.cpp
+)
+
+# Add test executable
+add_executable(tests
+    ${PROJECT_SOURCES}
+    tests/test_config.cpp
+    tests/test_conversation_client.cpp
+    tests/test_conversation_history.cpp
+    tests/test_error.cpp
+    tests/test_message.cpp
+    tests/test_nlp_processor.cpp
+    tests/test_response_formatter.cpp
+)
+
+# Include paths
+target_include_directories(tests PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/src
+)
+
+# Link libraries
+target_link_libraries(tests
+    PRIVATE
+    GTest::gtest
+    GTest::gtest_main
+    cpr::cpr
+    nlohmann_json::nlohmann_json
+)
+
+# Discover tests
+include(GoogleTest)
+gtest_discover_tests(tests)

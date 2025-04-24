@@ -1,6 +1,6 @@
-# Advanced C++ Template Repository
+# AI Conversation Client
 
-Welcome to the Advanced C++ Template Repository! This repository serves as a foundation for designing and developing C++ projects. It is fully equipped for immediate use and includes features for build management, unit testing, continuous integration, static analysis, code style adherence, and component specification.
+Welcome to the AI Conversation Client! This project is a lightweight, extensible C++ client designed for managing AI-driven conversations based on the template repository configured previously. It simulates natural language interactions by processing user input, generating responses, maintaining conversation history, and handling various error and formatting scenarios. It is a draft/starting point with future feature updates to come. 
 
 ## Table of Contents
 - [Overview](#overview)
@@ -9,60 +9,46 @@ Welcome to the Advanced C++ Template Repository! This repository serves as a fou
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-  - [Building the Project](#building-the-project)
-  - [Running Tests](#running-tests)
-  - [Static Analysis](#static-analysis)
-  - [Code Coverage](#code-coverage)
-- [Components](#components)
-  - [Calculator](#calculator)
-  - [Logger](#logger)
-  - [Notifier](#notifier)
-- [Continuous Integration](#continuous-integration)
+  - [Basic Usage](#basic-usage)
+- [API Reference](#api-reference)
+  - [Config](#config)
+  - [ConversationClient](#conversationclient)
+  - [ConversationHistory](#conversationhistory)
+  - [Error Classes](#error-classes)
+  - [Message](#message)
+  - [NLPProcessor](#nlpprocessor)
+  - [ResponseFormatter](#responseformatter)
 - [Contributing](#contributing)
+- [CircleCI Links](#circleci-links)
 - [License](#license)
 
 ## Overview
 
-This repository provides a template for C++ projects, with a pre-configured setup for:
-- **Build Management**: Uses CMake for build configuration.
-- **Unit Testing**: Uses Google Test framework.
-- **Continuous Integration**: Configured with CircleCI.
-- **Static Analysis**: Uses ClangTidy for code analysis.
-- **Code Formatting**: Uses ClangFormat for code style adherence.
-- **Code Coverage**: Uses gcov for code coverage reporting.
+This repository provides a full-stack C++ template for developing AI-driven conversation systems with:
+- **Natural Language Processing**: Preprocesses and postprocesses input and output.
+- **Message Handling**: Stores and tracks conversations.
+- **Custom Errors**: Granular error types for cleaner exception handling.
+- **Response Formatting**: Timestamping, tagging, and output styling.
+- **Singleton Configuration**: Centralized settings management.
 
 ### Project Structure
 
 ```plaintext
-├── .circleci
-│   └── config.yml                # CircleCI configuration file for CI/CD setup
-├── .github/ISSUE_TEMPLATE
-│   ├── bug_report.md             # Template for reporting bugs
-│   └── feature_request.md        # Template for requesting new features
-├── extern
-│   └── googletest @ c00fd25      # External dependency: GoogleTest framework
-├── src                           # Folder for source files (.cpp) and headers (.h)
-│   ├── calculator                # Folder for Calculator component
-│   │   ├── calculator.cpp        # Source file for Calculator component
-│   │   ├── calculator.h          # Source file for Calculator component
-│   │   └── test_calculator.cpp   # Unit tests for Calculator component
-│   ├── logger                    # Folder for Logger component
-│   │   ├── logger.cpp            # Source file for Logger component
-│   │   ├── logger.h              # Source file for Logger component
-│   │   └── test_logger.cpp       # Unit tests for Logger component
-│   └── notifier                  # Folder for Notifier component
-│       ├── notifier.cpp          # Source file for Notifier component
-│       ├── notifier.h            # Source file for Notifier component
-│       └── test_notifier.cpp     # Unit tests for Notifier component
-├── tests                         # Folder for test files
-│   └── test_e2e.cpp              # End to end tests
-├── .DS_Store                     # macOS specific file to store custom folder attributes
-├── .gitmodules                   # Configuration file for git submodules
-├── CMakeLists.txt                # CMake configuration file for building the project
-├── Makefile                      # Makefile for building the project using `make`
-├── README.md                     # Documentation file for the repository
-├── component.md                  # Documentation file for components
-└── pull_request_template.md      # Template for pull requests
+├── src
+│   ├── Config.h                   # Singleton class for global settings
+│   ├── ConversationClient.h       # Entry point for the conversation system
+│   ├── ConversationHistory.h      # Maintains message history
+│   ├── Error.h                    # Custom error class hierarchy
+│   ├── Message.h                  # Data structure representing a message
+│   ├── NLPProcessor.h             # Handles input/output text processing
+│   ├── ResponseFormatter.h        # Formats and decorates responses
+│   └── main.cpp                   # Example usage and entry point
+├── tests
+│   └── test_conversation.cpp      # Unit tests @Nabiha 
+├── CMakeLists.txt                 # CMake configuration file
+├── Makefile                       # Makefile for quick builds
+└── README.md                      # Project documentation
+
 ```
 
 ## Getting Started
@@ -89,44 +75,146 @@ cd advanced-cpp-template-repo
 
 ## Usage
 
-### Building the Project
-Configure and build the project using CMake:
+### Basic Usage
 
-```bash
-cmake -Bbuild -H.
-cmake --build build
+Here is a basic example of starting a conversation using the `ConversationClient`:
+
+```cpp
+#include "ConversationClient.h"
+
+int main() {
+    ConversationClient client;
+    client.startConversation();
+    client.sendMessage("Hello, world!");
+    std::string response = client.receiveResponse();
+    client.endConversation();
+    return 0;
+}
 ```
-### Running Tests
-Run the unit tests using the Google Test framework:
+@nabha update here?{
+  ### Building the Project
+  Configure and build the project using CMake:
 
-```bash
-./build/tests
-```
+  ```bash
+  cmake -Bbuild -H.
+  cmake --build build
+  ```
+  ### Running Tests
+  Run the unit tests using the Google Test framework:
 
-### Static Analysis
-Run static analysis using ClangTidy:
 
-```bash
-clang-tidy src/*.cpp
-```
+  ```bash
+  ./build/tests
+  ```
 
-### Code Coverage
-Generate code coverage reports using gcov:
+  ### Static Analysis
+  Run static analysis using ClangTidy:
 
-```bash
-gcov src/*.cpp
-```
+  ```bash
+  clang-tidy src/*.cpp
+  ```
 
+  ### Code Coverage
+  Generate code coverage reports using gcov:
+
+  ```bash
+  gcov src/*.cpp
+  
+  ```
+}
 ## Components
 
-### Calculator
-Performs basic arithmetic operations like addition, subtraction, and multiplication.
+# API Reference
 
-### Logger
-Records operations performed by the calculator.
+Detailed description of the API functionalities provided by each header.
 
-### Notifier
-Sends an alert when the result exceeds a given threshold.
+---
+
+## Config
+
+**Purpose**: Manages configuration settings as a singleton.
+
+### Functions:
+
+- `static Config* getInstance()`: Retrieves the singleton instance.
+- `void set(const std::string& key, const std::string& value)`: Sets a configuration parameter.
+- `std::string get(const std::string& key) const`: Retrieves a configuration value.
+
+---
+
+## ConversationClient
+
+**Purpose**: Handles the flow of conversation.
+
+### Functions:
+
+- `void startConversation()`: Initializes a conversation.
+- `bool sendMessage(const std::string& input)`: Sends a message to the conversation.
+- `std::string receiveResponse()`: Receives a response from the conversation.
+- `void endConversation()`: Ends the conversation.
+
+---
+
+## ConversationHistory
+
+**Purpose**: Stores messages within a conversation.
+
+### Functions:
+
+- `void addMessage(const Message& msg)`: Adds a message to the history.
+- `std::vector<Message> getMessages() const`: Retrieves all messages from the history.
+
+---
+
+## Error Classes
+
+**Purpose**: Defines various error types for robust error handling.
+
+### Types:
+
+- `NetworkError`
+- `IOError`
+- `ParseError`
+- `InputError`
+- `TimeoutError`
+- `ServiceError`
+
+These are custom exception types for handling specific error scenarios.
+
+---
+
+## Message
+
+**Purpose**: Represents a message structure.
+
+### Details:
+
+- Contains `sender`, `content`, and `timestamp`.
+
+---
+
+## NLPProcessor
+
+**Purpose**: Processes natural language input and output.
+
+### Functions:
+
+- `std::string preprocessInput(const std::string& input)`: Preprocesses the input text.
+- `std::string postprocessOutput(const std::string& output)`: Postprocesses the output text.
+
+---
+
+## ResponseFormatter
+
+**Purpose**: Formats and manipulates response strings.
+
+### Functions:
+
+- `static std::string formatResponse(const std::string &rawResponse, const std::string &tag, const std::string &suffix)`: Formats a response with tags and suffix.
+- `static std::string addTimestamp(const std::string &response)`: Appends a timestamp to the response.
+- `static std::string toUpperCase(const std::string &response)`: Converts the response to uppercase.
+- `static std::string addNewLineIfNeeded(const std::string &response)`: Ensures the response ends with a newline.
+### Further features will have updates here
 
 ## Continuous Integration
 This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at .circleci/config.yml. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports.
@@ -146,11 +234,12 @@ We welcome contributions! Please follow these guidelines when contributing to th
 
 6. Open a pull request.
 
-##CircleCI Links
+## CircleCI Links
 
-Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53 
+Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/94/workflows/219c0286-71d3-487f-8578-4462571db7cf/jobs/117 
 
-Passed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56
+Passed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/97/workflows/c594cb81-ccf3-4cd1-adaa-fe5b6dea1cbc/jobs/120
+}
 
 ## License
 This project is licensed under the MIT License.
