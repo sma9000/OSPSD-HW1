@@ -6,8 +6,7 @@ executors:
       - image: ubuntu:latest
     resource_class: small
     environment:
-      CXX: g++
-      CC: gcc
+      VCPKG_ROOT: /opt/vcpkg
 
 jobs:
   build-and-test:
@@ -16,55 +15,44 @@ jobs:
       - checkout
 
       - run:
-          name: Install Dependencies (incl. CPR)
+          name: Install Build Tools and vcpkg
           command: |
             apt-get update && apt-get install -y \
-              cmake \
-              g++ \
-              git \
-              make \
-              libssl-dev \
-              libcurl4-openssl-dev \
-              libgtest-dev \
-              nlohmann-json3-dev
+              curl zip unzip tar git cmake g++ make pkg-config
 
-            cd /usr/src/googletest
-            cmake . && make
-            cp lib/*.a /usr/lib
+            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
+            $VCPKG_ROOT/bootstrap-vcpkg.sh
 
-            cd /tmp
-            git clone https://github.com/libcpr/cpr.git
-            cd cpr
-            cmake -DCMAKE_USE_OPENSSL=ON .
-            make -j$(nproc)
-            make install
+      - run:
+          name: Install Dependencies via vcpkg
+          command: |
+            $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
+
+      - run:
+          name: Clean build directory
+          command: |
+            rm -rf build && mkdir build
 
       - run:
           name: Build Project
           command: |
-            rm -rf build
-            mkdir build
             cd build
-            cmake -DCMAKE_CXX_FLAGS="--coverage" -Dcpr_DIR=/usr/local/lib/cmake/cpr ..
+            cmake .. -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
             make
 
       - run:
           name: Run Unit Tests
           command: |
             cd build
-            GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
+            mkdir -p test-results
+            ctest --output-on-failure --output-junit test-results/test-results.xml
 
-      - run:
-          name: Generate Code Coverage Report
-          command: |
-            cd build
-            lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
-            lcov --remove coverage.info '/usr/*' --output-file coverage.info
-            genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
+      - store_test_results:
+          path: build/test-results
 
       - store_artifacts:
-          path: build/coverage-report
-          destination: coverage
+          path: build/test-results
+          destination: junit
 
 workflows:
   version: 2
