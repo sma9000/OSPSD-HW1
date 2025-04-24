@@ -19,7 +19,12 @@ jobs:
       - run:
           name: Install Build Tools and vcpkg
           command: |
-            apt-get update && apt-get install -y \
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update && \
+            apt-get install -y tzdata && \
+            ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+            dpkg-reconfigure --frontend noninteractive tzdata && \
+            apt-get install -y \
               curl zip unzip tar git cmake g++ make pkg-config \
               lcov
 
