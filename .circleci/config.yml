@@ -26,14 +26,12 @@ jobs:
               libssl-dev \
               libcurl4-openssl-dev \
               libgtest-dev \
-              nlohmann-json3-dev # <--- this line is new
+              nlohmann-json3-dev
 
-            # Build and install GTest
             cd /usr/src/googletest
             cmake . && make
             cp lib/*.a /usr/lib
 
-            # Install CPR from source
             cd /tmp
             git clone https://github.com/libcpr/cpr.git
             cd cpr
@@ -44,7 +42,8 @@ jobs:
       - run:
           name: Build Project
           command: |
-            mkdir -p build
+            rm -rf build
+            mkdir build
             cd build
             cmake -DCMAKE_CXX_FLAGS="--coverage" ..
             make
@@ -62,23 +61,6 @@ jobs:
             lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
             lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
-
-      - run:
-          name: Convert test results to JUnit format
-          command: |
-            mkdir -p build/test-results
-            [ -f build/test-results.xml ] && mv build/test-results.xml build/test-results/test-results.xml || true
-
-      - store_test_results:
-          path: build/test-results
-
-      - store_artifacts:
-          path: build/test-results
-          destination: junit
-
-      - store_artifacts:
-          path: build/coverage.info
-          destination: raw-coverage-data
 
       - store_artifacts:
           path: build/coverage-report
