@@ -1,2 +1,5 @@
 vcpkg/
 /build
+credentials.json
+token.json
+*.csv
