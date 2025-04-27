@@ -35,6 +35,9 @@ target_link_libraries(integrate PRIVATE
     nlohmann_json::nlohmann_json
 )
 
+# Ensure sample CSV file is available for testing
+file(COPY ${PROJECT_SOURCE_DIR}/sample_emails.csv DESTINATION ${CMAKE_BINARY_DIR})
+
 # Installation rules (optional)
 install(TARGETS integrate DESTINATION bin)
 install(DIRECTORY ${INCLUDE_DIR}/ DESTINATION include)
