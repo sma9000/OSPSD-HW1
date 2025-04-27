@@ -1,0 +1,64 @@
+#include <gtest/gtest.h>
+#include <fstream>
+#include <sstream>
+#include <cstdlib>   // setenv and system()
+#include <cstdio>    // remove()
+
+//  create a temporary emails.csv file in the working directory
+void createTemporaryEmailsCSV(const std::string& filename) {
+    std::ofstream outfile(filename);
+    if (!outfile.is_open()) {
+        throw std::runtime_error("Could not create " + filename);
+    }
+    // Write header and one email record
+    outfile << "mail_id,email_body\n";
+    outfile << "1,This is a test email that should be analyzed.\n";
+    outfile.close();
+}
+
+void removeFile(const std::string& filename) {
+    std::remove(filename.c_str());
+}
+
+// End-to-end Integration Test for integrate.cpp
+TEST(IntegrateEndToEnd, ProcessEmails) {
+    const std::string emailsFile = "emails.csv";
+    const std::string resultsFile = "results.csv";
+
+    // Create the input file for the test
+    createTemporaryEmailsCSV(emailsFile);
+
+    // Set environment variables for the test
+    // Set MOCK_MODE, dummy API key, and a fake endpoint
+    setenv("MOCK_MODE", "true", 1);
+    setenv("OPENAI_API_KEY", "dummy_key", 1);
+    // For this test, we assume a fake API server is running on localhost:5000 that returns
+    // a predictable JSON response. Adjust the URL as needed
+    setenv("OPENAI_API_ENDPOINT", "http://localhost:5000/fake_endpoint", 1);
+
+    // Run the integrate executable
+    int ret = system("./integrate");
+    EXPECT_EQ(ret, 0) << "Integrate executable did not exit with 0";
+
+    // Check that the results file exists
+    std::ifstream infile(resultsFile);
+    EXPECT_TRUE(infile.good()) << "results.csv was not created";
+
+    // Read the entire contents of results.csv
+    std::stringstream buffer;
+    buffer << infile.rdbuf();
+    std::string resultsContent = buffer.str();
+
+    // Verify that the header is present
+    EXPECT_NE(resultsContent.find("mail_id,Pct_spam"), std::string::npos)
+            << "results.csv header missing";
+  
+    // Verify that our test mail record (mail_id "1") is included
+    EXPECT_NE(resultsContent.find("1,"), std::string::npos)
+            << "Processed email record for mail_id 1 missing";
+
+    // Cleanup: delete temporary files
+    infile.close();
+    removeFile(emailsFile);
+    removeFile(resultsFile);
+}
