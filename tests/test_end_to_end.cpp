@@ -8,16 +8,25 @@
 void createTemporaryEmailsCSV(const std::string& filename) {
     std::ofstream outfile(filename);
     if (!outfile.is_open()) {
+        std::cerr << "Error: Could not create " << filename << " in " 
+                  << std::filesystem::current_path() << std::endl;
         throw std::runtime_error("Could not create " + filename);
     }
+    std::cout << "Created file: " << filename << std::endl;
+
     // Write header and one email record
     outfile << "mail_id,email_body\n";
-    outfile << "1,This is a test email that should be analyzed.\n";
+    outfile << "This is a test email that should be analyzed.\n";
     outfile.close();
 }
 
+
 void removeFile(const std::string& filename) {
-    std::remove(filename.c_str());
+    if (std::remove(filename.c_str()) != 0) {
+        std::cerr << "Error removing file: " << filename << std::endl;
+    } else {
+        std::cout << "Removed file: " << filename << std::endl;
+    }
 }
 
 // End-to-end Integration Test for integrate.cpp
