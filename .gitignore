@@ -1,5 +1,18 @@
-vcpkg/
-/build
-credentials.json
-token.json
+# Build and dependencies
+/build*/
+/vcpkg/
+
+# Data files
 *.csv
+!data/emails_sample.csv   # Allow only the sample
+
+# Secrets
+credentials*
+token*
+OPENAI_API_KEY
+*.env
+
+# IDE/OS files
+.vscode/
+.idea/
+.DS_Store
