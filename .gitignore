@@ -16,3 +16,5 @@ OPENAI_API_KEY
 .vscode/
 .idea/
 .DS_Store
+
+echo "!data/sample_emails.csv" >> .gitignore  # Allow this file
