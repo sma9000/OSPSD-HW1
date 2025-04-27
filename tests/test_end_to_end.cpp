@@ -3,8 +3,9 @@
 #include <sstream>
 #include <cstdlib>   // setenv and system()
 #include <cstdio>    // remove()
+#include <filesystem> // file path debugging and verification
 
-//  create a temporary emails.csv file in the working directory
+// Create a temporary CSV file in the working directory
 void createTemporaryEmailsCSV(const std::string& filename) {
     std::ofstream outfile(filename);
     if (!outfile.is_open()) {
@@ -20,7 +21,6 @@ void createTemporaryEmailsCSV(const std::string& filename) {
     outfile.close();
 }
 
-
 void removeFile(const std::string& filename) {
     if (std::remove(filename.c_str()) != 0) {
         std::cerr << "Error removing file: " << filename << std::endl;
@@ -31,19 +31,17 @@ void removeFile(const std::string& filename) {
 
 // End-to-end Integration Test for integrate.cpp
 TEST(IntegrateEndToEnd, ProcessEmails) {
-    const std::string emailsFile = "emails.csv";
+    const std::string emailsFile = "sample_emails.csv"; // Updated file name
     const std::string resultsFile = "results.csv";
 
-    // Create the input file for the test
     createTemporaryEmailsCSV(emailsFile);
 
     // Set environment variables for the test
-    // Set MOCK_MODE, dummy API key, and a fake endpoint
     setenv("MOCK_MODE", "true", 1);
     setenv("OPENAI_API_KEY", "dummy_key", 1);
-    // For this test, we assume a fake API server is running on localhost:5000 that returns
-    // a predictable JSON response. Adjust the URL as needed
     setenv("OPENAI_API_ENDPOINT", "http://localhost:5000/fake_endpoint", 1);
+    setenv("EMAILS_FILE", emailsFile.c_str(), 1); // Pass file paths explicitly
+    setenv("RESULTS_FILE", resultsFile.c_str(), 1);
 
     // Run the integrate executable
     int ret = system("./integrate");
@@ -71,3 +69,4 @@ TEST(IntegrateEndToEnd, ProcessEmails) {
     removeFile(emailsFile);
     removeFile(resultsFile);
 }
+
