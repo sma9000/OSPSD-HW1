@@ -58,6 +58,23 @@ jobs:
             ctest --output-on-failure --output-junit test-results/test-results.xml
 
       - run:
+          name: Run End-to-End Test for integrate.cpp
+          command: |
+            cd build
+            ./integrate
+
+      - run:
+          name: Verify End-to-End Test Output
+          command: |
+            if [ -f results.csv ]; then
+              echo "Results file generated successfully"
+              head -n 10 results.csv  # Check first 10 lines for validation
+            else
+              echo "Results file not found. End-to-End test failed."
+              exit 1
+            fi
+
+      - run:
           name: Generate Code Coverage Report
           command: |
             cd build
