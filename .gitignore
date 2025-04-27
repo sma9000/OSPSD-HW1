@@ -4,7 +4,7 @@
 
 # Data files
 *.csv
-!data/emails_sample.csv   # Allow only the sample
+!data/sample_emails.csv   # Allow only the sample
 
 # Secrets
 credentials*
@@ -17,4 +17,3 @@ OPENAI_API_KEY
 .idea/
 .DS_Store
 
-echo "!data/sample_emails.csv" >> .gitignore  # Allow this file
