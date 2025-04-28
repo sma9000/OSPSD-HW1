@@ -66,10 +66,10 @@ jobs:
             ctest --output-on-failure --output-junit test-results/test-results.xml
 
       - run:
-          name: Run End-to-End Test for integrate.cpp
-          command: |
-            cd build
-            ./integrate
+        name: Run End-to-End Test for integrate.cpp
+        command: |
+          cd build
+          OPENAI_API_KEY=$OPENAI_API_KEY ./integrate
 
       - run:
           name: Verify End-to-End Test Output
