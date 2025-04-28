@@ -2,8 +2,8 @@
 /build*/
 /vcpkg/
 
-*.csv               # Ignore all .csv files
-!sample_emails.csv  # Except this one
+# *.csv               # Ignore all .csv files
+# !sample_emails.csv  # Except this one
 
 # Secrets
 credentials*
