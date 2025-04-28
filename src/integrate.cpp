@@ -34,30 +34,39 @@ int main() {
     Config* config = Config::getInstance();
     config->set("MOCK_MODE", getEnvVar("MOCK_MODE", "false"));
     config->set("OPENAI_API_KEY", getEnvVar("OPENAI_API_KEY"));
-    config->set("OPENAI_API_ENDPOINT", "https://api.openai.com/v1/chat/completions");
+    config->set("OPENAI_API_ENDPOINT", getEnvVar("OPENAI_API_ENDPOINT", "https://api.openai.com/v1/chat/completions"));
 
     const int MAX_RETRIES = 3;
     const int RATE_LIMIT_DELAY_MS = 1000;
-    const int MAX_EMAILS = 10;  // NEW: Limit to 10 emails
+    const int MAX_EMAILS = 10;  // Limit to 10 emails
 
     // File handling
-    std::ifstream infile("emails.csv");
+    std::string emailsFile = getEnvVar("EMAILS_FILE", "emails.csv");
+    std::string resultsFile = getEnvVar("RESULTS_FILE", "results.csv");
+
+    std::cout << "Using input file: " << emailsFile << std::endl;
+    std::cout << "Writing results to: " << resultsFile << std::endl;
+
+    std::ifstream infile(emailsFile);
     if (!infile.is_open()) {
-        std::cerr << "Error: Could not open emails.csv" << std::endl;
+        std::cerr << "Error: Could not open " << emailsFile << std::endl;
         return 1;
     }
 
-    std::ofstream outfile("results.csv");
+    std::ofstream outfile(resultsFile);
+    if (!outfile.is_open()) {
+        std::cerr << "Error: Could not create results file: " << resultsFile << std::endl;
+        return 1;
+    }
     outfile << "mail_id,Pct_spam\n";
 
     // Skip header
     std::string line;
     std::getline(infile, line);
 
-    // NEW: Email counter
     int processed_emails = 0;
 
-    // Process emails (with MAX_EMAILS limit)
+    // Process emails
     while (std::getline(infile, line) && processed_emails < MAX_EMAILS) {
         size_t comma_pos = line.find(',');
         if (comma_pos == std::string::npos) {
@@ -68,44 +77,36 @@ int main() {
         std::string mail_id = line.substr(0, comma_pos);
         std::string email_body = line.substr(comma_pos + 1);
 
-        // Enhanced prompt
+        // Create prompt
         std::string prompt =
-                "Analyze this email and respond ONLY with a number 0-100 where:\n"
-                "0-30 = legitimate, 31-70 = suspicious, 71-100 = spam\n"
-                "Email:\n\n" + email_body;
+            "Analyze this email and respond ONLY with a number 0-100 where:\n"
+            "0-30 = legitimate, 31-70 = suspicious, 71-100 = spam\n"
+            "Email:\n\n" + email_body;
 
         bool success = false;
         for (int i = 0; i < MAX_RETRIES && !success; i++) {
             try {
                 std::cout << "Processing: " << mail_id << std::endl;
 
-                // Optimized API request
                 json request_body = {
-                        {"model", "gpt-3.5-turbo"},
-                        {"messages", {
-                                          {
-                                                  {"role", "system"},
-                                                  {"content", "You are a spam detection AI. Respond ONLY with a number 0-100."}
-                                          },
-                                          {
-                                                  {"role", "user"},
-                                                  {"content", prompt}
-                                          }
-                                  }},
-                        {"temperature", 0.1},
-                        {"max_tokens", 1}  // NEW: Force 1-token responses
+                    {"model", "gpt-3.5-turbo"},
+                    {"messages", {
+                        {{"role", "system"}, {"content", "You are a spam detection AI. Respond ONLY with a number 0-100."}},
+                        {{"role", "user"}, {"content", prompt}}
+                    }},
+                    {"temperature", 0.1},
+                    {"max_tokens", 1}
                 };
 
                 auto response = cpr::Post(
-                        cpr::Url{config->get("OPENAI_API_ENDPOINT")},
-                        cpr::Header{
-                                {"Authorization", "Bearer " + config->get("OPENAI_API_KEY")},
-                                {"Content-Type", "application/json"}
-                        },
-                        cpr::Body{request_body.dump()}
+                    cpr::Url{config->get("OPENAI_API_ENDPOINT")},
+                    cpr::Header{
+                        {"Authorization", "Bearer " + config->get("OPENAI_API_KEY")},
+                        {"Content-Type", "application/json"}
+                    },
+                    cpr::Body{request_body.dump()}
                 );
 
-                // NEW: Improved rate limit handling
                 if (response.status_code == 200) {
                     json response_json = json::parse(response.text);
                     std::string ai_response = response_json["choices"][0]["message"]["content"];
@@ -116,22 +117,17 @@ int main() {
 
                     outfile << mail_id << "," << spam_pct << "\n";
                     success = true;
-                    processed_emails++;  // NEW: Increment counter
+                    processed_emails++;
 
-                    // Rate limiting
-                    std::this_thread::sleep_for(
-                            std::chrono::milliseconds(RATE_LIMIT_DELAY_MS));
-                }
-                else if (response.text.find("rate_limit_exceeded") != std::string::npos) {
-                    // Extract wait time from error message
+                    std::this_thread::sleep_for(std::chrono::milliseconds(RATE_LIMIT_DELAY_MS));
+                } else if (response.text.find("rate_limit_exceeded") != std::string::npos) {
                     size_t wait_pos = response.text.find("try again in ");
                     if (wait_pos != std::string::npos) {
                         int wait_seconds = std::stoi(response.text.substr(wait_pos + 13));
                         std::cerr << "Rate limited. Waiting " << wait_seconds << " seconds...\n";
                         std::this_thread::sleep_for(std::chrono::seconds(wait_seconds + 1));
                     }
-                }
-                else {
+                } else {
                     throw std::runtime_error("API Error: " + response.text);
                 }
             } catch (const std::exception& e) {
