@@ -15,23 +15,22 @@ void removeFile(const std::string& filename) {
 
 // End-to-end Integration Test for integrate.cpp
 TEST(IntegrateEndToEnd, ProcessEmails) {
-    const std::string emailsFile = "sample_emails.csv"; // Use existing sample file
+    const std::string emailsFile = "emails.csv"; // generated or copied file
     const std::string resultsFile = "results.csv";
 
-    // Verify that sample_emails.csv exists before running
+    // Verify emails.csv exists
     ASSERT_TRUE(std::filesystem::exists(emailsFile)) 
-        << "sample_emails.csv does not exist in " 
+        << "emails.csv does not exist in " 
         << std::filesystem::current_path();
 
-    // Set environment variables for the test
-    setenv("MOCK_MODE", "true", 1);
-    setenv("OPENAI_API_KEY", "dummy_key", 1);
-    setenv("OPENAI_API_ENDPOINT", "http://localhost:5000/fake_endpoint", 1);
-    setenv("EMAILS_FILE", emailsFile.c_str(), 1); 
-    setenv("RESULTS_FILE", resultsFile.c_str(), 1);
+    // Build the command with environment variables
+    std::string command =
+        "EMAILS_FILE=" + emailsFile +
+        " RESULTS_FILE=" + resultsFile +
+        " ./integrate";
 
     // Run the integrate executable
-    int ret = system("./integrate");
+    int ret = system(command.c_str());
     EXPECT_EQ(ret, 0) << "Integrate executable did not exit with 0";
 
     // Check that the results file exists
@@ -48,10 +47,10 @@ TEST(IntegrateEndToEnd, ProcessEmails) {
     EXPECT_NE(resultsContent.find("mail_id,Pct_spam"), std::string::npos)
             << "results.csv header missing";
 
-    
+    // Verify that there is at least one record
     EXPECT_NE(resultsContent.find(","), std::string::npos)
             << "No mail records found in results.csv";
 
-    // Cleanup: delete only the results file, leave sample_emails.csv intact
+    // Cleanup: delete only the results file, leave emails.csv intact
     removeFile(resultsFile);
 }

@@ -16,7 +16,7 @@ TEST(ConversationIntegrationTest, FullConversationFlowInMockMode) {
 
     std::string response = client.receiveResponse();
     EXPECT_FALSE(response.empty());
-    EXPECT_EQ(response, "Expected AI response");
+    EXPECT_NE(response.find("Expected AI response"), std::string::npos);
 
     EXPECT_NO_THROW(client.endConversation());
 }

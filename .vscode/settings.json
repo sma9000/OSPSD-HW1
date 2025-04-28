@@ -48,6 +48,11 @@
         "variant": "cpp",
         "vector": "cpp",
         "sstream": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "charconv": "cpp",
+        "memory": "cpp",
+        "forward_list": "cpp"
     }
 }

@@ -24,6 +24,10 @@ static std::string toLower(const std::string& str) {
 std::string NLPProcessor::preprocessInput(const std::string& input) {
     std::string cleaned = trim(input);
     cleaned = toLower(cleaned);
+
+    if (cleaned == "simulate_error") {
+        throw std::runtime_error("Simulated preprocessing error");
+    }
     return cleaned;
 }
 

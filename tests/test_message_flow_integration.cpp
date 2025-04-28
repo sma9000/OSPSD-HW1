@@ -29,8 +29,7 @@ TEST(MessageFlowIntegration, ProcessAndFormatMessage) {
     formatted = ResponseFormatter::addNewLineIfNeeded(formatted);
 
     // Define the expected output.
-    // (Note: Adjust this expected value based on the actual behavior of NLPProcessor and ResponseFormatter)
-    std::string expectedOutput = "Hello, how's the weather today?";  
+    std::string expectedOutput = "hello, how's the weather today?";  
 
     // Validate that the formatted output includes the expected result
     EXPECT_NE(formatted.find(expectedOutput), std::string::npos);
@@ -38,8 +37,6 @@ TEST(MessageFlowIntegration, ProcessAndFormatMessage) {
 
 // Integration test using the ConversationClient, which internally calls NLPProcessor and ResponseFormatter
 TEST(MessageFlowIntegration, FullConversationClientProcessing) {
-    // Here assume that ConversationClient works in mock mode
-    // Make sure that your global configuration (via Config) is set up to enable MOCK_MODE 
     
     ConversationClient client;
     
@@ -50,7 +47,5 @@ TEST(MessageFlowIntegration, FullConversationClientProcessing) {
     // Retrieve the processed AI response
     std::string response = client.receiveResponse();
 
-    // Validate that the response contains the known mock reply
-    // In ConversationClient implementation, if MOCK_MODE is enabled, the response is set to "Expected AI response" after formatting
     EXPECT_NE(response.find("Expected AI response"), std::string::npos);
 }

@@ -17,6 +17,14 @@ jobs:
       - checkout
 
       - run:
+          name: Verify sample_emails.csv exists
+          command: |
+            if [ ! -f sample_emails.csv ]; then
+              echo "sample_emails.csv not found! Please ensure it's committed."
+              exit 1
+            fi
+
+      - run:
           name: Install Build Tools and vcpkg
           command: |
             export DEBIAN_FRONTEND=noninteractive
@@ -66,9 +74,10 @@ jobs:
       - run:
           name: Verify End-to-End Test Output
           command: |
+            cd build
             if [ -f results.csv ]; then
               echo "Results file generated successfully"
-              head -n 10 results.csv  # Check first 10 lines for validation
+              head -n 10 results.csv
             else
               echo "Results file not found. End-to-End test failed."
               exit 1
