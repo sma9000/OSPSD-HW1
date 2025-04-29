@@ -94,10 +94,11 @@ cd advanced-cpp-template-repo
 ./vcpkg/vcpkg install gtest
 ```
 ## Running save_emails.py
-1. Install Python Dependencies
+1. Install Python Dependencies:
+```bash
 pip install pandas html2text
 pip install --upgrade google-api-python-client google-auth-httplib2
-
+```
 2. Set Up OAuth with Gmail API
 Go to https://console.cloud.google.com/
 Create a new project
@@ -124,20 +125,26 @@ Team members should log into the OpenAI Organization or use personal accounts: h
 Create or reuse an API key.
 
 2. Export the Key (Terminal):
+```bash
 export OPENAI_API_KEY="your-key-here" 
+```
 
-3. Install dependencies for integrate.cpp
+3. Install dependencies for integrate.cpp:
+```bash
 cd vcpkg
 ./bootstrap-vcpkg.sh
 ./vcpkg install cpr nlohmann-json
 cd ..
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+```
 
-4. Clean build 
+4. Clean build:
+```bash
 rm -rf build/
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake"
 cmake --build build
 ./build/integrate
+```
 
 ### After running integrate.cpp
 This will:
