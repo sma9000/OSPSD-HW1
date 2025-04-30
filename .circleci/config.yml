@@ -8,44 +8,99 @@ executors:
     environment:
       CXX: g++
       CC: gcc
+      VCPKG_ROOT: /opt/vcpkg
 
 jobs:
   build-and-test:
     executor: cpp-executor
     steps:
       - checkout
+
       - run:
-          name: Install Dependencies
+          name: Verify sample_emails.csv exists
           command: |
-            apt-get update && apt-get install -y cmake g++ git make
-            apt-get install -y libgtest-dev
-            cd /usr/src/googletest
-            cmake . && make
-            cp lib/*.a /usr/lib
+            if [ ! -f sample_emails.csv ]; then
+              echo "sample_emails.csv not found! Please ensure it's committed."
+              exit 1
+            fi
+
       - run:
-          name: Build Project
+          name: Install Build Tools and vcpkg
           command: |
-            mkdir -p build
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update && \
+            apt-get install -y tzdata && \
+            ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+            dpkg-reconfigure --frontend noninteractive tzdata && \
+            apt-get install -y \
+              curl zip unzip tar git cmake g++ make pkg-config \
+              lcov
+
+            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
+            $VCPKG_ROOT/bootstrap-vcpkg.sh
+
+      - run:
+          name: Install Dependencies via vcpkg
+          command: |
+            $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
+
+      - run:
+          name: Clean build directory
+          command: |
+            rm -rf build && mkdir build
+
+      - run:
+          name: Build Project with Coverage
+          command: |
             cd build
-            cmake ..
+            cmake .. \
+              -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
+              -DCMAKE_CXX_FLAGS="--coverage"
             make
+
       - run:
           name: Run Unit Tests
           command: |
             cd build
-            GTEST_OUTPUT=xml:test-results.xml ctest --output-on-failure
+            mkdir -p test-results
+            ctest --output-on-failure --output-junit test-results/test-results.xml
+
       - run:
-          name: Convert test results to JUnit format
+          name: Run End-to-End Test for integrate.cpp
           command: |
-            mkdir -p build/test-results
-            mv build/test-results.xml build/test-results/test-results.xml
+            cd build
+            OPENAI_API_KEY=$OPENAI_API_KEY ./integrate
+
+      - run:
+          name: Verify End-to-End Test Output
+          command: |
+            cd build
+            if [ -f results.csv ]; then
+              echo "Results file generated successfully"
+              head -n 10 results.csv
+            else
+              echo "Results file not found. End-to-End test failed."
+              exit 1
+            fi
+
+      - run:
+          name: Generate Code Coverage Report
+          command: |
+            cd build
+            lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
+            lcov --remove coverage.info '/usr/*' --output-file coverage.info
+            genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
       - store_test_results:
-          path: build/test-results  # Store test results for CircleCI UI
+          path: build/test-results
 
       - store_artifacts:
           path: build/test-results
-          destination: junit  # Store test artifacts for later review
+          destination: junit
+
+      - store_artifacts:
+          path: build/coverage-report
+          destination: coverage
 
 workflows:
   version: 2
