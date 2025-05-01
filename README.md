@@ -35,19 +35,26 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 
 ```plaintext
 ├── src
-│   ├── Config.h                   # Singleton class for global settings
-│   ├── ConversationClient.h       # Entry point for the conversation system
-│   ├── ConversationHistory.h      # Maintains message history
-│   ├── Error.h                    # Custom error class hierarchy
-│   ├── Message.h                  # Data structure representing a message
-│   ├── NLPProcessor.h             # Handles input/output text processing
-│   ├── ResponseFormatter.h        # Formats and decorates responses
-│   └── main.cpp                   # Example usage and entry point
-├── tests
-│   └── test_conversation.cpp      # Unit tests @Nabiha 
-├── CMakeLists.txt                 # CMake configuration file
-├── Makefile                       # Makefile for quick builds
-└── README.md                      # Project documentation
+│   ├── Config.h                        # Singleton class for global settings
+│   ├── ConversationClient.h            # Entry point for the conversation system
+│   ├── ConversationHistory.h           # Maintains message history
+│   ├── Error.h                         # Custom error class hierarchy
+│   ├── Message.h                       # Data structure representing a message
+│   ├── NLPProcessor.h                  # Handles input/output text processing
+│   ├── ResponseFormatter.h             # Formats and decorates responses
+│   └── main.cpp                        # Example usage and entry point
+├── tests                               # Unit test files
+│   ├── test_config.h                       
+│   ├── test_converstation_client.h         
+│   ├── test_converstation_history.h   
+│   ├── test_converstation.h  
+│   ├── test_error.h    
+│   ├── test_message.h   
+│   ├── test_nlp_processor.h   
+│   └── test_response_formatter.cpp      
+├── CMakeLists.txt                     # CMake configuration file
+├── Makefile                           # Makefile for quick builds
+└── README.md                          # Project documentation
 
 ```
 
