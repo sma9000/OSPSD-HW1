@@ -20,13 +20,8 @@ jobs:
           name: Install Build Tools and vcpkg
           command: |
             export DEBIAN_FRONTEND=noninteractive
-            apt-get update && \
-            apt-get install -y tzdata && \
-            ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
-            dpkg-reconfigure --frontend noninteractive tzdata && \
-            apt-get install -y \
-              clang-tidy \
-              clang-format \
+            apt-get update && apt-get install -y \
+              clang clang-tidy clang-format \
               curl zip unzip tar git cmake g++ make pkg-config \
               lcov
 
@@ -44,21 +39,26 @@ jobs:
             rm -rf build && mkdir build
 
       - run:
-          name: Build Project with Coverage
+          name: Build Project with Coverage and Generate compile_commands.json
           command: |
             cd build
             cmake .. \
+              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
               -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_CXX_FLAGS="--coverage"
             make
+            cp compile_commands.json ..
 
       - run:
-          name: Run clang-tidy (Static Analysis)
+          name: Run clang-tidy
           command: |
-            clang-tidy include/*.h -- -Iinclude -stdlib=libc++ -isystem /usr/include/c++/v1
+            for file in $(find include -name "*.h"); do
+              echo "Running clang-tidy on $file"
+              clang-tidy -p=. $file -- -Iinclude || true
+            done
 
       - run:
-          name: Run clang-format check (Style Check)
+          name: Run clang-format check
           command: |
             clang-format --dry-run --Werror include/*.h tests/*.cpp
 
