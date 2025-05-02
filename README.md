@@ -26,20 +26,28 @@ This repository provides an interface-level C++ structure for developing an AI c
 ### Project Structure
 
 ```plaintext
-├── include/                         # Header interfaces for each component
-
-├── src/                             # Empty in HW2, will contain implementation in HW3
-
-├── tests/                           # Unit tests for interface behavior
-
-├── .circleci/                       # Continuous integration setup
+├── include/                         # Header files
+│   ├── Config.h
+│   ├── ConversationClient.h
+│   ├── ConversationHistory.h
+│   ├── Message.h
+│   └── Error.h
+├── src/                             # Source files (implementations)
+│   ├── Config.cpp
+│   ├── ConversationClient.cpp
+│   ├── ConversationHistory.cpp
+│   └── Message.cpp
+├── tests/                           # Unit tests
+│   ├── test_config.cpp
+│   ├── test_conversation_client.cpp
+│   ├── test_conversation_history.cpp
+│   ├── test_error.cpp
+│   ├── test_message.cpp
+├── .circleci/                       # CircleCI pipeline
 │   └── config.yml
-
-├── interface.md                     # Interface definitions and documentation
-├── pull_request_template.md         # GitHub PR template for contributors
 ├── CMakeLists.txt                   # Build configuration
-├── .gitignore                       # Ignore rules
-├── README.md                        # Project overview and instructions
+├── README.md                        # Project documentation
+
 ```
 
 This repository provides a full-stack C++ template for developing AI-driven conversation systems with:
@@ -50,11 +58,12 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 - **Singleton Configuration**: Centralized settings management.
 
 ### Features
-- Interface-only architecture  
-- Mock-based tests with GoogleTest  
-- Static analysis support via `clang-tidy`  
-- Code formatting with `clang-format`  
-- CI-ready with CircleCI config included
+-AI conversation flow (mocked and configurable)
+-Message history tracking
+-Singleton config manager
+-Unit-tested components (GTest)
+-Static analysis via clang-tidy and clang-format
+-Continuous Integration with CircleCI
 
 ---
 
@@ -62,11 +71,12 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 
 **In Scope:**
 - Header files defining core component APIs
-- Mock-based unit tests to validate interface contracts
 - Documentation: `README.md`, `component.md`, `interface.md`
+-Concrete implementation of core interfaces
+-Full unit test coverage
+-Configurable runtime behavior via Config
 
 **Out of Scope:**
-- API implementation  
 - Real input/output processing  
 - Persistent storage  
 - Full integration/testing  
@@ -95,27 +105,6 @@ Install dependencies using `vcpkg` and install GoogleTest:
 ./vcpkg/vcpkg install gtest
 ```
 
----
-
-## Interface Usage (Preview)
-
-Below is a hypothetical example of how an external user might use the interfaces once implemented (for HW3):
-
-```cpp
-#include "IConversationClient.h"
-
-int main() {
-    // This is just illustrative — implementation does not exist yet
-    IConversationClient* client; // Assume this is initialized via dependency injection
-    client->startConversation();
-    client->sendMessage("Hello, world!");
-    std::string response = client->receiveResponse();
-    client->endConversation();
-    return 0;
-}
-```
-
----
 
 ## Running Tests
 
@@ -131,9 +120,19 @@ Project dependencies installed (see setup instructions)
 
 ```bash
 # From the root directory
-mkdir -p build && cd build
-cmake ..
-make
+# Go to your root directory
+cd ~/Desktop/OSPSD-HW1
+
+# Remove any old build files
+rm -rf build
+mkdir build
+cd build
+
+# Rebuild with vcpkg toolchain
+cmake .. -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
+make -j$(sysctl -n hw.logicalcpu)
+
+# Run all unit tests
 ctest --output-on-failure
 ```
 
@@ -167,13 +166,64 @@ there is no source code to analyze for coverage.
 
 ## API Reference
 
-Below is a summary of the interfaces defined in the project. These interfaces specify the public methods and expected behavior for each component. Implementation is out of scope for this phase.
+These classes are now implemented (not just defined).
 
+Config
+`static Config* getInstance()`
+
+`void set(key, value)`
+
+`std::string get(key)`
+
+`void clear()`
+
+ConversationClient
+`void startConversation()`
+
+`bool sendMessage(input) (mock mode returns static response)`
+
+`std::string receiveResponse()`
+
+`void endConversation()`
+
+ConversationHistory
+`void addMessage(const Message&)`
+
+`std::vector<Message> getMessages() const`
+
+Message
+`std::string sender`
+
+`std::string content`
+
+`std::chrono::system_clock::time_point timestamp`
+
+Error classes
+`Base class: Error`
+
+Subclasses: ServiceError, InputError, NetworkError, etc.
+
+
+
+
+## Continuous Integration
+
+This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at `.circleci/config.yml`. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports.
+What CircleCI Does:
+- Builds the project using CMake and a clean environment each time changes are pushed.
+- Installs dependencies like GoogleTest via vcpkg.
+- Runs unit tests and reports their success or failure.
+- Performs static code analysis using clang-tidy to catch code quality and correctness issues.
+- Checks code formatting with clang-format to ensure consistent style.
+- Generates code coverage reports using lcov and gcov to track tested vs. untested lines of code.
+- Stores artifacts and test results for further inspection or documentation.
 
 
 
 ### CircleCI Links
 
+- ❌ Failed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53)  
+- ✅ Passed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56)
 
 ---
 
