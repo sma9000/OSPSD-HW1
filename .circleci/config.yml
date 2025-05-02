@@ -74,7 +74,8 @@ jobs:
           command: |
             cd build
             lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
-            lcov --remove coverage.info '/usr/*' --output-file coverage.info
+            # Exclude system files, test files, and headers from coverage
+            lcov --remove coverage.info '/usr/*' '*/tests/*' '*/include/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
       - store_test_results:

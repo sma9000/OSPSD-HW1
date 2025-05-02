@@ -2,26 +2,46 @@ cmake_minimum_required(VERSION 3.10)
 project(AIConversationClient)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POLICY_DEFAULT_CMP0074 NEW)  # Make find_package work better with vcpkg
 
-# Include the header files in the include folder
-include_directories(include)
-
-# Find Google Test
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
-
+# Enable testing support
 enable_testing()
 
-# Add test executables directly from the tests folder
+# Automatically locate dependencies installed by vcpkg
+find_package(GTest CONFIG REQUIRED)
+find_package(cpr CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
+# Add include directories for your own headers
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src)
 
-# Link Google Test to the test executables
-target_link_libraries(test_config GTest::gtest_main)
-target_link_libraries(test_conversation_client GTest::gtest_main)
-target_link_libraries(test_conversation_history GTest::gtest_main)
-target_link_libraries(test_error GTest::gtest_main)
-target_link_libraries(test_message GTest::gtest_main)
-target_link_libraries(test_response_formatter GTest::gtest_main)
+# Optional: if gtest headers still give issues, uncomment the next lines:
+# get_target_property(GTEST_INCLUDE_DIR GTest::gtest INTERFACE_INCLUDE_DIRECTORIES)
+# include_directories(${GTEST_INCLUDE_DIR})
 
-# Register the tests
+# Your implementation source files (excluding NLPProcessor.cpp as requested)
+set(SOURCE_FILES
+    src/Config.cpp
+    src/ConversationClient.cpp
+    src/ConversationHistory.cpp
+)
 
+# Define all test targets
+set(TEST_TARGETS
+    test_config
+    test_conversation_client
+    test_conversation_history
+    test_error
+    test_message
+)
+
+foreach(target IN LISTS TEST_TARGETS)
+    add_executable(${target} tests/${target}.cpp ${SOURCE_FILES})
+    target_link_libraries(${target}
+        GTest::gtest
+        GTest::gtest_main
+        cpr::cpr
+        nlohmann_json::nlohmann_json
+    )
+    add_test(NAME ${target} COMMAND ${target})
+endforeach()
