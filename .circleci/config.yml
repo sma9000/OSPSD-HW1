@@ -55,7 +55,7 @@ jobs:
       - run:
           name: Run clang-tidy (Static Analysis)
           command: |
-            clang-tidy include/*.h -- -Iinclude
+            clang-tidy include/*.h -- -Iinclude -stdlib=libc++ -isystem /usr/include/c++/v1
 
       - run:
           name: Run clang-format check (Style Check)
