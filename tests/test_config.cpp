@@ -1,28 +1,22 @@
-#include "IConfig.h"
+#include "Config.h"
 #include <gtest/gtest.h>
-#include <unordered_map>
+#include <type_traits>
 
-// Mock implementation
-class MockConfig : public IConfig {
-  std::unordered_map<std::string, std::string> storage;
+TEST(ConfigTest, SetAndGetReturnsExpectedValue) {
+    Config* config = Config::getInstance();
+    config->clear();  
 
-public:
-  void set(const std::string &key, const std::string &value) override {
-    storage[key] = value;
-  }
+    config->set("language", "en");
 
-  std::string get(const std::string &key) const override {
-    auto it = storage.find(key);
-    return it != storage.end() ? it->second : "";
-  }
-};
+    std::string result = config->get("language");
 
-TEST(ConfigInterfaceTest, SetAndGetReturnsExpectedShape) {
-  MockConfig config;
-  config.set("language", "en");
+    EXPECT_EQ(result, "en");
+    EXPECT_TRUE((std::is_same<decltype(result), std::string>::value));
+}
 
-  std::string result = config.get("language");
+TEST(ConfigTest, ReturnsEmptyStringIfKeyIsMissing) {
+    Config* config = Config::getInstance();
+    config->clear();  
 
-  EXPECT_EQ(result, "en");
-  EXPECT_TRUE((std::is_same<decltype(result), std::string>::value));
+    EXPECT_EQ(config->get("this_key_does_not_exist"), "");
 }
