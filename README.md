@@ -26,32 +26,28 @@ This repository provides an interface-level C++ structure for developing an AI c
 ### Project Structure
 
 ```plaintext
-├── include/                         # Header interfaces for each component
-│   ├── IConfig.h
-│   ├── IConversationClient.h
-│   ├── IConversationHistory.h
-│   ├── IMessage.h
-│   ├── INLPProcessor.h
-│   └── IResponseFormatter.h
-├── src/                             # Empty in HW2, will contain implementation in HW3
-
-├── tests/                           # Unit tests for interface behavior
+├── include/                         # Header files
+│   ├── Config.h
+│   ├── ConversationClient.h
+│   ├── ConversationHistory.h
+│   ├── Message.h
+│   └── Error.h
+├── src/                             # Source files (implementations)
+│   ├── Config.cpp
+│   ├── ConversationClient.cpp
+│   ├── ConversationHistory.cpp
+│   └── Message.cpp
+├── tests/                           # Unit tests
 │   ├── test_config.cpp
-│   ├── test_conversation.cpp
 │   ├── test_conversation_client.cpp
 │   ├── test_conversation_history.cpp
 │   ├── test_error.cpp
 │   ├── test_message.cpp
-│   ├── test_response_formatter.cpp
-
-├── .circleci/                       # Continuous integration setup
+├── .circleci/                       # CircleCI pipeline
 │   └── config.yml
-
-├── interface.md                     # Interface definitions and documentation
-├── pull_request_template.md         # GitHub PR template for contributors
 ├── CMakeLists.txt                   # Build configuration
-├── .gitignore                       # Ignore rules
-├── README.md                        # Project overview and instructions
+├── README.md                        # Project documentation
+
 ```
 
 This repository provides a full-stack C++ template for developing AI-driven conversation systems with:
@@ -62,11 +58,12 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 - **Singleton Configuration**: Centralized settings management.
 
 ### Features
-- Interface-only architecture  
-- Mock-based tests with GoogleTest  
-- Static analysis support via `clang-tidy`  
-- Code formatting with `clang-format`  
-- CI-ready with CircleCI config included
+-AI conversation flow (mocked and configurable)
+-Message history tracking
+-Singleton config manager
+-Unit-tested components (GTest)
+-Static analysis via clang-tidy and clang-format
+-Continuous Integration with CircleCI
 
 ---
 
@@ -74,11 +71,12 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 
 **In Scope:**
 - Header files defining core component APIs
-- Mock-based unit tests to validate interface contracts
 - Documentation: `README.md`, `component.md`, `interface.md`
+-Concrete implementation of core interfaces
+-Full unit test coverage
+-Configurable runtime behavior via Config
 
 **Out of Scope:**
-- API implementation  
 - Real input/output processing  
 - Persistent storage  
 - Full integration/testing  
@@ -107,27 +105,6 @@ Install dependencies using `vcpkg` and install GoogleTest:
 ./vcpkg/vcpkg install gtest
 ```
 
----
-
-## Interface Usage (Preview)
-
-Below is a hypothetical example of how an external user might use the interfaces once implemented (for HW3):
-
-```cpp
-#include "IConversationClient.h"
-
-int main() {
-    // This is just illustrative — implementation does not exist yet
-    IConversationClient* client; // Assume this is initialized via dependency injection
-    client->startConversation();
-    client->sendMessage("Hello, world!");
-    std::string response = client->receiveResponse();
-    client->endConversation();
-    return 0;
-}
-```
-
----
 
 ## Running Tests
 
@@ -143,9 +120,19 @@ Project dependencies installed (see setup instructions)
 
 ```bash
 # From the root directory
-mkdir -p build && cd build
-cmake ..
-make
+# Go to your root directory
+cd ~/Desktop/OSPSD-HW1
+
+# Remove any old build files
+rm -rf build
+mkdir build
+cd build
+
+# Rebuild with vcpkg toolchain
+cmake .. -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
+make -j$(sysctl -n hw.logicalcpu)
+
+# Run all unit tests
 ctest --output-on-failure
 ```
 
@@ -179,61 +166,45 @@ there is no source code to analyze for coverage.
 
 ## API Reference
 
-Below is a summary of the interfaces defined in the project. These interfaces specify the public methods and expected behavior for each component. Implementation is out of scope for this phase.
+These classes are now implemented (not just defined).
 
-### IConfig
-**Purpose**: Manages global configuration settings.  
-**Methods**:
-- `static IConfig* getInstance()`
-- `void set(const std::string& key, const std::string& value)`
-- `std::string get(const std::string& key)`
+Config
+`static Config* getInstance()`
 
----
+`void set(key, value)`
 
-### IConversationClient
-**Purpose**: Manages the flow of an AI conversation.  
-**Methods**:
-- `void startConversation()`
-- `bool sendMessage(const std::string& input)`
-- `std::string receiveResponse()`
-- `void endConversation()`
+`std::string get(key)`
 
----
+`void clear()`
 
-### IConversationHistory
-**Purpose**: Stores and retrieves conversation history.  
-**Methods**:
-- `void addMessage(const IMessage& message)`
-- `std::vector<IMessage> getMessages() const`
+ConversationClient
+`void startConversation()`
 
----
+`bool sendMessage(input) (mock mode returns static response)`
 
-### IMessage
-**Purpose**: Defines the structure of a message object.  
-**Attributes / Methods**:
-- `std::string getSender() const`
-- `std::string getContent() const`
-- `std::string getTimestamp() const`
+`std::string receiveResponse()`
 
----
+`void endConversation()`
 
-### INLPProcessor
-**Purpose**: Handles natural language input/output processing.  
-**Methods**:
-- `std::string preprocessInput(const std::string& input)`
-- `std::string postprocessOutput(const std::string& output)`
+ConversationHistory
+`void addMessage(const Message&)`
 
----
+`std::vector<Message> getMessages() const`
 
-### IResponseFormatter
-**Purpose**: Provides formatting utilities for response output.  
-**Methods**:
-- `std::string formatResponse(const std::string& raw, const std::string& tag, const std::string& suffix)`
-- `std::string addTimestamp(const std::string& response)`
-- `std::string toUpperCase(const std::string& response)`
-- `std::string addNewLineIfNeeded(const std::string& response)`
+Message
+`std::string sender`
 
----
+`std::string content`
+
+`std::chrono::system_clock::time_point timestamp`
+
+Error classes
+`Base class: Error`
+
+Subclasses: ServiceError, InputError, NetworkError, etc.
+
+
+
 
 ## Continuous Integration
 
