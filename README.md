@@ -3,26 +3,54 @@
 Welcome to the AI Conversation Client! This project is a lightweight, extensible C++ client designed for managing AI-driven conversations based on the template repository configured previously. It simulates natural language interactions by processing user input, generating responses, maintaining conversation history, and handling various error and formatting scenarios. It is a draft/starting point with future feature updates to come. 
 
 ## Table of Contents
+
 - [Overview](#overview)
   - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-  - [Basic Usage](#basic-usage)
+- [Features](#features)
+- [Project Scope](#project-scope)
+- [Setup & Installation](#setup--installation)
+- [Interface Usage (Preview)](#interface-usage-preview)
+- [Running Tests](#running-tests)
+- [Static Analysis & Formatting](#static-analysis--formatting)
 - [API Reference](#api-reference)
-  - [Config](#config)
-  - [ConversationClient](#conversationclient)
-  - [ConversationHistory](#conversationhistory)
-  - [Error Classes](#error-classes)
-  - [Message](#message)
-  - [NLPProcessor](#nlpprocessor)
-  - [ResponseFormatter](#responseformatter)
+- [Continuous Integration](#continuous-integration)
 - [Contributing](#contributing)
-- [CircleCI Links](#circleci-links)
 - [License](#license)
 
+---
+
 ## Overview
+
+This repository provides an interface-level C++ structure for developing an AI conversation system, including NLP processing, message handling, formatting, and configuration management. 
+
+### Project Structure
+
+```plaintext
+├── include/
+│   ├── IConfig.h
+│   ├── IConversationClient.h
+│   ├── IConversationHistory.h
+│   ├── IMessage.h
+│   ├── INLPProcessor.h
+│   └── IResponseFormatter.h
+├── src/                          # Implementation directory (empty for interface definition, used in implementation)
+│ 
+├── tests/
+│   ├── test_config.cpp
+│   ├── test_conversation.cpp
+│   ├── test_conversation_client.cpp
+│   ├── test_conversation_history.cpp
+│   ├── test_error.cpp
+│   ├── test_message.cpp
+│   ├── test_nlp_processor.cpp
+│   └── test_response_formatter.cpp
+
+├── interface.md
+├── pull_request_template.md
+├── CMakeLists.txt
+├── .gitignore
+├── README.md
+```
 
 This repository provides a full-stack C++ template for developing AI-driven conversation systems with:
 - **Natural Language Processing**: Preprocesses and postprocesses input and output.
@@ -31,36 +59,37 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 - **Response Formatting**: Timestamping, tagging, and output styling.
 - **Singleton Configuration**: Centralized settings management.
 
-### Project Structure
+### Features
+- Interface-only architecture  
+- Mock-based tests with GoogleTest  
+- Static analysis support via `clang-tidy`  
+- Code formatting with `clang-format`  
+- CI-ready with CircleCI config included
 
-```plaintext
-├── src
-│   ├── Config.h                        # Singleton class for global settings
-│   ├── ConversationClient.h            # Entry point for the conversation system
-│   ├── ConversationHistory.h           # Maintains message history
-│   ├── Error.h                         # Custom error class hierarchy
-│   ├── Message.h                       # Data structure representing a message
-│   ├── NLPProcessor.h                  # Handles input/output text processing
-│   ├── ResponseFormatter.h             # Formats and decorates responses
-│   └── main.cpp                        # Example usage and entry point
-├── tests                               # Unit test files
-│   ├── test_config.h                       
-│   ├── test_converstation_client.h         
-│   ├── test_converstation_history.h   
-│   ├── test_converstation.h  
-│   ├── test_error.h    
-│   ├── test_message.h   
-│   ├── test_nlp_processor.h   
-│   └── test_response_formatter.cpp      
-├── CMakeLists.txt                     # CMake configuration file
-├── Makefile                           # Makefile for quick builds
-└── README.md                          # Project documentation
+---
 
+## Project Scope
+
+**In Scope:**
+- Header files defining core component APIs
+- Mock-based unit tests to validate interface contracts
+- Documentation: `README.md`, `component.md`, `interface.md`
+
+**Out of Scope:**
+- API implementation  
+- Real input/output processing  
+- Persistent storage  
+- Full integration/testing  
+
+---
+
+## Setup & Installation
+
+```bash
+git clone https://github.com/sma9000/OSPSD-HW1.git
+cd interface-definition-finalmod
+git checkout interface-definition-finalmod
 ```
-
-## Getting Started
-
-### Prerequisites
 
 Make sure you have the following tools installed:
 - [CMake](https://cmake.org/)
@@ -68,187 +97,161 @@ Make sure you have the following tools installed:
 - [Clang](https://clang.llvm.org/)
 - [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html)
 
-### Installation
-
-Clone the repository and install dependencies using `vcpkg`:
+Install dependencies using `vcpkg` and install GoogleTest:
 
 ```bash
-git clone https://github.com/yourusername/advanced-cpp-template-repo.git
-cd advanced-cpp-template-repo
 ./vcpkg/bootstrap-vcpkg.sh
 ./vcpkg/vcpkg integrate install
 ./vcpkg/vcpkg install gtest
 ```
 
-## Usage
+---
 
-### Basic Usage
+## Interface Usage (Preview)
 
-Here is a basic example of starting a conversation using the `ConversationClient`:
+Below is a hypothetical example of how an external user might use the interfaces once implemented (for HW3):
 
 ```cpp
-#include "ConversationClient.h"
+#include "IConversationClient.h"
 
 int main() {
-    ConversationClient client;
-    client.startConversation();
-    client.sendMessage("Hello, world!");
-    std::string response = client.receiveResponse();
-    client.endConversation();
+    // This is just illustrative — implementation does not exist yet
+    IConversationClient* client; // Assume this is initialized via dependency injection
+    client->startConversation();
+    client->sendMessage("Hello, world!");
+    std::string response = client->receiveResponse();
+    client->endConversation();
     return 0;
 }
 ```
-@nabha update here?{
-  ### Building the Project
-  Configure and build the project using CMake:
-
-  ```bash
-  cmake -Bbuild -H.
-  cmake --build build
-  ```
-  ### Running Tests
-  Run the unit tests using the Google Test framework:
-
-
-  ```bash
-  ./build/tests
-  ```
-
-  ### Static Analysis
-  Run static analysis using ClangTidy:
-
-  ```bash
-  clang-tidy src/*.cpp
-  ```
-
-  ### Code Coverage
-  Generate code coverage reports using gcov:
-
-  ```bash
-  gcov src/*.cpp
-  
-  ```
-}
-## Components
-
-# API Reference
-
-Detailed description of the API functionalities provided by each header.
 
 ---
 
-## Config
+## Running Tests
 
-**Purpose**: Manages configuration settings as a singleton.
-
-### Functions:
-
-- `static Config* getInstance()`: Retrieves the singleton instance.
-- `void set(const std::string& key, const std::string& value)`: Sets a configuration parameter.
-- `std::string get(const std::string& key) const`: Retrieves a configuration value.
-
----
-
-## ConversationClient
-
-**Purpose**: Handles the flow of conversation.
-
-### Functions:
-
-- `void startConversation()`: Initializes a conversation.
-- `bool sendMessage(const std::string& input)`: Sends a message to the conversation.
-- `std::string receiveResponse()`: Receives a response from the conversation.
-- `void endConversation()`: Ends the conversation.
+```bash
+mkdir build
+cd build
+cmake ..
+make
+ctest
+```
 
 ---
 
-## ConversationHistory
+## Static Analysis & Formatting
 
-**Purpose**: Stores messages within a conversation.
+### Run static analysis using Clang-Tidy:
 
-### Functions:
+```bash
+clang-tidy include/*.h -- -Iinclude
+```
 
-- `void addMessage(const Message& msg)`: Adds a message to the history.
-- `std::vector<Message> getMessages() const`: Retrieves all messages from the history.
+### Format code with Clang-Format:
 
----
+```bash
+clang-format -i include/*.h tests/*.cpp
+```
 
-## Error Classes
+### Code Coverage:
+Not applicable in this phase. Since this repo only defines interfaces without implementation,
+there is no source code to analyze for coverage.
 
-**Purpose**: Defines various error types for robust error handling.
-
-### Types:
-
-- `NetworkError`
-- `IOError`
-- `ParseError`
-- `InputError`
-- `TimeoutError`
-- `ServiceError`
-
-These are custom exception types for handling specific error scenarios.
 
 ---
 
-## Message
+## API Reference
 
-**Purpose**: Represents a message structure.
+Below is a summary of the interfaces defined in the project. These interfaces specify the public methods and expected behavior for each component. Implementation is out of scope for this phase.
 
-### Details:
-
-- Contains `sender`, `content`, and `timestamp`.
-
----
-
-## NLPProcessor
-
-**Purpose**: Processes natural language input and output.
-
-### Functions:
-
-- `std::string preprocessInput(const std::string& input)`: Preprocesses the input text.
-- `std::string postprocessOutput(const std::string& output)`: Postprocesses the output text.
+### IConfig
+**Purpose**: Manages global configuration settings.  
+**Methods**:
+- `static IConfig* getInstance()`
+- `void set(const std::string& key, const std::string& value)`
+- `std::string get(const std::string& key)`
 
 ---
 
-## ResponseFormatter
+### IConversationClient
+**Purpose**: Manages the flow of an AI conversation.  
+**Methods**:
+- `void startConversation()`
+- `bool sendMessage(const std::string& input)`
+- `std::string receiveResponse()`
+- `void endConversation()`
 
-**Purpose**: Formats and manipulates response strings.
+---
 
-### Functions:
+### IConversationHistory
+**Purpose**: Stores and retrieves conversation history.  
+**Methods**:
+- `void addMessage(const IMessage& message)`
+- `std::vector<IMessage> getMessages() const`
 
-- `static std::string formatResponse(const std::string &rawResponse, const std::string &tag, const std::string &suffix)`: Formats a response with tags and suffix.
-- `static std::string addTimestamp(const std::string &response)`: Appends a timestamp to the response.
-- `static std::string toUpperCase(const std::string &response)`: Converts the response to uppercase.
-- `static std::string addNewLineIfNeeded(const std::string &response)`: Ensures the response ends with a newline.
-### Further features will have updates here
+---
+
+### IMessage
+**Purpose**: Defines the structure of a message object.  
+**Attributes / Methods**:
+- `std::string getSender() const`
+- `std::string getContent() const`
+- `std::string getTimestamp() const`
+
+---
+
+### INLPProcessor
+**Purpose**: Handles natural language input/output processing.  
+**Methods**:
+- `std::string preprocessInput(const std::string& input)`
+- `std::string postprocessOutput(const std::string& output)`
+
+---
+
+### IResponseFormatter
+**Purpose**: Provides formatting utilities for response output.  
+**Methods**:
+- `std::string formatResponse(const std::string& raw, const std::string& tag, const std::string& suffix)`
+- `std::string addTimestamp(const std::string& response)`
+- `std::string toUpperCase(const std::string& response)`
+- `std::string addNewLineIfNeeded(const std::string& response)`
+
+---
 
 ## Continuous Integration
-This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at .circleci/config.yml. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports.
+
+This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at `.circleci/config.yml`. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports.
+What CircleCI Does:
+- Builds the project using CMake and a clean environment each time changes are pushed.
+- Installs dependencies like GoogleTest via vcpkg.
+- Runs unit tests and reports their success or failure.
+- Performs static code analysis using clang-tidy to catch code quality and correctness issues.
+- Checks code formatting with clang-format to ensure consistent style.
+- Generates code coverage reports using lcov and gcov to track tested vs. untested lines of code.
+- Stores artifacts and test results for further inspection or documentation.
+
+
+
+### CircleCI Links
+
+- ❌ Failed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53)  
+- ✅ Passed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56)
+
+---
 
 ## Contributing
-We welcome contributions! Please follow these guidelines when contributing to this project:
 
-1. Fork the repository.
+We welcome contributions! Please follow these guidelines:
 
-2. Create a new branch (git checkout -b feature/your-feature).
+1. Fork the repository  
+2. Create a new branch: `git checkout -b feature/your-feature`  
+3. Make your changes  
+4. Commit: `git commit -m 'Add some feature'`  
+5. Push: `git push origin feature/your-feature`  
+6. Open a pull request  
 
-3. Make your changes.
-
-4. Commit your changes (git commit -m 'Add some feature').
-
-5. Push to the branch (git push origin feature/your-feature).
-
-6. Open a pull request.
-
-##CircleCI Links
-
-#@nabiha update here?{
-
-Failed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53 
-
-Passed Test: https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56
-}
+---
 
 ## License
+
 This project is licensed under the MIT License.
