@@ -27,10 +27,22 @@ This repository provides an interface-level C++ structure for developing an AI c
 
 ```plaintext
 ├── include/                         # Header interfaces for each component
-
+│   ├── IConfig.h
+│   ├── IConversationClient.h
+│   ├── IConversationHistory.h
+│   ├── IMessage.h
+│   ├── INLPProcessor.h
+│   └── IResponseFormatter.h
 ├── src/                             # Empty in HW2, will contain implementation in HW3
 
 ├── tests/                           # Unit tests for interface behavior
+│   ├── test_config.cpp
+│   ├── test_conversation.cpp
+│   ├── test_conversation_client.cpp
+│   ├── test_conversation_history.cpp
+│   ├── test_error.cpp
+│   ├── test_message.cpp
+│   ├── test_response_formatter.cpp
 
 ├── .circleci/                       # Continuous integration setup
 │   └── config.yml
@@ -169,11 +181,78 @@ there is no source code to analyze for coverage.
 
 Below is a summary of the interfaces defined in the project. These interfaces specify the public methods and expected behavior for each component. Implementation is out of scope for this phase.
 
+### IConfig
+**Purpose**: Manages global configuration settings.  
+**Methods**:
+- `static IConfig* getInstance()`
+- `void set(const std::string& key, const std::string& value)`
+- `std::string get(const std::string& key)`
+
+---
+
+### IConversationClient
+**Purpose**: Manages the flow of an AI conversation.  
+**Methods**:
+- `void startConversation()`
+- `bool sendMessage(const std::string& input)`
+- `std::string receiveResponse()`
+- `void endConversation()`
+
+---
+
+### IConversationHistory
+**Purpose**: Stores and retrieves conversation history.  
+**Methods**:
+- `void addMessage(const IMessage& message)`
+- `std::vector<IMessage> getMessages() const`
+
+---
+
+### IMessage
+**Purpose**: Defines the structure of a message object.  
+**Attributes / Methods**:
+- `std::string getSender() const`
+- `std::string getContent() const`
+- `std::string getTimestamp() const`
+
+---
+
+### INLPProcessor
+**Purpose**: Handles natural language input/output processing.  
+**Methods**:
+- `std::string preprocessInput(const std::string& input)`
+- `std::string postprocessOutput(const std::string& output)`
+
+---
+
+### IResponseFormatter
+**Purpose**: Provides formatting utilities for response output.  
+**Methods**:
+- `std::string formatResponse(const std::string& raw, const std::string& tag, const std::string& suffix)`
+- `std::string addTimestamp(const std::string& response)`
+- `std::string toUpperCase(const std::string& response)`
+- `std::string addNewLineIfNeeded(const std::string& response)`
+
+---
+
+## Continuous Integration
+
+This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at `.circleci/config.yml`. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports.
+What CircleCI Does:
+- Builds the project using CMake and a clean environment each time changes are pushed.
+- Installs dependencies like GoogleTest via vcpkg.
+- Runs unit tests and reports their success or failure.
+- Performs static code analysis using clang-tidy to catch code quality and correctness issues.
+- Checks code formatting with clang-format to ensure consistent style.
+- Generates code coverage reports using lcov and gcov to track tested vs. untested lines of code.
+- Stores artifacts and test results for further inspection or documentation.
 
 
 
 ### CircleCI Links
 
+- ❌ Failed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53)  
+- ✅ Passed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56)
 
 ---
 
