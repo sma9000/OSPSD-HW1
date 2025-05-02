@@ -129,13 +129,28 @@ int main() {
 
 ## Running Tests
 
+## Testing Locally
+-This project uses Google Test and CMake for unit testing.
+-Prerequisites
+CMake >= 3.10
+g++ or clang++
+GoogleTest (installed via vcpkg or system-wide)
+Project dependencies installed (see setup instructions)
+
+# Build and Run Tests
+
 ```bash
-mkdir build
-cd build
+# From the root directory
+mkdir -p build && cd build
 cmake ..
 make
-ctest
+ctest --output-on-failure
 ```
+
+What It Does:
+1. Compiles the test files in /tests/
+2. Runs them using ctest
+3. Outputs failures (if any) for easy debugging
 
 ---
 

@@ -2,7 +2,7 @@
 #define ICONVERSATION_HISTORY_H
 
 #include <vector>
-#include "Message.h"
+#include "IMessage.h"
 
 /**
  * @brief Interface for storing and retrieving conversation history.
