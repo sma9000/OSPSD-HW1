@@ -26,30 +26,32 @@ This repository provides an interface-level C++ structure for developing an AI c
 ### Project Structure
 
 ```plaintext
-├── include/
+├── include/                         # Header interfaces for each component
 │   ├── IConfig.h
 │   ├── IConversationClient.h
 │   ├── IConversationHistory.h
 │   ├── IMessage.h
 │   ├── INLPProcessor.h
 │   └── IResponseFormatter.h
-├── src/                          # Implementation directory (empty for interface definition, used in implementation)
-│ 
-├── tests/
+├── src/                             # Empty in HW2, will contain implementation in HW3
+
+├── tests/                           # Unit tests for interface behavior
 │   ├── test_config.cpp
 │   ├── test_conversation.cpp
 │   ├── test_conversation_client.cpp
 │   ├── test_conversation_history.cpp
 │   ├── test_error.cpp
 │   ├── test_message.cpp
-│   ├── test_nlp_processor.cpp
-│   └── test_response_formatter.cpp
+│   ├── test_response_formatter.cpp
 
-├── interface.md
-├── pull_request_template.md
-├── CMakeLists.txt
-├── .gitignore
-├── README.md
+├── .circleci/                       # Continuous integration setup
+│   └── config.yml
+
+├── interface.md                     # Interface definitions and documentation
+├── pull_request_template.md         # GitHub PR template for contributors
+├── CMakeLists.txt                   # Build configuration
+├── .gitignore                       # Ignore rules
+├── README.md                        # Project overview and instructions
 ```
 
 This repository provides a full-stack C++ template for developing AI-driven conversation systems with:
