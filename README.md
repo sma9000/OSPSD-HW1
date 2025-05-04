@@ -26,29 +26,42 @@ This repository provides an interface-level C++ structure for developing an AI c
 ### Project Structure
 
 ```plaintext
-├── include/                         # Header files
-│   ├── Config.h
-│   ├── ConversationClient.h
-│   ├── ConversationHistory.h
-│   ├── Message.h
-│   └── Error.h
-├── src/                             # Source files (implementations)
+├── .circleci/                        # CI/CD configuration
+│   └── config.yml                    # CircleCI pipeline
+├── .github/ISSUE_TEMPLATE/          # GitHub issue templates
+├── extern/                          # External dependencies (e.g., interfaces)
+├── include/                         # Public C++ header files (interfaces)
+│   ├── Config.h                     # Implementation header
+│   ├── ConversationClient.h         # Implementation header
+│   ├── ConversationHistory.h        # Implementation header
+│   ├── Error.h                      # Error class definitions
+│   ├── IMessage.h                   # Interface: Message contract
+│   ├── IConfig.h                    # Interface: Config contract
+│   ├── IConversationClient.h        # Interface: Conversation client contract
+│   └── IConversationHistory.h       # Interface: History contract
+├── mail-client/                     # Git submodule for Gmail integration
+│   └── mail_gmail_impl/             # Python implementation for Gmail API
+│       └── gmail_client.py
+├── scripts/                         # Project scripts
+│   └── fetch_emails.py               # Fetches Gmail emails to emails.csv
+├── src/                             # C++ implementation source files
 │   ├── Config.cpp
 │   ├── ConversationClient.cpp
 │   ├── ConversationHistory.cpp
-│   └── Message.cpp
-├── tests/                           # Unit tests
+│
+├── tests/                           # Unit tests for all components
 │   ├── test_config.cpp
+│   ├── test_conversation.cpp
 │   ├── test_conversation_client.cpp
 │   ├── test_conversation_history.cpp
 │   ├── test_error.cpp
-│   ├── test_message.cpp
-├── .circleci/                       # CircleCI pipeline
-│   └── config.yml
-├── CMakeLists.txt                   # Build configuration
-├── README.md                        # Project documentation
-
-```
+│   └── test_message.cpp
+├── .gitignore                       # Files ignored by Git
+├── .gitmodules                      # Submodule tracking configuration
+├── CMakeLists.txt                   # Main CMake build configuration
+├── README.md                        # Main documentation
+├── interface.md                     # Interface design description
+└── pull_request_template.md         # PR structure for GitHub
 
 This repository provides a full-stack C++ template for developing AI-driven conversation systems with:
 - **Natural Language Processing**: Preprocesses and postprocesses input and output.
@@ -70,25 +83,23 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 ## Project Scope
 
 **In Scope:**
-- Header files defining core component APIs
-- Documentation: `README.md`, `component.md`, `interface.md`
--Concrete implementation of core interfaces
--Full unit test coverage
--Configurable runtime behavior via Config
+Step 1: Mail Client Setup
+-Connect inbox component using git submodule
+-Running python script; fetch_emails.py to crawl emails and generate emails.cvs (Since the foreign component is in Python, we used Python here)
+-Set up Gmail OAuth
+
 
 **Out of Scope:**
-- Real input/output processing  
-- Persistent storage  
-- Full integration/testing  
-
+-Step 2:Integration
+-Step 3: End-to-End Testing
 ---
 
 ## Setup & Installation
 
 ```bash
 git clone https://github.com/sma9000/OSPSD-HW1.git
-cd interface-definition-finalmod
-git checkout interface-definition-finalmod
+cd hw4-step1-clean
+git checkout hw4-step1-clean
 ```
 
 Make sure you have the following tools installed:
@@ -105,6 +116,25 @@ Install dependencies using `vcpkg` and install GoogleTest:
 ./vcpkg/vcpkg install gtest
 ```
 
+Install Required Python Libraries
+```bash
+pip install pandas                  # For saving data as CSV
+pip install html2text              # To convert HTML emails to readable text
+pip install --upgrade google-api-python-client google-auth-httplib2
+```
+
+Set up Gmail OAuth with Your Personal Gmail:
+-Visit: https://console.cloud.google.com/welcome?project=nyu-data-454619
+-Create a new project
+-Enable the Gmail API under “APIs & Services > Library”
+-Go to Credentials > OAuth Consent Screen
+   Choose External
+   Add your Gmail as a test user
+   Go to Credentials > Create Credentials > OAuth Client ID
+   Choose “Desktop App”
+-Download the JSON file and rename it to credentials.json
+-Place it in your project’s root directory (next to scripts/)
+
 
 ## Running Tests
 
@@ -119,27 +149,14 @@ Project dependencies installed (see setup instructions)
 # Build and Run Tests
 
 ```bash
-# From the root directory
-# Go to your root directory
-cd ~/Desktop/OSPSD-HW1
-
-# Remove any old build files
-rm -rf build
-mkdir build
-cd build
-
-# Rebuild with vcpkg toolchain
-cmake .. -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
-make -j$(sysctl -n hw.logicalcpu)
-
-# Run all unit tests
-ctest --output-on-failure
+python scripts/fetch_emails.py
 ```
 
 What It Does:
-1. Compiles the test files in /tests/
-2. Runs them using ctest
-3. Outputs failures (if any) for easy debugging
+A browser will open. Sign in with the Gmail you authorized.
+Click "Continue" to grant access.
+If blocked, return to the OAuth screen and re-add your Gmail as a test user.
+On success, a token.json will be created — add this to your .gitignore.
 
 ---
 
@@ -204,6 +221,15 @@ Error classes
 Subclasses: ServiceError, InputError, NetworkError, etc.
 
 
+### Code Coverage:
+
+Limited coverage tracking in this phase.
+
+While this step focuses primarily on setting up the external mail client and generating email data (via Python), it does not yet include C++ source logic that can be compiled and analyzed for line-by-line coverage using tools like `gcov` or `lcov`.
+
+However, this setup lays the groundwork for coverage measurement in later phases, once integration logic (`integrate.cpp`) and full pipeline testing are introduced.
+
+
 
 
 ## Continuous Integration
@@ -222,8 +248,8 @@ What CircleCI Does:
 
 ### CircleCI Links
 
-- ❌ Failed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53)  
-- ✅ Passed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56)
+- ❌ Failed Test: [Link](hhttps://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/161/workflows/7b238ae2-3bdf-4711-a491-9dda1fa8ecc2/jobs/184)  
+- ✅ Passed Test: [Link](hhttps://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/163/workflows/1d96c6a6-234d-4c4a-9ea9-3753874228aa/jobs/186)
 
 ---
 
