@@ -29,7 +29,10 @@ jobs:
               curl zip unzip tar git cmake g++ make pkg-config \
               lcov
 
-            # More reliable clone with retry and shallow clone
+            # Clean up any broken clone before retrying
+            rm -rf $VCPKG_ROOT
+
+            # Retry shallow clone until successful
             until git clone --depth=1 https://github.com/microsoft/vcpkg.git $VCPKG_ROOT; do
               echo "Retrying vcpkg clone..."
               sleep 3
