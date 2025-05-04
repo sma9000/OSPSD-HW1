@@ -50,6 +50,10 @@ set(TEST_TARGETS
     test_conversation_history
     test_error
     test_message
+    test_integration     
+    test_endpoint        
+    test_e2e             
+    test_interfaces
 )
 
 foreach(target IN LISTS TEST_TARGETS)
