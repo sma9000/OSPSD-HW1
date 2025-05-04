@@ -5,6 +5,7 @@ Config* Config::instance = nullptr;
 Config* Config::getInstance() {
     if (instance == nullptr) {
         instance = new Config();
+        std::atexit([]() { delete instance; });
     }
     return instance;
 }
