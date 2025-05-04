@@ -29,7 +29,12 @@ jobs:
               curl zip unzip tar git cmake g++ make pkg-config \
               lcov
 
-            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
+            # More reliable clone with retry and shallow clone
+            until git clone --depth=1 https://github.com/microsoft/vcpkg.git $VCPKG_ROOT; do
+              echo "Retrying vcpkg clone..."
+              sleep 3
+            done
+
             $VCPKG_ROOT/bootstrap-vcpkg.sh
             $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
 
@@ -62,7 +67,6 @@ jobs:
               clang-tidy -p=. $file -- -Iinclude || true
             done
 
-      # REMOVED clang-format check
 
       - run:
           name: Run Unit Tests
