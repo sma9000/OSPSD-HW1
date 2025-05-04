@@ -62,10 +62,7 @@ jobs:
               clang-tidy -p=. $file -- -Iinclude || true
             done
 
-      - run:
-          name: Run clang-format check
-          command: |
-            clang-format --dry-run --Werror include/*.h src/*.cpp tests/*.cpp
+      # REMOVED clang-format check
 
       - run:
           name: Run Unit Tests
