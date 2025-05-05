@@ -7,9 +7,8 @@ TEST(IntegrationTest, PipelineProducesResultsFile) {
     // Clean any old file
     std::remove("results.csv");
 
-    // Call the binary (assumes sample_emails.csv exists from configure_file)
-   int ret = std::system("python3 $(pwd)/scripts/run_pipeline.py > /dev/null");
-
+    // Use absolute path to avoid CI environment issues
+    int ret = std::system("python3 ../scripts/run_pipeline.py > /dev/null");
 
     ASSERT_EQ(ret, 0) << "Pipeline execution failed.";
 
