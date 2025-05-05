@@ -43,7 +43,7 @@ This repository provides an interface-level C++ structure for developing an AI c
 │   └── mail_gmail_impl/             # Python implementation for Gmail API
 │       └── gmail_client.py
 ├── scripts/                         # Project scripts
-│   └── fetch_emails.py               # Fetches Gmail emails to emails.csv
+│   └── run_pipeline.py              # Formerly fetch_emails.py; Has full pipeline structure for crawling emails
 ├── src/                             # C++ implementation source files
 │   ├── Config.cpp
 │   ├── ConversationClient.cpp
@@ -91,7 +91,7 @@ This milestone is focused on integrating external email input with AI-driven spa
 
 Step 1: Mail Client Setup  
 - Connected inbox component using Git submodule  
-- Ran Python script `fetch_emails.py` to crawl Gmail and create `emails.csv`  
+- Ran Python script `run_pipeline.py` to crawl Gmail and create `emails.csv`  
 - Gmail OAuth configured with personal Gmail account  
 
 Step 2: Integration  
@@ -177,7 +177,7 @@ Set up Gmail OAuth with Your Personal Gmail:
 ### Running Integration Pipeline
 ```bash
 # Step 1: Generate emails.csv
-python scripts/fetch_emails.py
+python scripts/run_pipeline.py
 
 # Step 2: Build and run integration logic
 rm -rf build/
