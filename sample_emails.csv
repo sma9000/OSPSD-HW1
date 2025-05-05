@@ -1,0 +1,11 @@
+mail_id,email_body
+sample1,Subject: Welcome\n\nThanks for signing up! Verify here: https://example.com
+sample2,Subject: Urgent: Suspension\n\nUpdate now: http://fake-link.com
+sample3,Subject: Invoice\n\nYour payment of $29.99 is due.
+sample4,Subject: Prize Winner!\n\nClaim your $1000 gift card: http://scam-example.com
+sample5,Subject: Meeting\n\nTeam meeting at 10 AM tomorrow.
+sample6,Subject: Password Reset\n\nClick here if requested: https://example.com/reset
+sample7,Subject: 50% Off\n\nUse code FAKE123: https://example.com/shop
+sample8,Subject: Security Alert\n\nNew login detected.
+sample9,Subject: Renewal\n\nYour plan renews on 2025-05-01.
+sample10,Subject: Test Email\n\nThis is a safe test email.

@@ -79,6 +79,24 @@ jobs:
             ctest --output-on-failure --output-junit test-results/test-results.xml
 
       - run:
+            name: Run End-to-End Test for run_pipeline
+            command: |
+              cd build
+              OPENAI_API_KEY=$OPENAI_API_KEY ./run_pipeline
+
+      - run:
+          name: Verify End-to-End Output
+          command: |
+            cd build
+            if [ -f results.csv ]; then
+              echo "Results file generated:"
+              head -n 10 results.csv
+            else
+              echo "Results file not found!"
+              exit 1
+            fi  
+
+      - run:
           name: Generate Code Coverage Report
           command: |
             cd build
