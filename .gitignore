@@ -2,3 +2,5 @@ vcpkg/
 .idea/
 extern/
 .DS_Store
+credentials.json
+token.json

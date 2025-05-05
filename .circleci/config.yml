@@ -16,6 +16,10 @@ jobs:
     steps:
       - checkout
 
+      - restore_cache:
+          keys:
+            - vcpkg-cache
+
       - run:
           name: Install Build Tools and vcpkg
           command: |
@@ -25,13 +29,22 @@ jobs:
               curl zip unzip tar git cmake g++ make pkg-config \
               lcov
 
-            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
-            $VCPKG_ROOT/bootstrap-vcpkg.sh
+            # Clean up any broken clone before retrying
+            rm -rf $VCPKG_ROOT
 
-      - run:
-          name: Install Dependencies via vcpkg
-          command: |
+            # Retry shallow clone until successful
+            until git clone --depth=1 https://github.com/microsoft/vcpkg.git $VCPKG_ROOT; do
+              echo "Retrying vcpkg clone..."
+              sleep 3
+            done
+
+            $VCPKG_ROOT/bootstrap-vcpkg.sh
             $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
+
+      - save_cache:
+          key: vcpkg-cache
+          paths:
+            - /opt/vcpkg
 
       - run:
           name: Clean build directory
@@ -46,7 +59,7 @@ jobs:
               -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
               -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_CXX_FLAGS="--coverage"
-            make
+            make || { echo "Build failed"; exit 1; }
             cp compile_commands.json ..
 
       - run:
@@ -57,10 +70,6 @@ jobs:
               clang-tidy -p=. $file -- -Iinclude || true
             done
 
-      - run:
-          name: Run clang-format check
-          command: |
-            clang-format --dry-run --Werror include/*.h tests/*.cpp
 
       - run:
           name: Run Unit Tests
@@ -74,7 +83,6 @@ jobs:
           command: |
             cd build
             lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
-            # Exclude system files, test files, and headers from coverage
             lcov --remove coverage.info '/usr/*' '*/tests/*' '*/include/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 

@@ -1,0 +1,3 @@
+[submodule "mail-client"]
+	path = mail-client
+	url = https://github.com/Awek-015/OSPSD.git
