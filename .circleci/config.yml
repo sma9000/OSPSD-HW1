@@ -27,7 +27,7 @@ jobs:
             apt-get update && apt-get install -y \
               clang clang-tidy clang-format \
               curl zip unzip tar git cmake g++ make pkg-config \
-              lcov python3-pip
+              lcov python3-pip python3-venv
 
             # Clean up any broken clone before retrying
             rm -rf $VCPKG_ROOT
@@ -42,9 +42,11 @@ jobs:
             $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
 
       - run:
-          name: Install Python Dependencies
+          name: Install Python Dependencies via APT
           command: |
-            pip3 install pandas google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client html2text
+            apt-get update && apt-get install -y \
+              python3-pandas python3-google-auth python3-google-auth-oauthlib \
+              python3-google-auth-httplib2 python3-googleapi python3-html2text
 
       - save_cache:
           key: vcpkg-cache
@@ -128,3 +130,4 @@ workflows:
   test-and-coverage:
     jobs:
       - build-and-test
+
