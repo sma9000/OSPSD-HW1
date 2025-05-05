@@ -44,7 +44,7 @@ This repository provides an interface-level C++ structure for developing an AI c
 │   └── mail_gmail_impl/
 │       └── gmail_client.py
 ├── scripts/
-│   └── run_pipeline.py              # Fetches Gmail emails to and runs pipeline
+│   └── run_pipeline.py              # Fetches Gmail emails and runs pipeline
 ├── src/
 │   ├── Config.cpp
 │   ├── ConversationClient.cpp
@@ -143,8 +143,8 @@ cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cm
 Or system-wide:
 
 ```bash
-brew install cpr nlohmann-json         # macOS
-sudo apt install libcpr-dev nlohmann-json3-dev  # Linux
+brew install cpr nlohmann-json
+sudo apt install libcpr-dev nlohmann-json3-dev
 ```
 
 ### Install Python Libraries
@@ -169,7 +169,7 @@ pip install --upgrade google-api-python-client google-auth-httplib2
 
 ## Interface Usage (Preview)
 
-*To be defined in a future update.*
+_To be added in a future release._
 
 ---
 
@@ -240,7 +240,7 @@ clang-format -i include/*.h tests/*.cpp
 
 ### Error classes
 
-- Base: `Error`
+- Base class: `Error`
 - Subclasses: `ServiceError`, `InputError`, `NetworkError`, etc.
 
 ---
@@ -256,7 +256,7 @@ CircleCI is used for:
 - Code formatting checks (clang-format)
 - Code coverage with gcov/lcov
 
-Example links:
+### CircleCI Links
 
 - ❌ Failed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/161/workflows/7b238ae2-3bdf-4711-a491-9dda1fa8ecc2/jobs/184)  
 - ✅ Passed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/165/workflows/ef341b0a-fa8e-4b8c-a713-0f3ec9ab2c33)
@@ -266,11 +266,11 @@ Example links:
 ## Contributing
 
 1. Fork the repository  
-2. Create a new branch: `git checkout -b feature/your-feature`  
-3. Make your changes  
+2. Create a branch: `git checkout -b feature/your-feature`  
+3. Make changes  
 4. Commit: `git commit -m 'Add feature'`  
 5. Push: `git push origin feature/your-feature`  
-6. Open a pull request  
+6. Open a pull request
 
 ---
 
