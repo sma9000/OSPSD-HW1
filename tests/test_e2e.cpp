@@ -11,7 +11,7 @@ TEST(E2ETest, PipelineGeneratesSpamScores) {
     std::remove("results.csv");
 
     // Fixed: Run Python script instead of Windows-style .exe
-    int ret = std::system("python3 scripts/run_pipeline.py > /dev/null");
+    int ret = std::system("python3 $(pwd)/scripts/run_pipeline.py > /dev/null");
     ASSERT_EQ(ret, 0) << "Pipeline execution failed.";
 
     std::ifstream result("results.csv");
