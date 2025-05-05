@@ -26,29 +26,48 @@ This repository provides an interface-level C++ structure for developing an AI c
 ### Project Structure
 
 ```plaintext
-├── include/                         # Header files
-│   ├── Config.h
-│   ├── ConversationClient.h
-│   ├── ConversationHistory.h
-│   ├── Message.h
-│   └── Error.h
-├── src/                             # Source files (implementations)
+├── .circleci/                        # CI/CD configuration
+│   └── config.yml                    # CircleCI pipeline
+├── .github/ISSUE_TEMPLATE/          # GitHub issue templates
+├── extern/                          # External dependencies (e.g., interfaces)
+├── include/                         # Public C++ header files (interfaces)
+│   ├── Config.h                     # Implementation header
+│   ├── ConversationClient.h         # Implementation header
+│   ├── ConversationHistory.h        # Implementation header
+│   ├── Error.h                      # Error class definitions
+│   ├── IMessage.h                   # Interface: Message contract
+│   ├── IConfig.h                    # Interface: Config contract
+│   ├── IConversationClient.h        # Interface: Conversation client contract
+│   └── IConversationHistory.h       # Interface: History contract
+├── mail-client/                     # Git submodule for Gmail integration
+│   └── mail_gmail_impl/             # Python implementation for Gmail API
+│       └── gmail_client.py
+├── scripts/                         # Project scripts
+│   └── fetch_emails.py               # Fetches Gmail emails to emails.csv
+├── src/                             # C++ implementation source files
 │   ├── Config.cpp
 │   ├── ConversationClient.cpp
 │   ├── ConversationHistory.cpp
-│   └── Message.cpp
-├── tests/                           # Unit tests
-│   ├── test_config.cpp
+│   ├── Message.cpp
+│   └── integrate.cpp
+│
+├── tests/                           # Unit tests for all components
+│    ├── test_config.cpp
+│   ├── test_conversation.cpp
 │   ├── test_conversation_client.cpp
 │   ├── test_conversation_history.cpp
 │   ├── test_error.cpp
 │   ├── test_message.cpp
-├── .circleci/                       # CircleCI pipeline
-│   └── config.yml
-├── CMakeLists.txt                   # Build configuration
-├── README.md                        # Project documentation
-
-```
+│   ├── test_integration.cpp
+│   ├── test_interfaces.cpp
+│   ├── test_endpoint.cpp
+│   └── test_e2e.cpp
+├── .gitignore                       # Files ignored by Git
+├── .gitmodules                      # Submodule tracking configuration
+├── CMakeLists.txt                   # Main CMake build configuration
+├── README.md                        # Main documentation
+├── interface.md                     # Interface design description
+└── pull_request_template.md         # PR structure for GitHub
 
 This repository provides a full-stack C++ template for developing AI-driven conversation systems with:
 - **Natural Language Processing**: Preprocesses and postprocesses input and output.
@@ -69,26 +88,44 @@ This repository provides a full-stack C++ template for developing AI-driven conv
 
 ## Project Scope
 
-**In Scope:**
-- Header files defining core component APIs
-- Documentation: `README.md`, `component.md`, `interface.md`
--Concrete implementation of core interfaces
--Full unit test coverage
--Configurable runtime behavior via Config
 
-**Out of Scope:**
-- Real input/output processing  
-- Persistent storage  
-- Full integration/testing  
+This milestone is focused on integrating external email input with AI-driven spam classification. It builds on the interface scaffolding created in previous steps and connects it to real-world data via the Gmail API and OpenAI’s endpoints.
 
----
+Step 1: Mail Client Setup  
+- Connected inbox component using Git submodule  
+- Ran Python script `fetch_emails.py` to crawl Gmail and create `emails.csv`  
+- Gmail OAuth configured with personal Gmail account  
+
+Step 2: Integration  
+- Implemented `integrate.cpp` which:
+  - Loads `emails.csv`
+  - Sends email content to OpenAI’s API
+  - Extracts response (e.g., spam probability) and saves to `results.csv`
+Step 3: End-to-End Testing  
+- Final testing of the entire pipeline (email crawl → integration → AI response)
+- Added new test files to validate system behavior across boundaries
+- Ensured any test failure triggers E2E failure in CircleCI pipeline
+
 
 ## Setup & Installation
 
 ```bash
 git clone https://github.com/sma9000/OSPSD-HW1.git
-cd interface-definition-finalmod
-git checkout interface-definition-finalmod
+cd hw4-step3
+git checkout hw4-step3
+```
+
+
+### OpenAI API Setup
+
+### 1. Get the API Key
+For shared organizations, each team member can:
+- Log into https://platform.openai.com/
+- Create a new API key or reuse an existing one
+
+### 2. Export the API Key in Terminal
+```bash
+export OPENAI_API_KEY="your-key-here"
 ```
 
 Make sure you have the following tools installed:
@@ -103,43 +140,101 @@ Install dependencies using `vcpkg` and install GoogleTest:
 ./vcpkg/bootstrap-vcpkg.sh
 ./vcpkg/vcpkg integrate install
 ./vcpkg/vcpkg install gtest
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg install cpr nlohmann-json
+cd ..
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+```
+System-wide Alternative:
+```bash
+brew install cpr nlohmann-json         # macOS
+sudo apt install libcpr-dev nlohmann-json3-dev  # Linux
 ```
 
+Install Required Python Libraries
+```bash
+pip install pandas                  # For saving data as CSV
+pip install html2text              # To convert HTML emails to readable text
+pip install --upgrade google-api-python-client google-auth-httplib2
+```
 
-## Running Tests
+Set up Gmail OAuth with Your Personal Gmail:
+-Visit: https://console.cloud.google.com/welcome?project=nyu-data-454619
+-Create a new project
+-Enable the Gmail API under “APIs & Services > Library”
+-Go to Credentials > OAuth Consent Screen
+   Choose External
+   Add your Gmail as a test user
+   Go to Credentials > Create Credentials > OAuth Client ID
+   Choose “Desktop App”
+-Download the JSON file and rename it to credentials.json
+-Place it in your project’s root directory (next to scripts/)
 
-## Testing Locally
--This project uses Google Test and CMake for unit testing.
+
+### Running Tests (Unit + End-to-End)
+
+### Full End-to-End Test Pipeline
+
+To validate the complete system workflow:
+
+```bash
+# Step 1: Fetch emails using Gmail client
+python scripts/fetch_emails.py
+
+# Step 2: Build system
+rm -rf build/
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake"
+cmake --build build
+
+# Step 3: Run integration logic
+./build/integrate
+
+# Step 4: Run E2E and Unit Tests
+cmake --build . --config Release
+ctest -C Release --output-on-failure
+
+
+What It Does:
+This pipeline validates the complete system behavior from input ingestion (Gmail) to AI classification and result persistence by chaining together all major components:
+1. Crawls Emails
+Uses the Gmail client (Python) to fetch emails and saves them to emails.csv.
+
+2. Runs Integration Logic
+The C++ program integrate.cpp loads the emails.csv, sends each email’s content to the OpenAI API (via your OPENAI_API_KEY), and receives a spam classification response.
+
+3. Stores Results
+The spam classification responses are parsed, and the results are written to results.csv in the following format:
+```csv
+mail_id,Pct_spam
+123abc,0.72
+456def,0.10
+...
+```
+
+4. Runs All Tests
+Finally, all test files (unit + E2E) are executed using ctest. These include:
+  Component-level tests (e.g., test_config.cpp, test_error.cpp)
+  Integration tests (e.g., test_integration.cpp)
+  End-to-end tests (e.g., test_e2e.cpp)
+If any test fails, the E2E pipeline is considered a failure.
+
+
+## Unit & End-to-End Testing
+This project uses Google Test and CMake for unit testing.
 -Prerequisites
 CMake >= 3.10
 g++ or clang++
 GoogleTest (installed via vcpkg or system-wide)
 Project dependencies installed (see setup instructions)
 
-# Build and Run Tests
-
+To Build and Run All Tests:
 ```bash
-# From the root directory
-# Go to your root directory
-cd ~/Desktop/OSPSD-HW1
-
-# Remove any old build files
-rm -rf build
-mkdir build
-cd build
-
-# Rebuild with vcpkg toolchain
-cmake .. -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
-make -j$(sysctl -n hw.logicalcpu)
-
-# Run all unit tests
-ctest --output-on-failure
+# From project root
+cmake --build . --config Release
+ctest -C Release --output-on-failure
 ```
 
-What It Does:
-1. Compiles the test files in /tests/
-2. Runs them using ctest
-3. Outputs failures (if any) for easy debugging
 
 ---
 
@@ -156,11 +251,6 @@ clang-tidy include/*.h -- -Iinclude
 ```bash
 clang-format -i include/*.h tests/*.cpp
 ```
-
-### Code Coverage:
-Not applicable in this phase. Since this repo only defines interfaces without implementation,
-there is no source code to analyze for coverage.
-
 
 ---
 
@@ -204,11 +294,18 @@ Error classes
 Subclasses: ServiceError, InputError, NetworkError, etc.
 
 
+### Code Coverage:
+Coverage is partially applicable in this phase.
+While interface files are not covered, the integrate.cpp component includes executable logic that can be measured using gcov or lcov.
+CircleCI is configured to generate these reports.
+
+
 
 
 ## Continuous Integration
 
-This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at `.circleci/config.yml`. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports.
+This repository is configured to use CircleCI for continuous integration. The CircleCI configuration file is located at `.circleci/config.yml`. It includes steps for building the project, running tests, performing static analysis, and generating code coverage reports. CircleCI is configured to automatically run the full pipeline, ensuring any failed test (including test_e2e.cpp) blocks the build.
+
 What CircleCI Does:
 - Builds the project using CMake and a clean environment each time changes are pushed.
 - Installs dependencies like GoogleTest via vcpkg.
@@ -222,8 +319,8 @@ What CircleCI Does:
 
 ### CircleCI Links
 
-- ❌ Failed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/32/workflows/b957f89b-208f-4729-9ece-e86ee0d02898/jobs/53)  
-- ✅ Passed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/33/workflows/ded46d0c-9381-468b-9828-83327ac59a48/jobs/56)
+- ❌ Failed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/161/workflows/7b238ae2-3bdf-4711-a491-9dda1fa8ecc2/jobs/184)  
+- ✅ Passed Test: [Link](https://app.circleci.com/pipelines/github/sma9000/OSPSD-HW1/165/workflows/ef341b0a-fa8e-4b8c-a713-0f3ec9ab2c33)
 
 ---
 
