@@ -8,7 +8,7 @@ TEST(IntegrationTest, PipelineProducesResultsFile) {
     std::remove("results.csv");
 
     // Call the binary (assumes sample_emails.csv exists from configure_file)
-    int ret = std::system("Release\\run_pipeline.exe >nul");
+    int ret = std::system("python3 scripts/run_pipeline.py > /dev/null");
     ASSERT_EQ(ret, 0) << "Pipeline execution failed.";
 
     // Validate the output file
