@@ -48,6 +48,12 @@ jobs:
               python3-pandas python3-google-auth python3-google-auth-oauthlib \
               python3-google-auth-httplib2 python3-googleapi python3-html2text
 
+      - run:
+          name: Ensure Scripts Exist in CI
+          command: |
+            mkdir -p /root/project/scripts
+            cp -r scripts/* /root/project/scripts/
+
       - save_cache:
           key: vcpkg-cache
           paths:
@@ -91,7 +97,7 @@ jobs:
             if [ -z "$OPENAI_API_KEY" ]; then
               echo "Skipping E2E test because OPENAI_API_KEY is not set."
             else
-              python3 ../scripts/run_pipeline.py
+              python3 /root/project/scripts/run_pipeline.py
             fi
 
       - run:
@@ -130,4 +136,3 @@ workflows:
   test-and-coverage:
     jobs:
       - build-and-test
-
