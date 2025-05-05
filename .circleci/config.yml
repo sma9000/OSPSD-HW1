@@ -48,6 +48,13 @@ jobs:
               python3-pandas python3-google-auth python3-google-auth-oauthlib \
               python3-google-auth-httplib2 python3-googleapi python3-html2text
 
+      - run:
+          name: Debug CI Environment (Find Repo Path)
+          command: |
+            echo "Current CI Working Directory: $(pwd)"
+            ls -l
+            ls -l scripts/
+
       - save_cache:
           key: vcpkg-cache
           paths:
