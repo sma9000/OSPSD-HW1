@@ -27,7 +27,7 @@ jobs:
             apt-get update && apt-get install -y \
               clang clang-tidy clang-format \
               curl zip unzip tar git cmake g++ make pkg-config \
-              lcov
+              lcov python3-pip
 
             # Clean up any broken clone before retrying
             rm -rf $VCPKG_ROOT
@@ -40,6 +40,11 @@ jobs:
 
             $VCPKG_ROOT/bootstrap-vcpkg.sh
             $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
+
+      - run:
+          name: Install Python Dependencies
+          command: |
+            pip3 install pandas google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client html2text
 
       - save_cache:
           key: vcpkg-cache
@@ -70,7 +75,6 @@ jobs:
               clang-tidy -p=. $file -- -Iinclude || true
             done
 
-
       - run:
           name: Run Unit Tests
           command: |
@@ -85,8 +89,9 @@ jobs:
             if [ -z "$OPENAI_API_KEY" ]; then
               echo "Skipping E2E test because OPENAI_API_KEY is not set."
             else
-              ./run_pipeline
+              python3 ../scripts/run_pipeline.py
             fi
+
       - run:
           name: Verify End-to-End Output
           command: |
@@ -103,23 +108,4 @@ jobs:
           name: Generate Code Coverage Report
           command: |
             cd build
-            lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
-            lcov --remove coverage.info '/usr/*' '*/tests/*' '*/include/*' --output-file coverage.info
-            genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
-
-      - store_test_results:
-          path: build/test-results
-
-      - store_artifacts:
-          path: build/test-results
-          destination: junit
-
-      - store_artifacts:
-          path: build/coverage-report
-          destination: coverage
-
-workflows:
-  version: 2
-  test-and-coverage:
-    jobs:
-      - build-and-test
+            lcov --capture --directory . --output-file coverage.info

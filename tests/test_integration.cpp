@@ -7,9 +7,11 @@ TEST(IntegrationTest, PipelineProducesResultsFile) {
     // Clean any old file
     std::remove("results.csv");
 
+    int ret = std::system("python3 -c 'import pandas; print(\"Pandas is available!\")'");
+    ASSERT_EQ(ret, 0) << "Python environment lacks pandas.";
+
     // Use absolute path to avoid CI environment issues
     int ret = std::system("python3 ../scripts/run_pipeline.py > /dev/null");
-
     ASSERT_EQ(ret, 0) << "Pipeline execution failed.";
 
     // Validate the output file
