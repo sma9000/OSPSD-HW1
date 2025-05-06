@@ -106,9 +106,11 @@ jobs:
             lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
+      # Store test results
       - store_test_results:
           path: build/test-results
 
+      # Store individual artifacts
       - store_artifacts:
           path: build/test-results
           destination: junit
@@ -120,6 +122,10 @@ jobs:
       - store_artifacts:
           path: build/coverage.info
           destination: raw-coverage
+
+      - store_artifacts:
+          path: /root/project/pipeline.log
+          destination: pipeline-log
 
 workflows:
   version: 2
