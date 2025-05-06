@@ -6,13 +6,18 @@
 TEST(IntegrationTest, PipelineProducesResultsFile) {
     std::remove("results.csv");
 
-    // Verify that pandas is available
-    int ret = std::system("python3 /root/project/scripts/run_pipeline.py > pipeline.log 2>&1");
+    // Use environment-defined Python path or fallback to python3
+    const char* python_path = std::getenv("PYTHON_BIN");
+    std::string python = python_path ? python_path : "python3";
+
+    // First check that pandas is importable
+    std::string ret1_cmd = python + " /root/project/scripts/run_pipeline.py > pipeline.log 2>&1";
+    int ret = std::system(ret1_cmd.c_str());
     ASSERT_EQ(ret, 0) << "Pipeline execution failed. Check pipeline.log for details.";
 
-
-    // Run pipeline script
-    ret = std::system("python3 ../scripts/run_pipeline.py > /dev/null");
+    // Run pipeline again to generate output
+    std::string ret2_cmd = python + " ../scripts/run_pipeline.py > /dev/null";
+    ret = std::system(ret2_cmd.c_str());
     ASSERT_EQ(ret, 0) << "Pipeline execution failed.";
 
     // Validate output
@@ -32,4 +37,3 @@ TEST(IntegrationTest, PipelineProducesResultsFile) {
 
     EXPECT_GT(line_count, 0) << "No spam scores written.";
 }
-

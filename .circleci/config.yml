@@ -10,6 +10,7 @@ executors:
       CC: gcc
       VCPKG_ROOT: /opt/vcpkg
       EMAILS_FILE: emails.csv
+      PYTHON_BIN: .venv/bin/python
 
 jobs:
   build-and-test:

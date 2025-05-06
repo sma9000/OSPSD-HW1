@@ -10,8 +10,11 @@ TEST(E2ETest, PipelineGeneratesSpamScores) {
 
     std::remove("results.csv");
 
-    // Adjust path to prevent failures in CI
-    int ret = std::system("python3 ../scripts/run_pipeline.py > /dev/null");
+    // Use environment-defined Python path or fallback to python3
+    const char* python_path = std::getenv("PYTHON_BIN");
+    std::string python = python_path ? python_path : "python3";
+    std::string cmd = python + " ../scripts/run_pipeline.py > /dev/null";
+    int ret = std::system(cmd.c_str());
     ASSERT_EQ(ret, 0) << "Pipeline execution failed.";
 
     std::ifstream result("results.csv");
@@ -30,5 +33,3 @@ TEST(E2ETest, PipelineGeneratesSpamScores) {
 
     EXPECT_GT(lines, 0);
 }
-
-
