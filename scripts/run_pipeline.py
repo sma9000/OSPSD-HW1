@@ -10,12 +10,17 @@ import shutil
 
 print("Running run_pipeline.py")
 
+# Determine absolute repo root path based on script location
+repo_root = os.path.dirname(os.path.abspath(__file__))
+sample_path = os.path.join(repo_root, "sample_emails.csv")
+emails_path = os.path.join(repo_root, "emails.csv")
+
 # CI fallback: use sample_emails.csv instead of Gmail
 if os.getenv("CI", "false").lower() == "true":
     print("CI environment detected.")
-    if os.path.exists("sample_emails.csv"):
-        print("Found sample_emails.csv — using it as emails.csv.")
-        shutil.copy("sample_emails.csv", "emails.csv")
+    if os.path.exists(sample_path):
+        print(f"Found {sample_path} — using it as {emails_path}.")
+        shutil.copy(sample_path, emails_path)
         print("emails.csv copied successfully.")
         sys.exit(0)
     else:
@@ -62,7 +67,7 @@ def save_emails_to_csv():
     print(f"Total emails processed: {len(emails)}")
 
     df = pd.DataFrame(emails)
-    df.to_csv("emails.csv", index=False, quoting=csv.QUOTE_MINIMAL, escapechar='\\')
+    df.to_csv(emails_path, index=False, quoting=csv.QUOTE_MINIMAL, escapechar='\\')
     print("Successfully saved clean emails.csv")
 
 # Entrypoint
