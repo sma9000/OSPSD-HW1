@@ -16,14 +16,14 @@ set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/tests)
 
-# Copy sample_emails.csv to build directory
+# Copy sample_emails.csv to build directory as emails.csv
 configure_file(
     ${PROJECT_SOURCE_DIR}/sample_emails.csv
     ${CMAKE_BINARY_DIR}/emails.csv
     COPYONLY
 )
 
-# Main app: run_pipeline
+# Main application
 add_executable(run_pipeline
     ${SOURCE_DIR}/integrate.cpp
     ${SOURCE_DIR}/Config.cpp
@@ -41,7 +41,7 @@ target_link_libraries(run_pipeline PRIVATE
     nlohmann_json::nlohmann_json
 )
 
-# Define unit/integration tests
+# Enable testing
 enable_testing()
 
 set(TEST_TARGETS
@@ -57,7 +57,12 @@ set(TEST_TARGETS
 )
 
 foreach(target IN LISTS TEST_TARGETS)
-    add_executable(${target} ${TEST_DIR}/${target}.cpp ${SOURCE_DIR}/Config.cpp ${SOURCE_DIR}/ConversationClient.cpp ${SOURCE_DIR}/ConversationHistory.cpp)
+    add_executable(${target}
+        ${TEST_DIR}/${target}.cpp
+        ${SOURCE_DIR}/Config.cpp
+        ${SOURCE_DIR}/ConversationClient.cpp
+        ${SOURCE_DIR}/ConversationHistory.cpp
+    )
     target_include_directories(${target} PRIVATE ${INCLUDE_DIR} ${SOURCE_DIR})
     target_link_libraries(${target}
         GTest::gtest
@@ -66,7 +71,13 @@ foreach(target IN LISTS TEST_TARGETS)
         nlohmann_json::nlohmann_json
         pthread
     )
+
     add_test(NAME ${target} COMMAND ${target})
+
+    # Export test results in JUnit XML format for CircleCI
+    set_tests_properties(${target} PROPERTIES
+        ENVIRONMENT "GTEST_OUTPUT=xml:test-results/${target}.xml"
+    )
 endforeach()
 
 # Install (optional)

@@ -9,6 +9,7 @@ executors:
       CXX: g++
       CC: gcc
       VCPKG_ROOT: /opt/vcpkg
+      EMAILS_FILE: emails.csv
 
 jobs:
   build-and-test:
@@ -16,49 +17,35 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - vcpkg-cache
+      - run:
+          name: Verify emails.csv exists
+          command: |
+            if [ ! -f sample_emails.csv ]; then
+              echo "sample_emails.csv not found! Please ensure it's committed."
+              exit 1
+            fi
 
       - run:
           name: Install Build Tools and vcpkg
           command: |
             export DEBIAN_FRONTEND=noninteractive
-            apt-get update && apt-get install -y \
-              clang clang-tidy clang-format \
+            apt-get update && \
+            apt-get install -y tzdata && \
+            ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+            dpkg-reconfigure --frontend noninteractive tzdata && \
+            apt-get install -y \
               curl zip unzip tar git cmake g++ make pkg-config \
-              lcov python3-pip python3-venv
+              lcov python3 python3-pip
 
-            # Clean up any broken clone before retrying
-            rm -rf $VCPKG_ROOT
+            pip3 install pandas
 
-            # Retry shallow clone until successful
-            until git clone --depth=1 https://github.com/microsoft/vcpkg.git $VCPKG_ROOT; do
-              echo "Retrying vcpkg clone..."
-              sleep 3
-            done
-
+            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
             $VCPKG_ROOT/bootstrap-vcpkg.sh
+
+      - run:
+          name: Install Dependencies via vcpkg
+          command: |
             $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
-
-      - run:
-          name: Install Python Dependencies via APT
-          command: |
-            apt-get update && apt-get install -y \
-              python3-pandas python3-google-auth python3-google-auth-oauthlib \
-              python3-google-auth-httplib2 python3-googleapi python3-html2text
-
-      - run:
-          name: Debug CI Environment (Find Repo Path)
-          command: |
-            echo "Current CI Working Directory: $(pwd)"
-            ls -l
-            ls -l scripts/
-
-      - save_cache:
-          key: vcpkg-cache
-          paths:
-            - /opt/vcpkg
 
       - run:
           name: Clean build directory
@@ -66,59 +53,49 @@ jobs:
             rm -rf build && mkdir build
 
       - run:
-          name: Build Project with Coverage and Generate compile_commands.json
+          name: Build Project with Coverage
           command: |
             cd build
             cmake .. \
-              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
               -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_CXX_FLAGS="--coverage"
-            make || { echo "Build failed"; exit 1; }
-            cp compile_commands.json ..
-
-      - run:
-          name: Run clang-tidy
-          command: |
-            for file in $(find include -name "*.h"); do
-              echo "Running clang-tidy on $file"
-              clang-tidy -p=. $file -- -Iinclude || true
-            done
+            make
 
       - run:
           name: Run Unit Tests
           command: |
             cd build
             mkdir -p test-results
-            ctest --output-on-failure --output-junit test-results/test-results.xml
+            ctest --output-on-failure
 
       - run:
-          name: Run End-to-End Test for run_pipeline
+          name: Run End-to-End Test Binary (if compiled)
           command: |
             cd build
-            if [ -z "$OPENAI_API_KEY" ]; then
-              echo "Skipping E2E test because OPENAI_API_KEY is not set."
+            if [ -f test_e2e ]; then
+              ./test_e2e
             else
-              python3 /root/project/scripts/run_pipeline.py
+              echo "E2E test binary not found"
             fi
 
       - run:
-          name: Verify End-to-End Output
+          name: Verify End-to-End Test Output
           command: |
             cd build
             if [ -f results.csv ]; then
-              echo "Results file generated:"
+              echo "Results file generated successfully"
               head -n 10 results.csv
             else
-              echo "Results file not found!"
+              echo "Results file not found. End-to-End test failed."
               exit 1
-            fi  
+            fi
 
       - run:
           name: Generate Code Coverage Report
           command: |
             cd build
-            lcov --capture --directory . --output-file coverage.info
-            lcov --remove coverage.info '/usr/*' '*/tests/*' '*/include/*' --output-file coverage.info
+            lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
+            lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
       - store_test_results:
@@ -131,6 +108,10 @@ jobs:
       - store_artifacts:
           path: build/coverage-report
           destination: coverage
+
+      - store_artifacts:
+          path: build/coverage.info
+          destination: raw-coverage
 
 workflows:
   version: 2
