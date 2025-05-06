@@ -11,6 +11,7 @@ executors:
       VCPKG_ROOT: /opt/vcpkg
       EMAILS_FILE: emails.csv
       PYTHON_BIN: /root/project/.venv/bin/python
+      CI: "true"
 
 jobs:
   build-and-test:
@@ -19,7 +20,7 @@ jobs:
       - checkout
 
       - run:
-          name: Verify emails.csv exists
+          name: Verify sample_emails.csv exists
           command: |
             if [ ! -f sample_emails.csv ]; then
               echo "sample_emails.csv not found! Please ensure it's committed."
@@ -43,7 +44,7 @@ jobs:
 
       - run:
           name: Set up Python virtualenv and install pandas
-          working_directory: /root/project  # Ensures venv is created inside source dir
+          working_directory: /root/project
           command: |
             python3 -m venv .venv
             . .venv/bin/activate
@@ -93,7 +94,7 @@ jobs:
             if [ -f results.csv ]; then
               echo "Results file generated successfully"
               head -n 10 results.csv
-            else
+            else:
               echo "Results file not found. End-to-End test failed."
               exit 1
             fi
@@ -105,6 +106,14 @@ jobs:
             lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
             lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
+
+      # Optional: copy sample_emails.csv to emails.csv fallback
+      - run:
+          name: Fallback copy of sample_emails.csv to emails.csv (if needed)
+          command: |
+            if [ ! -f emails.csv ] && [ -f sample_emails.csv ]; then
+              cp sample_emails.csv emails.csv
+            fi
 
       # Store test results
       - store_test_results:
@@ -124,8 +133,12 @@ jobs:
           destination: raw-coverage
 
       - store_artifacts:
-        path: build/pipeline.log
-        destination: pipeline-log
+          path: build/pipeline.log
+          destination: pipeline-log
+
+      - store_artifacts:
+          path: emails.csv
+          destination: emails-output
 
 workflows:
   version: 2
