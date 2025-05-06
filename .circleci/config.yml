@@ -9,7 +9,6 @@ executors:
       CXX: g++
       CC: gcc
       VCPKG_ROOT: /opt/vcpkg
-      EMAILS_FILE: emails.csv
       PYTHON_BIN: /root/project/.venv/bin/python
       CI: "true"
 
@@ -52,7 +51,7 @@ jobs:
             pip install pandas
 
       - run:
-          name: Install Dependencies via vcpkg
+          name: Install C++ Dependencies via vcpkg
           command: |
             $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
 
@@ -75,17 +74,14 @@ jobs:
           command: |
             cd build
             mkdir -p test-results
-            ctest --output-on-failure
+            ctest --output-on-failure --output-junit test-results/test-results.xml
 
       - run:
-          name: Run End-to-End Test Binary (if compiled)
+          name: Run Integration and E2E Tests
           command: |
             cd build
-            if [ -f test_e2e ]; then
-              ./test_e2e
-            else
-              echo "E2E test binary not found"
-            fi
+            if [ -f test_integration ]; then ./test_integration; else echo "No test_integration"; fi
+            if [ -f test_e2e ]; then ./test_e2e; else echo "No test_e2e"; fi
 
       - run:
           name: Verify End-to-End Test Output
@@ -94,7 +90,7 @@ jobs:
             if [ -f results.csv ]; then
               echo "Results file generated successfully"
               head -n 10 results.csv
-            else:
+            else
               echo "Results file not found. End-to-End test failed."
               exit 1
             fi
@@ -107,19 +103,9 @@ jobs:
             lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
-      # Optional: copy sample_emails.csv to emails.csv fallback
-      - run:
-          name: Fallback copy of sample_emails.csv to emails.csv (if needed)
-          command: |
-            if [ ! -f emails.csv ] && [ -f sample_emails.csv ]; then
-              cp sample_emails.csv emails.csv
-            fi
-
-      # Store test results
       - store_test_results:
           path: build/test-results
 
-      # Store individual artifacts
       - store_artifacts:
           path: build/test-results
           destination: junit
@@ -127,10 +113,6 @@ jobs:
       - store_artifacts:
           path: build/coverage-report
           destination: coverage
-
-      - store_artifacts:
-          path: build/coverage.info
-          destination: raw-coverage
 
       - store_artifacts:
           path: build/pipeline.log
