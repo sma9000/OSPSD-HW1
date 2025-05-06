@@ -124,8 +124,8 @@ jobs:
           destination: raw-coverage
 
       - store_artifacts:
-          path: /root/project/pipeline.log
-          destination: pipeline-log
+        path: build/pipeline.log
+        destination: pipeline-log
 
 workflows:
   version: 2

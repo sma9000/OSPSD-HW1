@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <cstdlib>
 #include <fstream>
+#include <sstream>
 #include <string>
 
 TEST(E2ETest, PipelineGeneratesSpamScores) {
@@ -14,10 +15,18 @@ TEST(E2ETest, PipelineGeneratesSpamScores) {
     const char* python_path = std::getenv("PYTHON_BIN");
     std::string python = python_path ? python_path : "python3";
     std::string script_path = "/root/project/scripts/run_pipeline.py";
+    std::string log_path = "/root/project/build/pipeline.log";
 
-    std::string cmd = python + " " + script_path + " > pipeline.log 2>&1";
+    std::string cmd = python + " " + script_path + " > " + log_path + " 2>&1";
     int ret = std::system(cmd.c_str());
-    ASSERT_EQ(ret, 0) << "Pipeline execution failed. Check pipeline.log for details.";
+
+    ASSERT_EQ(ret, 0) << "Pipeline execution failed. Log output:\n"
+                      << ([]() {
+                           std::ifstream log("/root/project/build/pipeline.log");
+                           std::stringstream buffer;
+                           buffer << log.rdbuf();
+                           return buffer.str();
+                         })();
 
     std::ifstream result("results.csv");
     ASSERT_TRUE(result.is_open()) << "results.csv not created.";
