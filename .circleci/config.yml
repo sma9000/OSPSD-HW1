@@ -10,7 +10,7 @@ executors:
       CC: gcc
       VCPKG_ROOT: /opt/vcpkg
       EMAILS_FILE: emails.csv
-      PYTHON_BIN: .venv/bin/python
+      PYTHON_BIN: /root/project/.venv/bin/python
 
 jobs:
   build-and-test:
@@ -43,6 +43,7 @@ jobs:
 
       - run:
           name: Set up Python virtualenv and install pandas
+          working_directory: /root/project  # Ensures venv is created inside source dir
           command: |
             python3 -m venv .venv
             . .venv/bin/activate
