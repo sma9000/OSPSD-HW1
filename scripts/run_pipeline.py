@@ -1,11 +1,33 @@
+#!/usr/bin/env python3
+
 import sys
+import os
 import pandas as pd
 import re
 from html import escape
-import csv  # This is the correct import for CSV constants
+import csv
+import shutil
 
-print("Running save_emails.py")
+print("Running run_pipeline.py")
 
+# Determine absolute repo root path based on script location
+repo_root = os.path.dirname(os.path.abspath(__file__))
+sample_path = os.path.join(repo_root, "sample_emails.csv")
+emails_path = os.path.join(repo_root, "emails.csv")
+
+# CI fallback: use sample_emails.csv instead of Gmail
+if os.getenv("CI", "false").lower() == "true":
+    print("CI environment detected.")
+    if os.path.exists(sample_path):
+        print(f"Found {sample_path} — using it as {emails_path}.")
+        shutil.copy(sample_path, emails_path)
+        print("emails.csv copied successfully.")
+        sys.exit(0)
+    else:
+        print("sample_emails.csv not found in CI. Exiting with error.")
+        sys.exit(1)
+
+# Attempt GmailClient import (local/dev use case)
 sys.path.append("mail-client/mail_gmail_impl/src")
 sys.path.append("mail-client/mail_api/src")
 
@@ -16,32 +38,20 @@ except Exception as e:
     print(f"Import failed: {e}")
     sys.exit(1)
 
+# Email cleaning logic
 def clean_email_content(text):
-    """
-    Cleans email content for proper CSV formatting:
-    1. Removes newlines and extra whitespace
-    2. Escapes special characters
-    3. Truncates very long emails
-    """
     if not text:
         return ""
-    
-    # Convert to string if not already
     text = str(text)
-    
-    # Remove HTML tags and special characters
-    text = re.sub(r'<[^>]+>', ' ', text)  # Remove HTML tags
-    text = re.sub(r'\s+', ' ', text)      # Collapse whitespace
-    text = text.strip()                    # Trim whitespace
-    
-    # Escape CSV problematic characters
-    text = text.replace('"', "'")          # Replace double quotes with single
-    text = text.replace('\r', ' ')         # Remove carriage returns
-    text = text.replace('\n', ' ')         # Replace newlines with spaces
-    
-    # Truncate very long emails to prevent parsing issues
-    return text[:5000]  # Keep first 5000 characters
+    text = re.sub(r'<[^>]+>', ' ', text)
+    text = re.sub(r'\s+', ' ', text)
+    text = text.strip()
+    text = text.replace('"', "'")
+    text = text.replace('\r', ' ')
+    text = text.replace('\n', ' ')
+    return text[:5000]
 
+# Fetch emails and save to CSV
 def save_emails_to_csv():
     client = GmailClient()
     print("Created GmailClient")
@@ -56,17 +66,11 @@ def save_emails_to_csv():
 
     print(f"Total emails processed: {len(emails)}")
 
-    # Create DataFrame and save with proper CSV formatting
     df = pd.DataFrame(emails)
-    
-    # CORRECTED LINE: Use csv.QUOTE_MINIMAL instead of pd.csv.QUOTE_MINIMAL
-    df.to_csv("emails.csv", 
-              index=False, 
-              quoting=csv.QUOTE_MINIMAL,  # Changed from pd.csv to csv
-              escapechar='\\')
-    
+    df.to_csv(emails_path, index=False, quoting=csv.QUOTE_MINIMAL, escapechar='\\')
     print("Successfully saved clean emails.csv")
 
+# Entrypoint
 if __name__ == "__main__":
     try:
         save_emails_to_csv()

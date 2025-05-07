@@ -45,11 +45,18 @@ bool ConversationClient::sendMessage(const std::string& input) {
             throw ServiceError("API key or endpoint is not set in configuration.");
         }
 
+        // Construct payload for chat/completions
         json payload;
-        payload["model"] = "text-davinci-003";
-        payload["prompt"] = processedInput;
-        payload["max_tokens"] = 150;
+        payload["model"] = "gpt-3.5-turbo";
+        payload["messages"] = {
+            {
+                {"role", "user"},
+                {"content", processedInput}
+            }
+        };
+        payload["temperature"] = 0.7;
 
+        // Make the POST request
         auto response = cpr::Post(
             cpr::Url{apiEndpoint},
             cpr::Header{
@@ -65,7 +72,7 @@ bool ConversationClient::sendMessage(const std::string& input) {
         }
 
         json resJson = json::parse(response.text);
-        std::string aiResponse = resJson["choices"][0]["text"];
+        std::string aiResponse = resJson["choices"][0]["message"]["content"];
 
         Message aiMsg;
         aiMsg.sender = "AI";

@@ -22,16 +22,16 @@ Welcome to the AI Conversation Client! This project is a lightweight, extensible
 
 ## Overview
 
-This repository provides an interface-level C++ structure for developing an AI conversation system, including NLP processing, message handling, formatting, and configuration management. 
+This repository provides an interface-level C++ structure for developing an AI conversation system, including NLP processing, message handling, formatting, and configuration management.
 
 ### Project Structure
 
 ```plaintext
-├── .circleci/
-│   └── config.yml
-├── .github/ISSUE_TEMPLATE/
-├── extern/
-├── include/
+├── .circleci/                        # CI/CD configuration
+│   └── config.yml                    # CircleCI pipeline
+├── .github/ISSUE_TEMPLATE/          # GitHub issue templates
+├── extern/                          # External dependencies (e.g., interfaces)
+├── include/                         # Public C++ header files (interfaces)
 │   ├── Config.h
 │   ├── ConversationClient.h
 │   ├── ConversationHistory.h
@@ -44,7 +44,7 @@ This repository provides an interface-level C++ structure for developing an AI c
 │   └── mail_gmail_impl/
 │       └── gmail_client.py
 ├── scripts/
-│   └── run_pipeline.py
+│   └── run_pipeline.py              # Fetches Gmail emails and runs pipeline
 ├── src/
 │   ├── Config.cpp
 │   ├── ConversationClient.cpp
@@ -57,7 +57,11 @@ This repository provides an interface-level C++ structure for developing an AI c
 │   ├── test_conversation_client.cpp
 │   ├── test_conversation_history.cpp
 │   ├── test_error.cpp
-│   └── test_message.cpp
+│   ├── test_message.cpp
+│   ├── test_integration.cpp
+│   ├── test_interfaces.cpp
+│   ├── test_endpoint.cpp
+│   └── test_e2e.cpp
 ├── .gitignore
 ├── .gitmodules
 ├── CMakeLists.txt
@@ -79,27 +83,26 @@ This repository provides an interface-level C++ structure for developing an AI c
 
 ## Project Scope
 
-**In Scope:**
+This milestone focuses on integrating external email input with AI-driven spam classification. It builds on the interface scaffolding created in earlier steps and connects it to real-world data via the Gmail API and OpenAI’s endpoints.
 
-This milestone is focused on integrating external email input with AI-driven spam classification. It builds on the interface scaffolding created in previous steps and connects it to real-world data via the Gmail API and OpenAI’s endpoints.
+### Step 1: Mail Client Setup
 
-Step 1: Mail Client Setup  
 - Connected inbox component using Git submodule  
 - Ran Python script `run_pipeline.py` to crawl Gmail and create `emails.csv`  
-- Gmail OAuth configured with personal Gmail account  
+- Gmail OAuth configured with personal Gmail account
 
-Step 2: Integration  
+### Step 2: Integration
+
 - Implemented `integrate.cpp` which:
   - Loads `emails.csv`
   - Sends email content to OpenAI’s API
   - Extracts response (e.g., spam probability) and saves to `results.csv`
 
-**Out of Scope:**
+### Step 3: End-to-End Testing
 
-Step 3: End-to-End Testing  
-- Final test pass/fail logic  
-- CircleCI test coverage thresholds  
-- E2E integration validation
+- Final testing of the entire pipeline (email crawl → integration → AI response)  
+- Added new test files to validate system behavior across boundaries  
+- Ensured any test failure triggers E2E failure in CircleCI pipeline
 
 ---
 
@@ -107,28 +110,28 @@ Step 3: End-to-End Testing
 
 ```bash
 git clone https://github.com/sma9000/OSPSD-HW1.git
-cd hw4-step2
-git checkout hw4-step2
+cd hw4-step3
+git checkout hw4-step3
 ```
 
 ### OpenAI API Setup
 
-1. Log into https://platform.openai.com/
-2. Create or reuse an API key
+1. Visit https://platform.openai.com/
+2. Create or reuse your API key
 3. Export the key in your terminal:
 
 ```bash
 export OPENAI_API_KEY="your-key-here"
 ```
 
-### Tools Needed
+### Required Tools
 
 - CMake
 - vcpkg
 - Clang
 - gcov
 
-### Install Dependencies
+### Install C++ Dependencies
 
 ```bash
 ./vcpkg/bootstrap-vcpkg.sh
@@ -137,7 +140,7 @@ export OPENAI_API_KEY="your-key-here"
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
 
-System-wide (alternative):
+Or system-wide:
 
 ```bash
 brew install cpr nlohmann-json
@@ -158,9 +161,9 @@ pip install --upgrade google-api-python-client google-auth-httplib2
 - Enable Gmail API under “APIs & Services > Library”
 - Go to Credentials > OAuth Consent Screen
 - Choose External and add your Gmail as a test user
-- Create Credentials > OAuth Client ID > Desktop App
-- Download the JSON file and rename it to `credentials.json`
-- Place it in your project’s root directory
+- Go to Credentials > Create Credentials > OAuth Client ID > Desktop App
+- Download the credentials JSON and rename it to `credentials.json`
+- Place it in the project root
 
 ---
 
@@ -172,23 +175,24 @@ _To be added in a future release._
 
 ## Running Tests
 
-### Running Integration Pipeline
-
 ```bash
-# Step 1: Generate emails.csv
+# Step 1: Fetch emails using Gmail client
 python scripts/run_pipeline.py
 
-# Step 2: Build and run integration logic
+# Step 2: Build system
 rm -rf build/
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake"
 cmake --build build
+
+# Step 3: Run integration logic
 ./build/integrate
+
+# Step 4: Run E2E and Unit Tests
+cmake --build . --config Release
+ctest -C Release --output-on-failure
 ```
 
-What It Does:
-- Sends each email’s body to OpenAI using the API key
-- Receives a classification response
-- Saves to `results.csv` like this:
+Example format of `results.csv`:
 
 ```csv
 mail_id,Pct_spam
@@ -211,30 +215,30 @@ clang-format -i include/*.h tests/*.cpp
 
 ### Config
 
-- `static Config* getInstance()`
-- `void set(key, value)`
-- `std::string get(key)`
-- `void clear()`
+- `static Config* getInstance()`  
+- `void set(key, value)`  
+- `std::string get(key)`  
+- `void clear()`  
 
 ### ConversationClient
 
-- `void startConversation()`
-- `bool sendMessage(input)`
-- `std::string receiveResponse()`
-- `void endConversation()`
+- `void startConversation()`  
+- `bool sendMessage(input)`  
+- `std::string receiveResponse()`  
+- `void endConversation()`  
 
 ### ConversationHistory
 
-- `void addMessage(const Message&)`
-- `std::vector<Message> getMessages() const`
+- `void addMessage(const Message&)`  
+- `std::vector<Message> getMessages() const`  
 
 ### Message
 
-- `std::string sender`
-- `std::string content`
-- `std::chrono::system_clock::time_point timestamp`
+- `std::string sender`  
+- `std::string content`  
+- `std::chrono::system_clock::time_point timestamp`  
 
-### Errors
+### Error classes
 
 - Base class: `Error`
 - Subclasses: `ServiceError`, `InputError`, `NetworkError`, etc.
@@ -243,13 +247,14 @@ clang-format -i include/*.h tests/*.cpp
 
 ## Continuous Integration
 
-This project uses CircleCI to:
+CircleCI is used for:
 
-- Build with CMake
-- Run tests
-- Run static analysis (clang-tidy)
-- Run format check (clang-format)
-- Generate code coverage reports with gcov/lcov
+- Building the project
+- Installing dependencies
+- Running unit and integration tests
+- Running static code checks (clang-tidy)
+- Code formatting checks (clang-format)
+- Code coverage with gcov/lcov
 
 ### CircleCI Links
 

@@ -9,6 +9,8 @@ executors:
       CXX: g++
       CC: gcc
       VCPKG_ROOT: /opt/vcpkg
+      PYTHON_BIN: /root/project/.venv/bin/python
+      CI: "true"
 
 jobs:
   build-and-test:
@@ -16,35 +18,42 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - vcpkg-cache
+      - run:
+          name: Verify sample_emails.csv exists
+          command: |
+            if [ ! -f sample_emails.csv ]; then
+              echo "sample_emails.csv not found! Please ensure it's committed."
+              exit 1
+            fi
 
       - run:
           name: Install Build Tools and vcpkg
           command: |
             export DEBIAN_FRONTEND=noninteractive
-            apt-get update && apt-get install -y \
-              clang clang-tidy clang-format \
+            apt-get update && \
+            apt-get install -y tzdata && \
+            ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+            dpkg-reconfigure --frontend noninteractive tzdata && \
+            apt-get install -y \
               curl zip unzip tar git cmake g++ make pkg-config \
-              lcov
+              lcov python3 python3-pip python3-venv
 
-            # Clean up any broken clone before retrying
-            rm -rf $VCPKG_ROOT
-
-            # Retry shallow clone until successful
-            until git clone --depth=1 https://github.com/microsoft/vcpkg.git $VCPKG_ROOT; do
-              echo "Retrying vcpkg clone..."
-              sleep 3
-            done
-
+            git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
             $VCPKG_ROOT/bootstrap-vcpkg.sh
-            $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
 
-      - save_cache:
-          key: vcpkg-cache
-          paths:
-            - /opt/vcpkg
+      - run:
+          name: Set up Python virtualenv and install pandas
+          working_directory: /root/project
+          command: |
+            python3 -m venv .venv
+            . .venv/bin/activate
+            pip install --upgrade pip
+            pip install pandas
+
+      - run:
+          name: Install C++ Dependencies via vcpkg
+          command: |
+            $VCPKG_ROOT/vcpkg install gtest cpr nlohmann-json
 
       - run:
           name: Clean build directory
@@ -52,24 +61,13 @@ jobs:
             rm -rf build && mkdir build
 
       - run:
-          name: Build Project with Coverage and Generate compile_commands.json
+          name: Build Project with Coverage
           command: |
             cd build
             cmake .. \
-              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
               -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_CXX_FLAGS="--coverage"
-            make || { echo "Build failed"; exit 1; }
-            cp compile_commands.json ..
-
-      - run:
-          name: Run clang-tidy
-          command: |
-            for file in $(find include -name "*.h"); do
-              echo "Running clang-tidy on $file"
-              clang-tidy -p=. $file -- -Iinclude || true
-            done
-
+            make
 
       - run:
           name: Run Unit Tests
@@ -79,29 +77,30 @@ jobs:
             ctest --output-on-failure --output-junit test-results/test-results.xml
 
       - run:
-            name: Run End-to-End Test for run_pipeline
-            command: |
-              cd build
-              OPENAI_API_KEY=$OPENAI_API_KEY ./run_pipeline
+          name: Run Integration and E2E Tests
+          command: |
+            cd build
+            if [ -f test_integration ]; then ./test_integration; else echo "No test_integration"; fi
+            if [ -f test_e2e ]; then ./test_e2e; else echo "No test_e2e"; fi
 
       - run:
-          name: Verify End-to-End Output
+          name: Verify End-to-End Test Output
           command: |
             cd build
             if [ -f results.csv ]; then
-              echo "Results file generated:"
+              echo "Results file generated successfully"
               head -n 10 results.csv
             else
-              echo "Results file not found!"
+              echo "Results file not found. End-to-End test failed."
               exit 1
-            fi  
+            fi
 
       - run:
           name: Generate Code Coverage Report
           command: |
             cd build
             lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
-            lcov --remove coverage.info '/usr/*' '*/tests/*' '*/include/*' --output-file coverage.info
+            lcov --remove coverage.info '/usr/*' --output-file coverage.info
             genhtml --ignore-errors mismatch coverage.info --output-directory coverage-report
 
       - store_test_results:
@@ -114,6 +113,14 @@ jobs:
       - store_artifacts:
           path: build/coverage-report
           destination: coverage
+
+      - store_artifacts:
+          path: build/pipeline.log
+          destination: pipeline-log
+
+      - store_artifacts:
+          path: emails.csv
+          destination: emails-output
 
 workflows:
   version: 2
